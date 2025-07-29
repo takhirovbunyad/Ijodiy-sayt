@@ -1,8 +1,6 @@
 __pycache__/
 *.py[cod]
-*.sqlite3
 .env
-/staticfiles/
 /node_modules/
 venv/
 .idea/
