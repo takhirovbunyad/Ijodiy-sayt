@@ -1,0 +1,47 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>IJODIY UZ — Bosh sahifa</title>
+  <link href="https://fonts.googleapis.com/css2?family=Oldenburg&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'css/first.css' %}">
+</head>
+<body>
+  <div class="hamburger" id="hamburger">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+
+  <div class="book-container">
+    {% include 'sidebar.html' %}
+
+    <main class="book-page">
+      <h1 class="main-title">Ijodiy materiallar</h1>
+
+      <div id="card-container" class="card-grid">
+        {% for card in page_obj %}
+          <div class="card">
+            <img src="{{ card.preview.url }}" alt="{{ card.title }}">
+            <div class="card-body">
+              <h3>{{ card.title }}</h3>
+              <p>{{ card.description }}</p>
+              {% if card.url %}
+                <a href="{{ card.url }}" target="_blank" rel="noopener noreferrer">Batafsil o‘qish</a>
+              {% endif %}
+              <small>Manba: {{ card.source }}</small>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+
+      {% if page_obj.has_next %}
+        <button id="load-btn" class="load-more-btn" data-page="2">Yana yuklash</button>
+      {% endif %}
+    </main>
+  </div>
+<script src="{% static 'js/load_more.js' %}"></script>
+</body>
+</html>
