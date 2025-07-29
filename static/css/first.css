@@ -109,11 +109,14 @@ body {
 }
 
 .card img {
+  display: block;
   width: 100%;
-  height: 160px;
-  object-fit: cover;
+  aspect-ratio: 16 / 9;
+  object-fit: contain;
+  background-color: #f5f5dc; /* qaymoq rang */
   border-bottom: 1px solid #eee;
 }
+
 
 .card-body {
   padding: 15px 20px;
@@ -252,14 +255,15 @@ body {
     min-height: 400px; /* yoki qancha kerak bo‘lsa */
   }
 
+@media (max-width: 768px) {
   .card img {
-    width: 100%;
-    height: 250px; /* yoki auto */
-    object-fit: cover; /* rasm to‘liq chiqadi */
-    border-top-left-radius: 1rem;
-    border-top-right-radius: 1rem;
+    height: auto;
+    aspect-ratio: 16 / 9;
+    object-fit: contain;
+    background-color: #f5f5dc;
   }
 }
+
 
 
 /* CSS */
