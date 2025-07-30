@@ -12,24 +12,19 @@ body {
   min-height: 100vh;
 }
 
-/* BOOK CONTAINER */
-.book-container {
-  display: flex;
-  min-height: 100vh;
-  width: 100%;
-  background: #fff9f0;
-}
-
-/* SIDEBAR */
+/* SIDEBAR (fixed, chapda qotadi) */
 .book-spine {
+  position: fixed;
+  top: 0;
+  left: 0;
   width: 250px;
+  height: 100vh;
   background: linear-gradient(90deg, #d9c8a5 0%, #f7f0df 50%, #d9c8a5 100%);
   border-right: 4px solid #b89c66;
   padding: 30px 20px;
   box-shadow: inset -3px 0 6px rgba(0, 0, 0, 0.2);
-  transition: transform 0.3s ease;
+  overflow-y: auto;
   z-index: 1000;
-  flex-shrink: 0;
 }
 
 .book-spine h2 {
@@ -63,33 +58,43 @@ body {
   background: rgba(255, 255, 255, 0.4);
 }
 
-/* BOOK PAGE */
+/* PAGE (oq joy) */
 .book-page {
-  flex: 1;
+  margin-left: 250px; /* Sidebar eni */
   background: #fffdf8;
+  min-height: 100vh;
   padding: 40px 30px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  min-height: 100vh;
 }
 
-/* TITLE */
-.main-title {
-  font-family: 'Oldenburg', serif;
-  font-size: 2.5rem;
-  color: #4b3220;
-  margin-bottom: 30px;
-  text-shadow: 1px 1px 1px rgba(0,0,0,0.1);
-}
-
-/* CARD GRID */
+/* CARD GRID — markazda */
 .card-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 25px;
   width: 100%;
   max-width: 1200px;
+  margin: 0 auto; /* markazga olish */
+}
+
+@media (max-width: 1200px) {
+  .card-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 900px) {
+  .card-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .card-grid {
+    grid-template-columns: 1fr;
+  }
 }
 
 /* CARD */
@@ -109,14 +114,12 @@ body {
 }
 
 .card img {
-  display: block;
   width: 100%;
-  aspect-ratio: 16 / 9;
+  aspect-ratio: 16/9;
   object-fit: contain;
-  background-color: #f5f5dc; /* qaymoq rang */
+  background-color: #f5f5dc;
   border-bottom: 1px solid #eee;
 }
-
 
 .card-body {
   padding: 15px 20px;
@@ -129,27 +132,24 @@ body {
   font-size: 1.2rem;
   margin-bottom: 10px;
   color: #3b2815;
-  flex-shrink: 0;
 }
 
 .card-body p {
-  flex-grow: 1;
   font-size: 0.9rem;
   color: #5c4b32;
   margin-bottom: 15px;
   overflow: hidden;
   text-overflow: ellipsis;
   display: -webkit-box;
-  -webkit-line-clamp: 3; /* 3 qatorda kesiladi */
+  -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
 }
 
 .card-body a {
   color: #2a7ae2;
-  text-decoration: none;
   font-weight: 600;
+  text-decoration: none;
   margin-bottom: 10px;
-  flex-shrink: 0;
   transition: color 0.3s ease;
 }
 
@@ -158,9 +158,8 @@ body {
 }
 
 .card-body small {
-  color: #9e8b6d;
   font-size: 0.8rem;
-  flex-shrink: 0;
+  color: #9e8b6d;
   margin-top: auto;
   text-align: right;
 }
@@ -177,7 +176,6 @@ body {
   cursor: pointer;
   box-shadow: 0 3px 10px rgba(184,156,102,0.6);
   transition: background-color 0.3s ease;
-  display: block;
 }
 
 .load-more-btn:hover {
@@ -206,33 +204,18 @@ body {
 }
 
 /* RESPONSIVE */
-@media (max-width: 1200px) {
-  .card-grid {
-    grid-template-columns: repeat(3, 1fr);
-  }
-}
-
-@media (max-width: 900px) {
-  .card-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-@media (max-width: 600px) {
-  .card-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .book-container {
-    flex-direction: column;
+@media (max-width: 768px) {
+  .book-page {
+    margin-left: 0; /* Mobil uchun margin yo‘q */
+    padding: 20px;
   }
 
   .book-spine {
     position: fixed;
     top: 0;
     left: 0;
-    height: 100vh;
     transform: translateX(-100%);
+    transition: transform 0.3s ease;
   }
 
   .book-spine.open {
@@ -242,53 +225,18 @@ body {
   .hamburger {
     display: flex;
   }
-
-  .book-page {
-    padding: 20px;
-  }
 }
-
-
-@media (max-width: 768px) {
-  .card {
-    height: auto; /* avtomatik bo‘yi – rasmga qarab */
-    min-height: 400px; /* yoki qancha kerak bo‘lsa */
-  }
-
-@media (max-width: 768px) {
-  .card img {
-    height: auto;
-    aspect-ratio: 16 / 9;
-    object-fit: contain;
-    background-color: #f5f5dc;
-  }
+.main-title {
+  margin-bottom: 40px; /* Kartalardan ancha ajratib qo‘ydi */
 }
-
-
-
-/* CSS */
-.hamburger {
-  width: 20px;
-  height: 20px;
-  cursor: pointer;
-  position: fixed;
-  top: 15px;
-  left: 15px;
-  z-index: 1001;
-  display: none;
-}
-
-.hamburger span {
-  display: block;
-  height: 2px;
-  margin: 4px 0;
-  background-color: #333;
-  border-radius: 3px;
-}
-
-/* Mobilda faqat ko‘rsatish */
-@media (max-width: 768px) {
-  .hamburger {
-    display: block;
-  }
+.main-title {
+  font-family: 'Georgia', serif;  /* Seriyoz, an'anaviy serif */
+  font-size: 2.8rem;
+  font-weight: 700;
+  color: #111111;                 /* To‘q qora */
+  text-align: center;
+  margin-bottom: 40px;
+  letter-spacing: 1px;
+  line-height: 1.2;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1); /* Yumshoq soyalar, biroz chuqurlik uchun */
 }
