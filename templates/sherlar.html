@@ -1,0 +1,44 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+  <meta charset="UTF-8">
+  <link href="https://fonts.googleapis.com/css2?family=Oldenburg&display=swap" rel="stylesheet">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>She'rlar</title>
+  <link rel="stylesheet" href="{% static 'css/sherlar.css' %}">
+  <link rel="stylesheet" href="{% static 'css/sidebar.css' %}">
+
+</head>
+<body>
+  {% include "sidebar2.html" %}
+  <h1 class="title">She`rlar to`plami</h1>
+    <button id="modal-expand-btn" class="modal-expand-btn">+</button>
+
+  <div class="poem-container">
+    {% for sher in sherlar %}
+      <div class="poem-card" data-id="{{ sher.id }}" data-title="{{ sher.sarlavha }}" data-author="{{ sher.muallif }}" data-full="{{ sher.matn|escapejs }}">
+        <h3>{{ sher.sarlavha }}</h3>
+        <p>{{ sher.matn|linebreaksbr|truncatewords:20 }}</p>
+        <span class="author">— {{ sher.muallif }}</span>
+      </div>
+    {% empty %}
+      <p>Hozircha hech qanday she'r yo'q.</p>
+    {% endfor %}
+  </div>
+
+  <!-- Modal -->
+  <div id="poem-modal" class="modal hidden">
+    <div class="modal-content">
+      <span class="close-btn" id="modal-close">&times;</span>
+      <h2 id="modal-title"></h2>
+      <p id="modal-body"></p>
+      <div class="modal-author" id="modal-author"></div>
+    </div>
+  </div>
+
+  <script src="{% static 'js/poem_modal.js' %}"></script>
+  <script src="{% static 'js/sidebar_toggle.js' %}"></script>
+
+</body>
+</html>

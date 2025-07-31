@@ -12,3 +12,17 @@ class Dash(models.Model):
 class PublishedManager(models.Manager):
     def get_queryset(self):
         return super().get_queryset().filter(status='published')
+
+
+
+class Sher(models.Model):
+    sarlavha = models.CharField(max_length=200)
+    matn = models.TextField()
+    muallif = models.CharField(max_length=100)
+    sana = models.DateTimeField(auto_now_add=True)
+
+    def qisqa_qator(self):
+        return '\n'.join(self.matn.split('\n')[:4])
+
+    def __str__(self):
+        return self.sarlavha

@@ -25,7 +25,6 @@ body {
   box-shadow: inset -3px 0 6px rgba(0, 0, 0, 0.2);
   overflow-y: auto;
   z-index: 1000;
-  overflow: hidden;
 }
 
 .book-spine h2 {
