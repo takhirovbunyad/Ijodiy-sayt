@@ -4,12 +4,10 @@ body {
   background: #f0f0f0;
   margin: 0;
   padding: 2rem;
-}
-
-.title {
-  text-align: center;
-  margin-bottom: 2rem;
-  color: #333;
+  display: flex;               /* Body flex container */
+  justify-content: center;     /* Ichidagi kontentni gorizontal markazlashtirish */
+  align-items: flex-start;     /* Vertikal yuqoriga qaratish */
+  min-height: 100vh;
 }
 
 /* She’rlar konteyneri va kartalari */
@@ -17,10 +15,26 @@ body {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 20px;
-  max-width: 1200px;
-  margin: 0 auto;
+  max-width: 1200px;      /* Maksimal kenglik */
+  width: 100%;            /* Kichik ekranlarda moslashish uchun */
+  justify-content: center; /* Grid ichidagi elementlarni markazlashtirish */
+  box-sizing: border-box;
 }
 
+/* Responsive grid ustida */
+@media (max-width: 900px) {
+  .poem-container {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .poem-container {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Kartalar */
 .poem-card {
   background: #fff;
   padding: 1rem;
@@ -28,29 +42,44 @@ body {
   box-shadow: 0 2px 6px rgba(0,0,0,0.1);
   cursor: pointer;
   transition: transform 0.2s ease;
+  display: flex;
+  flex-direction: column;
+  max-height: 280px;
+  overflow: hidden;
 }
 
 .poem-card:hover {
   transform: translateY(-5px);
 }
 
+/* Sarlavha */
 .poem-card h3 {
   margin: 0 0 0.5rem;
-  font-size: 1.2rem;
+  font-size: 1.3rem;
+  flex-shrink: 0;
+  color: #2f1d0f;
 }
 
+/* Matn */
 .poem-card p {
   color: #555;
-  max-height: 5em;
+  flex-grow: 1;
   overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 6;
+  -webkit-box-orient: vertical;
+  margin-bottom: 0.5rem;
 }
 
+/* Muallif */
 .author {
   display: block;
-  margin-top: 1rem;
+  margin-top: auto;
   text-align: right;
   font-style: italic;
   color: #777;
+  flex-shrink: 0;
 }
 
 /* Modal fon va joylashuvi */
@@ -146,9 +175,6 @@ body {
   }
 }
 
-
-
-
 #modal-expand-btn:hover {
   background-color: #a07f3f;
 }
@@ -156,19 +182,6 @@ body {
 /* Modal ochilganda + tugma ko‘rinadi */
 #poem-modal:not(.hidden) ~ #modal-expand-btn {
   display: block;
-}
-
-/* Responsive grid: kichik ekranlar uchun */
-@media (max-width: 900px) {
-  .poem-container {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-@media (max-width: 600px) {
-  .poem-container {
-    grid-template-columns: 1fr;
-  }
 }
 
 /* Kattalashish o‘lchamlari — modal va matn */
@@ -195,5 +208,3 @@ body {
   height: 90vh;
   font-size: 26px;
 }
-
-
