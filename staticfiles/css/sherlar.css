@@ -277,37 +277,16 @@ body {
 .modal-content.size-3 { width: 95%; max-width: 1200px; height: 90vh; font-size: 26px; }
 
 
-.copy-btn {
-  position: fixed;
-  bottom: 53rem;
-  right: 5.7rem; /* + tugmasidan ~1rem chapda */
-  background-color: #28a745;
-  color: white;
-  border: none;
-  border-radius: 50%;
-  font-size: 1.5rem;
-  width: 55px;
-  height: 55px;
-  cursor: pointer;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-  z-index: 9999;
-  transition: transform 0.2s ease;
-}
+@media (max-width: 768px) {
+  .book-spine {
+    transform: translateX(-100%);
+  }
 
-.copy-btn:hover {
-  transform: scale(1.1);
-}
+  .book-spine.open {
+    transform: translateX(0);
+  }
 
-.copy-btn.hidden {
-  display: none;
-}
-
-@media (max-width: 767px) {
-  .copy-btn {
-    bottom: 720px;
-    width: 44px;
-    height: 44px;
+  .hamburger {
+    display: flex;
   }
 }
-
-

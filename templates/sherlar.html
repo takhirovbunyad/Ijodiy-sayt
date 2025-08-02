@@ -3,15 +3,28 @@
 <html lang="uz">
 <head>
   <meta charset="UTF-8">
-  <link href="https://fonts.googleapis.com/css2?family=Oldenburg&display=swap" rel="stylesheet">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>She'rlar</title>
+  <link href="https://fonts.googleapis.com/css2?family=Oldenburg&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="{% static 'css/sherlar.css' %}">
 </head>
 <body>
-  {% include "sidebar2.html" %}
+
+  <div class="hamburger" id="hamburger">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+
+  {% include "sidebar.html" %}
+
   <h1 class="title"></h1>
-    <button id="modal-expand-btn" class="modal-expand-btn">+</button>
+
+<div class="top-buttons">
+  <button id="modal-expand-btn" class="modal-expand-btn">+</button>
+  <button id="copy-poem-btn" class="copy-btn hidden">📋</button>
+</div>
+
 
   <div class="poem-container">
     {% for sher in sherlar %}
@@ -36,7 +49,6 @@
   </div>
 
   <script src="{% static 'js/poem_modal.js' %}"></script>
-  <script src="{% static 'js/sidebar_toggle.js' %}"></script>
 
 </body>
 </html>

@@ -7,7 +7,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const modalAuthor = document.getElementById("modal-author");
   const modalContent = modal.querySelector(".modal-content");
   const expandBtn = document.getElementById("modal-expand-btn");
-  const copyBtn = document.getElementById("copy-poem-btn");
 
   function decodeUnicode(str) {
     return str.replace(/\\u([\dA-F]{4})/gi, (match, grp) =>
@@ -31,21 +30,18 @@ document.addEventListener("DOMContentLoaded", () => {
       step = 0;
 
       expandBtn.style.display = "block";  // tugmani ko‘rsatish
-      copyBtn.classList.remove("hidden"); // copy tugmasini ko‘rsatish
     });
   });
 
   closeBtn.addEventListener("click", () => {
     modal.classList.add("hidden");
     expandBtn.style.display = "none"; // tugmani yashirish
-    copyBtn.classList.add("hidden");   // copy tugmasini yashirish
   });
 
   window.addEventListener("click", e => {
     if (e.target === modal) {
       modal.classList.add("hidden");
       expandBtn.style.display = "none"; // tugmani yashirish
-      copyBtn.classList.add("hidden");   // copy tugmasini yashirish
     }
   });
 
@@ -70,32 +66,5 @@ document.addEventListener("DOMContentLoaded", () => {
   // Tugmani dastlab yashir, agar modal oldin yopiq bo‘lsa
   if (modal.classList.contains("hidden")) {
     expandBtn.style.display = "none";
-    copyBtn.classList.add("hidden");
   }
-
-  // Copy tugmasi ishlashi
-  if (!copyBtn || !modalTitle || !modalBody || !modalAuthor) {
-    console.error("Copy tugmasi yoki modal elementlari topilmadi!");
-    return;
-  }
-
-  copyBtn.addEventListener("click", () => {
-    const title = modalTitle.textContent.trim();
-    const text = modalBody.innerText.trim();
-    const author = modalAuthor.textContent.trim();
-
-    const copyText = `${title}:\n\n${text}\n\n${author}`;
-
-    navigator.clipboard.writeText(copyText).then(() => {
-      copyBtn.textContent = "✅";
-      setTimeout(() => {
-        copyBtn.textContent = "📋";
-      }, 1500);
-    }).catch(() => {
-      copyBtn.textContent = "❌";
-      setTimeout(() => {
-        copyBtn.textContent = "📋";
-      }, 1500);
-    });
-  });
 });
