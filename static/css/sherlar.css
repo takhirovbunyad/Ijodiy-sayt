@@ -86,10 +86,10 @@ body {
   border-radius: 2px;
 }
 
-/* MOBILDA sidebar yopiq va hamburger aktiv */
+/* MOBILDA sidebar and hamburger */
 @media (max-width: 768px) {
   body {
-    padding: 1rem; /* mobilda padding kichikroq */
+    padding: 1rem;
   }
 
   .book-spine {
@@ -256,9 +256,9 @@ body {
 
 @media (max-width: 767px) {
   .modal-expand-btn {
-    bottom: 720px;
-    width: 44px;
-    height: 44px;
+    bottom: 1.5rem;
+    width: 55px;
+    height: 55px;
   }
 }
 
@@ -270,7 +270,7 @@ body {
   display: block;
 }
 
-/* Kattalashgan modal o‘lchamlari */
+
 .modal-content.size-0 { width: 90%; max-width: 600px; height: 60vh; font-size: 16px; }
 .modal-content.size-1 { width: 90%; max-width: 800px; height: 75vh; font-size: 20px; }
 .modal-content.size-2 { width: 90%; max-width: 1000px; height: 85vh; font-size: 23px; }
@@ -280,7 +280,7 @@ body {
 .copy-btn {
   position: fixed;
   bottom: 53rem;
-  right: 5.7rem; /* + tugmasidan ~1rem chapda */
+  right: 5.7rem;
   background-color: #28a745;
   color: white;
   border: none;
@@ -304,9 +304,9 @@ body {
 
 @media (max-width: 767px) {
   .copy-btn {
-    bottom: 720px;
-    width: 44px;
-    height: 44px;
+    bottom: 1.5rem;
+    width: 55px;
+    height: 55px;
   }
 }
 
