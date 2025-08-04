@@ -1,15 +1,23 @@
 {% load static %}
+<link rel="stylesheet" href="{% static 'css/sidebar.css' %}">
+
 <aside class="book-spine">
+  <h2>
+     Bo‘limlar
+       <button id="mode-toggle" class="mode-toggle-btn" title="Toggle light/dark mode">
+         <img src="https://www.svgrepo.com/show/433086/light-mode.svg" alt="Light mode" width="25" height="25">
+       </button>
+  </h2>
 
-
-  <h2>Bo‘limlar</h2>
   <ul>
-    <li><a href="/main/">Asosiy</a></li>
-    <li><a href="/sher/">keyingi bo‘lim</a></li>
-    <li><a href="/repairing/">keyingi bo‘lim</a></li>
-    <li><a href="/repairing/">Bog‘lanish</a></li>
+    <li><a href="/"><img src="https://www.svgrepo.com/show/520794/home-20.svg" alt="home" width="25" height="25" style="vertical-align: middle; margin-right: 6px;">Asosiy</a></li>
+    <li><a href="/sher/"><img src="https://www.svgrepo.com/show/139639/poet.svg" alt="sher" width="20" height="20" style="vertical-align: middle; margin-right: 6px;">sherlar</a></li>
+    <li><a href="/repairing/"><img src="https://cdn.jsdelivr.net/gh/iconic/open-iconic/svg/book.svg" alt="Kitob" width="20" height="20" style="vertical-align: middle; margin-right: 6px;">Kitoblar</a></li>
+    <li><a href="/repairing/"><img src="https://www.svgrepo.com/show/507851/search-square.svg" alt="search" width="25" height="25" style="vertical-align: middle; margin-right: 6px;">Izlash</a></li>
+    <li><a href="/repairing/"><img src="https://www.svgrepo.com/show/533283/phone-call.svg" alt="telefon" width="20" height="20" style="vertical-align: middle; margin-right: 6px;">Bog`lanish</a></li>
   </ul>
 </aside>
+
 
 
 <script>
@@ -18,7 +26,9 @@
   hamburger?.addEventListener('click', () => {
     sidebar.classList.toggle('open');
   });
+
 </script>
 
 
+<script src="{% static 'js/idk.js' %}"></script>
 
