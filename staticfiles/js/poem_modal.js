@@ -37,15 +37,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
   closeBtn.addEventListener("click", () => {
     modal.classList.add("hidden");
-    expandBtn.style.display = "none"; // tugmani yashirish
-    copyBtn.classList.add("hidden");   // copy tugmasini yashirish
+    expandBtn.style.display = "none";
+    copyBtn.classList.add("hidden");
   });
 
   window.addEventListener("click", e => {
     if (e.target === modal) {
       modal.classList.add("hidden");
-      expandBtn.style.display = "none"; // tugmani yashirish
-      copyBtn.classList.add("hidden");   // copy tugmasini yashirish
+      expandBtn.style.display = "none";
+      copyBtn.classList.add("hidden");
     }
   });
 
@@ -86,16 +86,19 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const copyText = `${title}:\n\n${text}\n\n${author}`;
 
+    const originalHTML = copyBtn.innerHTML; // rasmni eslab qolamiz
+
     navigator.clipboard.writeText(copyText).then(() => {
-      copyBtn.textContent = "✅";
+      copyBtn.innerHTML = "✅";
+
       setTimeout(() => {
-        copyBtn.textContent = "📋";
-      }, 1500);
+        copyBtn.innerHTML = originalHTML; // 0.3 sekunddan keyin rasmni qaytaramiz
+      }, 300);
     }).catch(() => {
-      copyBtn.textContent = "❌";
+      copyBtn.innerHTML = "❌";
       setTimeout(() => {
-        copyBtn.textContent = "📋";
-      }, 1500);
+        copyBtn.innerHTML = originalHTML;
+      }, 300);
     });
   });
 });
