@@ -125,16 +125,16 @@ body {
   position: absolute;
   top: 10px;
   right: 15px;
-  font-size: 1.5rem;
+  font-size: 2.3rem; /* biroz kattaroq qilish */
   cursor: pointer;
   background: none;
   border: none;
-  color: #333;
-  transition: color 0.3s ease;
+  color: red; /* har doim qizil rang */
+  transition: transform 0.3s ease;
 }
 
 .close-btn:hover {
-  color: #b89c66;
+  transform: scale(1.2); /* hover bo‘lganda biroz kattalashadi */
 }
 
 .modal-expand-btn {
