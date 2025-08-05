@@ -231,3 +231,22 @@ body {
     margin-right: 250px; /* Sidebar eni bilan mos */
   }
 }
+/* Modalning asosiy fonini shaffof qora rangdan kulrangga o‘zgartirish dark mode uchun */
+body.dark-mode #poem-modal {
+  background-color: rgba(50, 50, 50, 0.8); /* kulrang, biroz shaffof */
+}
+
+/* Modal ichidagi kontent ham mos bo‘lishi uchun misol */
+body.dark-mode #poem-modal .modal-content {
+  background-color: #2a2a2a; /* qorong‘i kulrang */
+  color: #eee; /* matn oq rangda */
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 0 15px rgba(0,0,0,0.9);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+body.dark-mode .hamburger-icon {
+  filter: invert(1) brightness(2);
+  transition: filter 0.3s ease;
+}

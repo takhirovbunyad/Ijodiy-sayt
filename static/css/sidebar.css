@@ -6,7 +6,7 @@
 }
 
 body {
-  font-family: 'Segoe UI', sans-serif;
+  font-family: 'Merriweather', serif;
 }
 
 /* SIDEBAR */
@@ -21,12 +21,16 @@ body {
   padding: 20px;
   transition: transform 0.3s ease-in-out;
   z-index: 1000;
+  color: #333; /* Sidebar asosiy matn rangi */
 }
 
 .book-spine h2 {
   font-size: 1.3rem;
   margin-bottom: 20px;
   color: #222;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .book-spine ul {
@@ -38,17 +42,29 @@ body {
 }
 
 .book-spine ul li a {
+  display: flex;
+  align-items: center;
+  gap: 8px;
   text-decoration: none;
   color: #333;
   font-weight: 500;
   padding: 8px 12px;
   border-radius: 6px;
-  display: block;
-  transition: background 0.2s;
+  transition: background 0.2s, color 0.3s;
+  font-family: 'Merriweather', serif;
+  font-size: 1rem;
 }
 
 .book-spine ul li a:hover {
   background: #f0f0f0;
+  color: #000;
+}
+
+.book-spine ul li a img {
+  display: block;
+  width: 25px;
+  height: 25px;
+  object-fit: contain;
 }
 
 /* HAMBURGER tugmasi (faqat mobilda ko‘rinadi) */
@@ -70,6 +86,7 @@ body {
   height: 3px;
   width: 100%;
   border-radius: 3px;
+  transition: background 0.3s ease;
 }
 
 /* RESPONSIVE uchun */
@@ -85,28 +102,13 @@ body {
   #hamburger {
     display: flex;
   }
+
+  .book-page {
+    margin-left: 0; /* Sidebar mobilda yashirilganda margin olib tashlanadi */
+  }
 }
 
-.book-spine ul li a {
-  display: flex;           /* Flex yordamida yonma-yon joylashadi */
-  align-items: center;     /* Vertikal tekislash */
-  gap: 8px;                /* Ikonka bilan matn orasidagi bo‘shliq */
-  text-decoration: none;
-  color: #333;
-  font-weight: 500;
-  padding: 8px 12px;
-  border-radius: 6px;
-  transition: background 0.2s;
-}
-
-.book-spine ul li a img {
-  display: block;          /* Inline dan block ga o‘zgartirish */
-  width: 25px;             /* Ikonani kerakli o‘lchamda saqlash */
-  height: 25px;
-  object-fit: contain;
-}
-
-
+/* Asosiy content (sidebar yonidagi qism) */
 .book-page {
   margin-left: 240px;
   padding: 20px;
@@ -114,18 +116,40 @@ body {
   background: #fff;
 }
 
-
-
-
-.book-spine h2 {
-  font-size: 1.3rem;
-  margin-bottom: 20px;
-  color: #222;
-  display: flex;
-  align-items: center;
-  justify-content: space-between; /* Sarlavha va tugma yonma-yon va chetga */
+/* Ijodiy materiallar yozuvi */
+.main-title {
+  color: #222222; /* Yorug‘ rejimda qora */
+  transition: color 0.3s ease;
 }
 
+/* Cardlar asosiy uslubi */
+.card {
+  background-color: #fff;
+  color: #222;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 20px;
+}
+
+/* Card sarlavhalari va matnlar */
+.card h3, .card p, .card small {
+  color: inherit;
+}
+
+/* Card linklari */
+.card a {
+  color: #1a73e8;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.card a:hover {
+  color: #0c47b7;
+}
+
+/* Mode toggle tugma */
 .mode-toggle-btn {
   background: none;
   border: none;
@@ -142,57 +166,69 @@ body {
   transition: filter 0.3s ease;
 }
 
-
-
-
 /* Dark mode uslubi */
 body.dark-mode,
 body.dark-mode .book-page,
 body.dark-mode .book-spine {
-  background-color: #232424; /* To‘liq qora emas, senga mos */
-  color: #eee; /* Oqga yaqin, ammo ko‘zga yumshoqroq */
+  background-color: #232424;
+  color: #eee;
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-/* Sidebar uchun border rangini ozgina qoraytir */
 body.dark-mode .book-spine {
-  border-color: #555; /* #373838 bilan yaxshi uyg‘un */
+  border-color: #555;
+  color: #ddd;
 }
 
-/* Linklar va matn ranglari */
-.book-spine ul li a {
-  color: inherit;
+body.dark-mode .book-spine h2 {
+  color: #f0f0f0;
 }
 
-.book-spine ul li a:hover {
-  background: rgba(255 255 255 / 0.1);
+body.dark-mode .book-spine ul li a {
+  color: #ddd;
 }
 
-/* Tugma fonini qora qilyapmiz */
+body.dark-mode .book-spine ul li a:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+}
+
+body.dark-mode .main-title {
+  color: #ffffff;
+}
+
+body.dark-mode .card {
+  background-color: #1e1e1e;
+  color: #eee;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.7);
+}
+
+body.dark-mode .card a {
+  color: #82aaff;
+}
+
+body.dark-mode .card a:hover {
+  color: #5a82d1;
+}
+
 body.dark-mode .mode-toggle-btn {
-  background-color: #1f1f1f; /* Qoraga yaqin fon tugma uchun */
+  background-color: #1f1f1f;
   border-radius: 4px;
   padding: 4px;
-  cursor: pointer;
   display: inline-flex;
-  align-items: center;
   justify-content: center;
   border: none;
   transition: background-color 0.3s ease;
 }
 
-/* Tugma ustida hover effekti */
 body.dark-mode .mode-toggle-btn:hover {
   background-color: #555;
 }
 
-/* SVG ikonkani oq rangga o‘zgartiramiz */
 body.dark-mode .mode-toggle-btn img {
   filter: invert(1);
-  transition: filter 0.3s ease;
 }
 
-/* Light mode uchun tugma oddiy fon va ikonkani qaytarish */
 body:not(.dark-mode) .mode-toggle-btn {
   background-color: transparent;
   border: none;
@@ -202,138 +238,92 @@ body:not(.dark-mode) .mode-toggle-btn img {
   filter: none;
 }
 
-
-
-/* Cardlar dark mode uchun */
-body.dark-mode .poem-card {
-  background-color: #4a4a4a; /* Oq rangdan qorong‘i kulrangga o‘zgardi */
-  color: #eee; /* Matn oqroq bo‘lsin */
-  box-shadow: 0 2px 8px rgba(0,0,0,0.7);
-  transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+/* Hamburger span dark mode */
+body.dark-mode #hamburger span {
+  background: #eee;
 }
 
-/* Carddagi sarlavha va matn ranglari */
+/* Sidebar ichidagi img'larni oq-qora qilish */
+body.dark-mode .book-spine img {
+  filter: invert(1);
+}
+
+body:not(.dark-mode) .book-spine img {
+  filter: invert(0);
+}
+
+
+
+/* Poem cardlar dark mode */
+body.dark-mode .poem-card {
+  background-color: #1e1e1e; /* qorong‘i, ammo ruxsat berilgan */
+  color: #eee;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.8);
+  transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+  border-radius: 8px;
+  padding: 16px;
+}
+
 body.dark-mode .poem-card h3,
 body.dark-mode .poem-card p,
 body.dark-mode .poem-card .author {
   color: #ddd;
 }
 
-/* Card hover effekti qorong‘i rejimda */
 body.dark-mode .poem-card:hover {
-  background-color: #5c5c5c;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.9);
+  background-color: #2a2a2a;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.9);
 }
 
-
-
-/* Dark mode uchun asosiy body */
-body.dark-mode {
-  background-color: #373838;
-  color: #ddd;
-}
-
-/* Dark mode sidebar uchun */
-body.dark-mode .book-spine {
-  background-color: #2e2e2e;
-  border-color: #555;
-  color: #ddd;
-}
-
-/* Dark mode asosiy sahifa (book-page) */
-body.dark-mode .book-page {
-  background-color: #373838;
-  color: #ddd;
-}
-
-/* Dark mode cardlar uchun */
-body.dark-mode .card {
-  background-color: #4a4a4a;
-  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.8);
+/* Poem modal dark mode */
+body.dark-mode .poem-modal {
+  background-color: #232323;
   color: #eee;
-  transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.85);
+  border-radius: 12px;
+  padding: 20px;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-/* Dark mode card sarlavha va matn */
-body.dark-mode .card-body h3,
-body.dark-mode .card-body p,
-body.dark-mode .card-body small {
+body.dark-mode .poem-modal h2,
+body.dark-mode .poem-modal p,
+body.dark-mode .poem-modal .author {
   color: #ddd;
 }
 
-/* Dark mode card link */
-body.dark-mode .card-body a {
-  color: #86b7ff;
+/* Bo'limlar yozuvi uchun alohida klass kerak */
+/* Masalan, faqat #section-title o‘zgarsa */
+#section-title {
+  color: #222;
+  transition: color 0.3s ease;
 }
 
-body.dark-mode .card-body a:hover {
-  color: #4a90e2;
+body.dark-mode #section-title {
+  color: #fff; /* oq rang dark mode uchun */
 }
 
-/* Dark mode card hover */
-body.dark-mode .card:hover {
-  background-color: #5c5c5c;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.9);
+/* Carddagi image border olib tashlandi: */
+/* Hech qanday border yoki stroke qo‘shmadim */
+/* Agar oldin bor bo‘lsa, quyidagicha olib tashlanadi: */
+.card img, .poem-card img {
+  border: none !important;
+  box-shadow: none !important;
 }
 
-
-/* Oq rejimda */
-.book-spine h2 {
-  color: #222; /* qora rang */
+/* Poem modal ichidagi linklar va tugmalar */
+body.dark-mode .poem-modal a {
+  color: #82aaff;
+  text-decoration: none;
 }
 
-/* Qorong‘i rejimda */
-body.dark-mode .book-spine h2 {
-  color: #f0f0f0; /* oq rang */
+body.dark-mode .poem-modal a:hover {
+  color: #5a82d1;
 }
 
-/* Agar boshqa matnlar bo‘lsa, ularni ham shu tarzda qo‘shasan */
-.book-spine ul li a {
-  color: #333; /* oq rejim qora rang */
-}
-
-body.dark-mode .book-spine ul li a {
-  color: #ddd; /* qorong‘i rejim oq rang */
-}
-
-
-
-img.svg-icon {
-  filter: brightness(0) invert(1);
-}
-
-
-/* Yorug‘ rejim */
-.main-title {
-  color: #222222; /* qorong‘i rang */
-}
-
-/* Qorong‘i rejim */
-body.dark-mode .main-title {
-  color: #f0f0f0; /* oq rang */
-}
-
-.book-page {
-  margin-left: 240px;
-  padding: 20px;
-  min-height: 100vh;
-  background: #fff;
-}
 
 @media (max-width: 768px) {
   .book-page {
-    margin-left: 0; /* Sidebar mobilda yashirilganda margin olib tashlanadi */
+    margin-left: 0;
+    max-width: 100%;
   }
-}
-
-#hamburger span {
-  background: #333;
-  height: 3px;
-  width: 100%;
-  border-radius: 3px;
-  transition: background 0.3s ease;
-}
-
-body.dark-mode #hamburger span {
-  background: #eee;
 }

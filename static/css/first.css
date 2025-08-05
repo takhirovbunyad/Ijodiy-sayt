@@ -240,3 +240,20 @@ body {
   line-height: 1.2;
   text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1); /* Yumshoq soyalar, biroz chuqurlik uchun */
 }
+/* Hamburger ikonka uchun stil */
+.hamburger-icon {
+  width: 32px;
+  height: 32px;
+  cursor: pointer;
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  z-index: 999;
+  filter: invert(0); /* Light mode uchun qora */
+  transition: filter 0.3s;
+}
+
+/* Dark mode bo‘lsa oq bo‘ladi */
+body.dark-mode .hamburger-icon {
+  filter: invert(1);
+}
