@@ -8,4 +8,5 @@ urlpatterns = [
     path('sher/', views.sherlar_royxati, name='sherlar_royxati'),
     path('sher/<int:pk>/', views.sher_detail, name='sher_detail'),
     path('books/', views.books_page, name='books_page'),
+    path('api/books/<int:pk>/', views.book_detail_api, name='book_detail_api'),
 ]

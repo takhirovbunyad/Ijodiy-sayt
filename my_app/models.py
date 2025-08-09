@@ -43,8 +43,6 @@ class Book(models.Model):
     audio = models.FileField('Audio', upload_to='book_audio/', blank=True, null=True)
     audio_duration = models.CharField('Audio davomiyligi', max_length=20, blank=True, null=True)
 
-    file_type = models.CharField('Fayl turi', max_length=20, blank=True, null=True)
-
     def save(self, *args, **kwargs):
         # Fayl turi aniqlash
         if self.file:

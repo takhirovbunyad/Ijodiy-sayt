@@ -68,3 +68,21 @@ def books_page(request):
         'books': books
     }
     return render(request, 'books.html', context)
+
+
+def book_detail_api(request, pk):
+    try:
+        book = Book.objects.get(pk=pk)
+        data = {
+            'title': book.title,
+            'url': book.url if book.url else '',
+            'file': book.file.url if book.file else '',
+            'audio': book.audio.url if hasattr(book, 'audio') and book.audio else '',
+            'audio_time': book.audio_time if hasattr(book, 'audio_time') else '',
+            'file_type': book.file.name.split('.')[-1] if book.file else '',
+            'description': book.description,
+            'owner': book.owner,
+        }
+        return JsonResponse(data)
+    except Book.DoesNotExist:
+        return JsonResponse({'error': 'Book not found'}, status=404)
