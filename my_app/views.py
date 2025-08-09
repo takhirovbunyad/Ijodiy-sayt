@@ -50,10 +50,21 @@ from django.shortcuts import render, get_object_or_404
 from .models import Sher
 
 def sherlar_royxati(request):
-    sherlar = Sher.objects.order_by('-sana')  # so‘nggi she’rlar birinchi
+    sherlar = Sher.objects.order_by('-sana')
     return render(request, 'sherlar.html', {'sherlar': sherlar})
 
 
 def sher_detail(request, pk):
     sher = get_object_or_404(Sher, pk=pk)
     return render(request, 'sher_detail.html', {'sher': sher})
+
+
+from django.shortcuts import render
+from .models import Book  # modelni to'g'ri import qilgin
+
+def books_page(request):
+    books = Book.objects.all().order_by('-id')  # oxirgi qo'shilganlar birinchi
+    context = {
+        'books': books
+    }
+    return render(request, 'books.html', context)

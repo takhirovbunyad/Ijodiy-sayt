@@ -264,6 +264,16 @@ body.dark-mode .poem-card {
   padding: 16px;
 }
 
+
+body.dark-mode .book-card {
+  background-color: #1e1e1e; /* qorong‘i, ammo ruxsat berilgan */
+  color: #eee;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.8);
+  transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+  border-radius: 8px;
+  padding: 4px;
+}
+
 body.dark-mode .poem-card h3,
 body.dark-mode .poem-card p,
 body.dark-mode .poem-card .author {
@@ -326,4 +336,8 @@ body.dark-mode .poem-modal a:hover {
     margin-left: 0;
     max-width: 100%;
   }
+}
+
+body.dark-mode .book-card .owner {
+    color: #fcfafa;
 }

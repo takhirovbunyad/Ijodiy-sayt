@@ -1,0 +1,109 @@
+.book-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 20px;
+    padding: 20px;
+    margin-left: 15rem;
+    grid-template-columns: repeat(6, 1fr);
+}
+
+.book-card {
+    background: white;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+    cursor: pointer;
+    transition: transform 0.2s ease;
+    height: 100%;
+    display: flex;
+    flex-direction: column; /* Pastga joylashishni ta’minlaydi */
+}
+
+.book-card:hover {
+    transform: translateY(-5px);
+}
+
+.book-card img {
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+}
+
+.book-card .card-body {
+    flex: 1; /* Qolgan joyni egallaydi */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* Yuqori va past elementlarni ajratadi */
+}
+
+.book-card h3 {
+    margin: 10px;
+    font-size: 1.1em;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;      /* Maksimal 2 qator */
+    -webkit-box-orient: vertical;
+    overflow: hidden;           /* Sig‘magan qismini yashiradi */
+    text-overflow: ellipsis;
+}
+
+.book-card p {
+    margin: 0 10px 10px;
+    font-size: 1em;
+    color: #a19c9c;
+    flex-grow: 1; /* Description joyini cho‘zadi */
+}
+
+.book-card .owner {
+    margin: 10px;
+    font-size: 0.9em;
+    color: #000000;
+    text-align: left;
+}
+
+
+
+/* MODAL STYLE */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 999;
+    left: 0; top: 0;
+    width: 100%; height: 100%;
+    background: rgba(0,0,0,0.7);
+}
+
+.modal-content {
+    background: #fff;
+    margin: 5% auto;
+    padding: 20px;
+    width: 90%;
+    max-width: 800px;
+    border-radius: 10px;
+    position: relative;
+}
+
+.close {
+    position: absolute;
+    top: 10px; right: 15px;
+    font-size: 28px;
+    cursor: pointer;
+}
+
+
+
+
+
+@media (max-width: 768px) {
+    .book-grid {
+        margin-left: 0;
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .book-card img {
+        width: 100%;
+        height: 180px; /* hamma rasm bir xil bo‘yda */
+        object-fit: cover; /* uzunini kesadi, kichigini kattalashtiradi */
+        border: 2px solid #ccc; /* chiroyli border */
+        border-radius: 6px; /* yumaloq burchak */
+    }
+}
