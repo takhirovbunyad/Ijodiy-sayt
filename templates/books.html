@@ -1,61 +1,75 @@
 {% load static %}
-<link rel="stylesheet" href="{% static 'css/books.css' %}">
-<link rel="stylesheet" href="{% static 'css/sidebar.css' %}">
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Kitoblar</title>
 
-<img id="hamburger" class="hamburger-icon" src="https://www.svgrepo.com/show/506247/menu-vertical.svg" alt="Menu">
+    <!-- CSS -->
+    <link rel="stylesheet" href="{% static 'css/books.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/sidebar.css' %}" />
+</head>
+<body>
 
-{% include "sidebar.html" %}
+    <!-- Hamburger icon -->
+    <img id="hamburger" class="hamburger-icon" src="https://www.svgrepo.com/show/506247/menu-vertical.svg" alt="Menu" />
 
-<div class="book-grid">
-    {% for book in books %}
-    <div class="book-card"
-         data-title="{{ book.title }}"
-         data-owner="{{ book.owner }}"
-         data-description="{{ book.description }}"
-         data-img="{{ book.img.url }}"
-         data-file="{% if book.file %}{{ book.file.url }}{% endif %}"
-         data-url="{% if book.url %}{{ book.url }}{% endif %}"
-         data-audio="{% if book.audio %}{{ book.audio.url }}{% endif %}"
-         data-audio-duration="{{ book.audio_duration }}"
-         data-file-type="{{ book.file_type }}">
+    <!-- Sidebar -->
+    {% include "sidebar.html" %}
 
-        <img src="{{ book.img.url }}" alt="{{ book.title }}">
-        <h3>{{ book.title }}</h3>
-        <p>{{ book.description|truncatewords:12 }}</p>
-        <span class="owner">👤 {{ book.owner }}</span>
+    <!-- Book grid -->
+    <div class="book-grid">
+        {% for book in books %}
+        <div class="book-card"
+             data-title="{{ book.title }}"
+             data-owner="{{ book.owner }}"
+             data-description="{{ book.description }}"
+             data-img="{{ book.img.url }}"
+             data-file="{% if book.file %}{{ book.file.url }}{% endif %}"
+             data-url="{% if book.url %}{{ book.url }}{% endif %}"
+             data-audio="{% if book.audio %}{{ book.audio.url }}{% endif %}"
+             data-audio-duration="{{ book.audio_duration }}"
+             data-file-type="{{ book.file_type }}">
+
+            <img src="{{ book.img.url }}" alt="{{ book.title }}" />
+            <h3>{{ book.title }}</h3>
+            <p>{{ book.description|truncatewords:12 }}</p>
+            <span class="owner">👤 {{ book.owner }}</span>
+        </div>
+        {% endfor %}
     </div>
-    {% endfor %}
-</div>
 
-<!-- MODAL -->
-<div id="bookModal" class="modal">
-  <div class="modal-content" style="position: relative;">
-    <span class="close">&times;</span>
+    <!-- MODAL -->
+    <div id="bookModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
 
-    <h2 id="modalTitle"></h2>
-    <p id="modalDescription"></p>
+            <h2 id="modalTitle"></h2>
+            <p id="modalDescription"></p>
 
-    <!-- Kitobni o‘qish -->
-    <iframe id="modalReader" src="" width="100%" height="600px" style="display:none; border: none; margin-top: 20px; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.15);"></iframe>
+            <!-- Kitobni o‘qish -->
+            <iframe id="modalReader" src="" width="100%" height="600" class="modal-reader"></iframe>
 
-    <!-- Alohida oynada ochish tugmasi -->
-    <button id="openInNewWindow"
-            style="display:none; position: absolute; top: 20px; right: 20px; z-index: 10; padding: 6px 12px; cursor: pointer; border-radius: 6px; background-color: #007bff; color: white; border: none; font-weight: 600;">
-      Alohida Oynada Ochiq
-    </button>
+            <!-- Alohida oynada ochish tugmasi -->
+            <button id="openInNewWindow" class="btn btn-open-window">TO'LIQ OCHISH</button>
 
-    <!-- Yuklab olish tugmalari -->
-    <div id="downloadButtons" style="margin-top: 15px; display: flex; gap: 15px; flex-wrap: wrap;">
-      <a id="modalFileDownload" href="" download style="display:none; padding: 8px 16px; background-color: #28a745; color: white; text-decoration: none; border-radius: 6px; font-weight: 600;">
+            <!-- Yuklab olish tugmalari -->
+<div id="downloadButtons" class="download-buttons">
+    <a id="modalFileDownload" href="" download class="btn-download btn-file" style="display:none;">
         📥 Kitobni yuklab olish
-      </a>
+    </a>
 
-      <a id="modalAudioDownload" href="" download style="display:none; padding: 8px 16px; background-color: #17a2b8; color: white; text-decoration: none; border-radius: 6px; font-weight: 600;">
+    <a id="modalAudioDownload" href="" download class="btn-download btn-audio" style="display:none;">
         🎧 Audio yuklab olish
-      </a>
-    </div>
-  </div>
+    </a>
 </div>
 
+        </div>
+    </div>
 
-<script src="{% static 'js/books.js' %}"></script>
+    <!-- JS -->
+    <script src="{% static 'js/books.js' %}"></script>
+
+</body>
+</html>

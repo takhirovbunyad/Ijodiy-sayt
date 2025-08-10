@@ -341,3 +341,102 @@ body.dark-mode .poem-modal a:hover {
 body.dark-mode .book-card .owner {
     color: #fcfafa;
 }
+
+
+/* sidebar.css yoki books.css ichiga qo‘sh */
+.dark-mode .hamburger-icon {
+    filter: invert(1) brightness(2);
+}
+
+.dark-mode .hamburger-icon {
+    fill: white;
+}
+
+
+.book-grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 20px;
+    padding: 20px;
+    margin-left: 0; /* Bu yerda margin-left ni olib tashladim */
+}
+
+/* Responsive qoidalar */
+@media (max-width: 768px) {
+    .book-grid {
+        grid-template-columns: repeat(2, 1fr);
+        margin-left: 0;  /* Mobil uchun aniq margin-left 0 */
+        padding: 10px;
+        gap: 15px;
+    }
+
+    .book-page {
+        margin-left: 0;
+        max-width: 100%;
+        padding: 10px;
+    }
+}
+
+
+@media (max-width: 768px) {
+  #openInNewWindow {
+    display: none !important;
+  }
+}
+
+
+/* Yuklab olish tugmalari umumiy */
+.download-buttons {
+    margin-top: 15px;
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.btn-download {
+    padding: 8px 16px;
+    color: white;
+    text-decoration: none;
+    border-radius: 6px;
+    font-weight: 600;
+    display: inline-block;
+    transition: background-color 0.3s ease;
+    cursor: pointer;
+}
+
+/* Kitob faylini yuklab olish tugmasi */
+.btn-file {
+    background-color: #28a745;
+}
+
+.btn-file:hover {
+    background-color: #1e7e34;
+}
+
+/* Audio faylini yuklab olish tugmasi */
+.btn-audio {
+    background-color: #17a2b8;
+}
+
+.btn-audio:hover {
+    background-color: #117a8b;
+}
+
+.btn-download {
+  /* styling */
+}
+
+.btn-file {
+  background-color: #28a745;
+}
+
+.btn-file:hover {
+  background-color: #1e7e34;
+}
+
+
+@media (max-width: 768px) {
+  #openInNewWindow {
+    display: none !important;
+  }
+}
