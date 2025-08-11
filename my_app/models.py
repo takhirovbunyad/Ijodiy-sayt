@@ -62,3 +62,12 @@ class Book(models.Model):
 
     def __str__(self):
         return self.title
+
+
+
+
+class Philosophy(models.Model):
+    img = models.ImageField(upload_to='images/')
+    title = models.CharField(max_length=255)
+    desc = models.TextField()
+    text = models.TextField()

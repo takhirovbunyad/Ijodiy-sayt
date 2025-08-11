@@ -1,0 +1,56 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+  <link href="https://fonts.googleapis.com/css2?family=Oldenburg&display=swap" rel="stylesheet">
+
+
+
+  <!-- bosh qismi... -->
+  <link rel="stylesheet" href="{% static 'css/philosophy.css' %}">
+</head>
+<body>
+
+<img id="hamburger" class="hamburger-icon" src="https://www.svgrepo.com/show/506247/menu-vertical.svg" alt="Menu">
+  {% include "sidebar.html" %}
+
+  <!-- Cardlar ko'rsatiladi -->
+  <div class="philosophy-cards">
+    {% for item in philosophy %}
+      <div class="card" data-id="{{ item.id }}">
+        <img src="{{ item.img.url }}" alt="{{ item.title }}">
+        <h3>{{ item.title }}</h3>
+        <p>{{ item.desc }}</p>
+        <button class="btn-detail" data-id="{{ item.id }}">Batafsil</button>
+      </div>
+    {% endfor %}
+  </div>
+
+  <!-- Modal -->
+  <div id="modal" class="modal" style="display:none;">
+    <div class="modal-content">
+      <span id="modal-close" class="close">&times;</span>
+      <h2 id="modal-title"></h2>
+      <p id="modal-text"></p>
+    </div>
+  </div>
+
+  <!-- Bu yerda ma'lumotlarni JSON formatida script tag ichida beramiz -->
+  <script id="philosophy-data" type="application/json">
+    [
+      {% for item in philosophy %}
+        {
+          "id": {{ item.id }},
+          "title": "{{ item.title|escapejs }}",
+          "text": "{{ item.text|linebreaksbr|striptags|escapejs }}"
+        }{% if not forloop.last %},{% endif %}
+      {% endfor %}
+    ]
+  </script>
+
+  <!-- Keyin alohida JS faylni chaqiramiz -->
+  <script src="{% static 'js/philosophy.js' %}"></script>
+
+</body>
+</html>

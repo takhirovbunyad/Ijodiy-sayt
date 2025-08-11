@@ -86,3 +86,15 @@ def book_detail_api(request, pk):
         return JsonResponse(data)
     except Book.DoesNotExist:
         return JsonResponse({'error': 'Book not found'}, status=404)
+
+
+
+
+
+# views.py
+from django.shortcuts import render
+from .models import Philosophy
+
+def philosophy_view(request):
+    philosophy = Philosophy.objects.all().order_by('-id')
+    return render(request, 'philosophy.html', {'philosophy': philosophy})
