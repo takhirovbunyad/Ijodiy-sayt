@@ -70,6 +70,15 @@
 
     <!-- JS -->
     <script src="{% static 'js/books.js' %}"></script>
+    <script>
+const bookGrid = document.querySelector('.book-grid');
 
+if (window.innerWidth > 768) {  // faqat katta ekranlarda margin-left beriladi
+  bookGrid.style.marginLeft = '15rem';
+} else {
+  bookGrid.style.marginLeft = ''; // mobilda margin-left o'chiriladi (yoki default qoldiriladi)
+}
+
+    </script>
 </body>
 </html>

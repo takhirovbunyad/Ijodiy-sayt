@@ -1,7 +1,7 @@
 .book-grid {
     display: grid;
     grid-template-columns: repeat(6, 1fr);
-    gap: 20px;
+    gap: 5px;
     padding: 20px;
     margin-left: 15rem;
 }
@@ -16,6 +16,8 @@
     height: 100%;
     display: flex;
     flex-direction: column;
+    max-width: 240px;
+
 }
 
 .book-card:hover {
@@ -200,9 +202,7 @@
         height: 400px;
     }
 
-    #openInNewWindow {
-        display: none !important;
-    }
+
 }
 
 /* Dark mode */
@@ -229,15 +229,22 @@ body.dark-mode #openInNewWindow {
 
 
 @media (max-width: 768px) {
-  #openInNewWindow {
-    display: none !important;
-    background: red !important; /* Agar tugma ko‘rinayotgan bo‘lsa, rang o‘zgaradi */
-  }
 
   .btn-file {
     background-color: #28a745 !important;
     color: white !important;
     padding: 12px 20px !important;
     border-radius: 8px !important;
+  }
+}
+
+
+/* Mobil uchun biroz kichikroq va ekran o‘lchamiga mos */
+@media (max-width: 768px) {
+  #openInNewWindow {
+    top: 8px;
+    right: 8px;
+    font-size: 0.7rem;
+    padding: 5px 8px;
   }
 }
