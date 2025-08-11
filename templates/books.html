@@ -12,13 +12,13 @@
 </head>
 <body>
 
-    <!-- Hamburger icon -->
+
     <img id="hamburger" class="hamburger-icon" src="https://www.svgrepo.com/show/506247/menu-vertical.svg" alt="Menu" />
 
-    <!-- Sidebar -->
+
     {% include "sidebar.html" %}
 
-    <!-- Book grid -->
+
     <div class="book-grid">
         {% for book in books %}
         <div class="book-card"
@@ -40,7 +40,7 @@
         {% endfor %}
     </div>
 
-    <!-- MODAL -->
+
     <div id="bookModal" class="modal">
         <div class="modal-content">
             <span class="close">&times;</span>
@@ -48,13 +48,13 @@
             <h2 id="modalTitle"></h2>
             <p id="modalDescription"></p>
 
-            <!-- Kitobni o‘qish -->
+
             <iframe id="modalReader" src="" width="100%" height="600" class="modal-reader"></iframe>
 
-            <!-- Alohida oynada ochish tugmasi -->
+
             <button id="openInNewWindow" class="btn btn-open-window">TO'LIQ OCHISH</button>
 
-            <!-- Yuklab olish tugmalari -->
+
 <div id="downloadButtons" class="download-buttons">
     <a id="modalFileDownload" href="" download class="btn-download btn-file" style="display:none;">
         📥 Kitobni yuklab olish
@@ -68,7 +68,7 @@
         </div>
     </div>
 
-    <!-- JS -->
+
     <script src="{% static 'js/books.js' %}"></script>
     <script>
 const bookGrid = document.querySelector('.book-grid');
