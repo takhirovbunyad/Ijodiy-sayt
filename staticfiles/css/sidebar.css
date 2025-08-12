@@ -295,6 +295,8 @@ body.dark-mode .poem-modal {
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
+
+
 body.dark-mode .poem-modal h2,
 body.dark-mode .poem-modal p,
 body.dark-mode .poem-modal .author {

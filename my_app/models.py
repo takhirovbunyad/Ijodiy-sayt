@@ -14,18 +14,40 @@ class PublishedManager(models.Manager):
         return super().get_queryset().filter(status='published')
 
 
+from django.db import models
+from django.utils import timezone
+
+from django.db import models
+from django.utils import timezone
+
 
 class Sher(models.Model):
-    sarlavha = models.CharField(max_length=20)
+    JANR_TANLOV = [
+        ('lirik', 'Lirik'),
+        ('epik', 'Epik'),
+        ('dramatik', 'Dramatik'),
+        ('satirik', 'Satirik'),
+    ]
+
+    sarlavha = models.CharField(max_length=100)
     matn = models.TextField()
     muallif = models.CharField(max_length=100)
+
     sana = models.DateTimeField(auto_now_add=True)
+    janr = models.CharField(max_length=20, choices=JANR_TANLOV, blank=True, null=True)
+    til = models.CharField(max_length=50, default="O'zbekcha")
+    manba = models.CharField(max_length=200, blank=True, null=True)
+    haqida = models.TextField('Tanqid va izohlar tarixi , O‘qish va taqdimotlar , Keyingi nashrlar , Tahrirlar va o‘zgarishlar  , Dastlabki nashr , Voqealar fonida , Yozilgan sana ,' ,max_length=200, blank=True , null=True)
+
 
     def qisqa_qator(self):
         return '\n'.join(self.matn.split('\n')[:4])
 
     def __str__(self):
-        return self.sarlavha
+        return f"{self.sarlavha} - {self.muallif}"
+
+    class Meta:
+        ordering = ['-sana']
 
 
 from django.db import models
