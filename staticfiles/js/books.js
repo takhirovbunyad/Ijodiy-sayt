@@ -17,11 +17,9 @@
                 const file = card.dataset.file || '';
                 const audio = card.dataset.audio || '';
 
-                // Modalga ma'lumotlar joylanadi
                 modalTitle.textContent = title;
                 modalDescription.textContent = description;
 
-                // Iframe va alohida oynada o'qish tugmasi
                 if (url) {
                     modalReader.src = url;
                     modalReader.style.display = 'block';
@@ -36,7 +34,6 @@
                     openInNewWindowBtn.dataset.url = '';
                 }
 
-                // Kitob faylini yuklab olish
                 if (file) {
                     modalFileDownload.href = file;
                     modalFileDownload.style.display = 'inline-block';
@@ -45,7 +42,6 @@
                     modalFileDownload.style.display = 'none';
                 }
 
-                // Audio faylini yuklab olish
                 if (audio) {
                     modalAudioDownload.href = audio;
                     modalAudioDownload.style.display = 'inline-block';
