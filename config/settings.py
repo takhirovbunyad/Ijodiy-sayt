@@ -83,9 +83,11 @@ WSGI_APPLICATION = 'config.wsgi.application'
 
 
 
+
+
 DATABASES = {
     'default': dj_database_url.config(
-        default='postgresql://bitnet:oCv27voo4vUbFQbOYTLDH197VXhOu9Ou@dpg-d2lb6op5pdvs73agqhjg-a.oregon-postgres.render.com:5432/ijodiy_db',
+        default='postgresql://bitnet:WazBSbpG8f64QFLcUjfhhK1TZiTFIEvb@dpg-d2lbkl75r7bs73dh6tjg-a.oregon-postgres.render.com/ijodiy_db_icwd',
         conn_max_age=600
     )
 }
