@@ -80,3 +80,76 @@ def book_detail_api(request, pk):
 def philosophy_view(request):
     philosophy = services.fetch_philosophy()
     return render(request, 'philosophy.html', {'philosophy': philosophy})
+
+
+
+
+from django.shortcuts import render
+from django.http import JsonResponse
+from .models import Dash, Sher, Book, Philosophy
+from django.db.models import Q
+
+def search_page(request):
+    return render(request, "search.html")
+
+def search_results(request):
+    query = request.GET.get("q", "")
+    dash_results = Dash.objects.filter(Q(title__icontains=query) | Q(description__icontains=query))[:5]
+    sher_results = Sher.objects.filter(Q(sarlavha__icontains=query) | Q(matn__icontains=query) | Q(muallif__icontains=query))[:5]
+    book_results = Book.objects.filter(Q(title__icontains=query) | Q(description__icontains=query) | Q(owner__icontains=query))[:5]
+    philosophy_results = Philosophy.objects.filter(Q(title__icontains=query) | Q(desc__icontains=query) | Q(text__icontains=query))[:5]
+
+    data = {
+        "dash": list(dash_results.values("title", "url", "description", "source")),
+        "sher": list(sher_results.values("sarlavha", "muallif", "matn", "janr", "til")),
+        "book": list(book_results.values("title", "owner", "description", "url")),
+        "philosophy": list(philosophy_results.values("title", "desc", "text")),
+    }
+    return JsonResponse(data)
+
+
+
+from django.http import JsonResponse
+from .models import Dash, Sher, Book, Philosophy
+
+def search_api(request):
+    q = request.GET.get('q', '')
+    dash = Dash.objects.filter(title__icontains=q)
+    sher = Sher.objects.filter(sarlavha__icontains=q)
+    books = Book.objects.filter(title__icontains=q)
+    philosophy = Philosophy.objects.filter(title__icontains=q)
+
+    return JsonResponse({
+        "dash": [
+            {
+                "title": d.title,
+                "description": d.description,
+                "preview": d.preview.url if d.preview else "",
+                "source": d.source,
+                "url": d.url
+            } for d in dash
+        ],
+        "sher": [
+            {
+                "sarlavha": s.sarlavha,
+                "qisqa_qator": s.qisqa_qator(),
+                "muallif": s.muallif,
+            } for s in sher
+        ],
+        "books": [
+            {
+                "title": b.title,
+                "description": b.description,
+                "img": b.img.url if b.img else "",
+                "owner": b.owner,
+                "url": b.url
+            } for b in books
+        ],
+        "philosophy": [
+            {
+                "title": p.title,
+                "desc": p.desc[:100] + "...",
+                "img": p.img.url if p.img else "",
+            } for p in philosophy
+        ]
+    })

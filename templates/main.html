@@ -7,11 +7,13 @@
   <title>IJODIY UZ — Bosh sahifa</title>
   <link href="https://fonts.googleapis.com/css2?family=Oldenburg&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="{% static 'css/first.css' %}">
+  <link rel="stylesheet" href="{% static 'css/modal.css' %}">
 </head>
 <body>
-<!-- Old hamburger div o‘rniga quyidagisini qo‘y -->
-<img id="hamburger" class="hamburger-icon" src="https://www.svgrepo.com/show/506247/menu-vertical.svg" alt="Menu">
-
+  <!-- Hamburger -->
+  <img id="hamburger" class="hamburger-icon"
+       src="https://www.svgrepo.com/show/506247/menu-vertical.svg"
+       alt="Menu">
 
   <div class="book-container">
     {% include 'sidebar.html' %}
@@ -21,17 +23,20 @@
 
       <div id="card-container" class="card-grid">
         {% for card in page_obj %}
-          <div class="card">
-            <img src="{{ card.preview.url }}" alt="{{ card.title }}">
-            <div class="card-body">
-              <h3>{{ card.title }}</h3>
-              <p>{{ card.description }}</p>
-              {% if card.url %}
-                <a href="{{ card.url }}" target="_blank" rel="noopener noreferrer">Batafsil o‘qish</a>
-              {% endif %}
-              <small>Manba: {{ card.source }}</small>
-            </div>
-          </div>
+<div class="card"
+     data-id="{{ card.id }}"
+     data-url="{{ card.url }}"
+     data-title="{{ card.title }}"
+     data-desc="{{ card.description }}"
+     data-source="{{ card.source }}">
+  <img src="{{ card.preview.url }}" alt="{{ card.title }}">
+  <div class="card-body">
+    <h3>{{ card.title }}</h3>
+    <p>{{ card.description }}</p>
+    <small>Manba: {{ card.source }}</small>
+  </div>
+</div>
+
         {% endfor %}
       </div>
 
@@ -40,6 +45,25 @@
       {% endif %}
     </main>
   </div>
-<script src="{% static 'js/load_more.js' %}"></script>
+
+  <!-- MODAL -->
+<!-- MODAL -->
+<div id="modal" class="modal">
+  <div class="modal-content">
+   <span class="close">&times;</span>
+   <h2 id="modal-title"></h2>
+   <div id="modal-video"></div>   <!-- VIDEO SHU YERDA -->
+   <p id="modal-desc"></p>
+   <small id="modal-source"></small>
+   <a id="modal-link" href="" target="_blank" class="modal-link">Havolani ochish</a>
+  </div>
+
+</div>
+
+
+  <!-- Scripts -->
+  <script src="{% static 'js/load_more.js' %}"></script>
+  <script src="{% static 'js/modal.js' %}"></script>
+  <script src="{% static 'js/modal_auto_open.js' %}"></script>
 </body>
 </html>

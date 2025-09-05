@@ -79,12 +79,6 @@ WSGI_APPLICATION = 'config.wsgi.application'
 #         'NAME': BASE_DIR / 'db.sqlite3',
 #     }
 # }
-
-
-
-
-
-
 DATABASES = {
     'default': dj_database_url.config(
         default='postgresql://bitnet:WazBSbpG8f64QFLcUjfhhK1TZiTFIEvb@dpg-d2lbkl75r7bs73dh6tjg-a.oregon-postgres.render.com/ijodiy_db_icwd',
@@ -129,7 +123,7 @@ USE_TZ = True
 STATIC_URL = 'static/'
 
 # Default primary key field type
-# https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
+# https://docs.djangoproject.com/en/5.2/    ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 

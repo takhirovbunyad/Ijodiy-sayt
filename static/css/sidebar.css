@@ -263,7 +263,17 @@ body.dark-mode .poem-card {
   border-radius: 8px;
   padding: 16px;
 }
+body.dark-mode .result-card {
+  background: #1e1e1e;
+}
 
+body.dark-mode .card-content h3 {
+  color: #ffffff;
+}
+
+body.dark-mode .card-content p {
+  color: #ffffff;
+}
 
 body.dark-mode .book-card {
   background-color: #1e1e1e; /* qorong‘i, ammo ruxsat berilgan */
