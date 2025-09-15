@@ -5,4 +5,5 @@ __pycache__/
 venv/
 .idea/
 *.log
-postgresql-17.6-1-windows-x64.exe
+*.exe
+
