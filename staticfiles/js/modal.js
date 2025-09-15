@@ -45,10 +45,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Modalni yopish
   function closeModal() {
-    modal.style.display = "none";
-    document.getElementById("modal-video").innerHTML = ""; // video reset
-    history.pushState(null, "", "/");
-  }
+
+     window.location.href = "/";
+}
+
 
   closeBtn.addEventListener("click", closeModal);
 
