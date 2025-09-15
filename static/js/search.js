@@ -2,6 +2,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const input = document.getElementById("search-input");
   const btn = document.getElementById("search-btn");
   const results = document.getElementById("results");
+  let debounceTimer;
 
   function search() {
     const query = input.value.trim();
@@ -46,6 +47,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 ${owner ? `<small>${owner}</small>` : ""}
               </div>
               <a href="${url}" class="view-btn"><i class="fas fa-eye"></i> Ko‘rish</a>
+
             `;
 
             results.appendChild(card);
@@ -58,8 +60,17 @@ document.addEventListener("DOMContentLoaded", () => {
       });
   }
 
+  // Tugma bosilganda ham ishlasin
   btn.addEventListener("click", search);
+
+  // Enter bosilganda ham ishlasin
   input.addEventListener("keypress", e => {
     if (e.key === "Enter") search();
+  });
+
+  // Real-time qidiruv (debounce bilan)
+  input.addEventListener("input", () => {
+    clearTimeout(debounceTimer);
+    debounceTimer = setTimeout(search, 500); // 0.5s kechikish
   });
 });

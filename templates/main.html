@@ -60,6 +60,11 @@
 
 </div>
 
+{% if open_dash_id %}
+  <script>
+    window.openDashId = {{ open_dash_id }};
+  </script>
+{% endif %}
 
   <!-- Scripts -->
   <script src="{% static 'js/load_more.js' %}"></script>

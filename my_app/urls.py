@@ -12,5 +12,8 @@ urlpatterns = [
     path('philosophy/', views.philosophy_view, name='philosophy_list'),
     path("search/", views.search_page, name="search_page"),
     path("search-results/", views.search_results, name="search_results"),
-    path('search-api/', views.search_api, name='search_api')
+    path('search-api/', views.search_api, name='search_api'),
+    path("dash/<int:pk>/", views.dash_detail_page, name="dash_detail_page"),
+    path("dash/<int:pk>/json/", views.dash_detail_json, name="dash_detail_json"),
+
 ]

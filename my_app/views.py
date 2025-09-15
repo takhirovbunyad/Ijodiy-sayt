@@ -122,11 +122,12 @@ def search_api(request):
     return JsonResponse({
         "dash": [
             {
+                "id": d.id,
                 "title": d.title,
                 "description": d.description,
                 "preview": d.preview.url if d.preview else "",
                 "source": d.source,
-                "url": d.url
+                "url": f"/dash/{d.id}/"   # 🔥 to‘liq url yasadik
             } for d in dash
         ],
         "sher": [
@@ -138,18 +139,43 @@ def search_api(request):
         ],
         "books": [
             {
+                "id": b.id,
                 "title": b.title,
                 "description": b.description,
                 "img": b.img.url if b.img else "",
                 "owner": b.owner,
-                "url": b.url
+                "url": f"/books/{b.id}/"  # kitob detail link
             } for b in books
         ],
         "philosophy": [
             {
+                "id": p.id,
                 "title": p.title,
                 "desc": p.desc[:100] + "...",
                 "img": p.img.url if p.img else "",
+                "url": f"/philosophy/{p.id}/"  # falsafa detail link
             } for p in philosophy
         ]
+    })
+
+
+from django.shortcuts import render, get_object_or_404
+from django.http import JsonResponse
+from .models import Dash
+
+def dash_detail_page(request, pk):
+    dash = get_object_or_404(Dash, pk=pk)
+    return render(request, "main.html", {   # senga mos nomni yoz
+        "open_dash_id": dash.id
+    })
+
+def dash_detail_json(request, pk):
+    dash = get_object_or_404(Dash, pk=pk)
+    return JsonResponse({
+        "id": dash.id,
+        "title": dash.title,
+        "description": dash.description,
+        "source": dash.source,
+        "url": dash.url,
+        "preview": dash.preview.url if dash.preview else None
     })
