@@ -10,7 +10,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (!query) return;
 
-    // Loader qo'shamiz
+    // Loader
     const loader = document.createElement("div");
     loader.classList.add("loader");
     results.appendChild(loader);
@@ -18,7 +18,7 @@ document.addEventListener("DOMContentLoaded", () => {
     fetch(`/search-api/?q=${encodeURIComponent(query)}`)
       .then(res => res.json())
       .then(data => {
-        results.innerHTML = ""; // loader o'chadi va cardlar keladi
+        results.innerHTML = "";
 
         const allData = [
           {items: data.dash, section: "BOSH SAHIFA"},
@@ -33,7 +33,7 @@ document.addEventListener("DOMContentLoaded", () => {
             let desc = item.description || item.desc || item.qisqa_qator || "";
             let title = item.title || item.sarlavha || "";
             let owner = item.owner || item.muallif || "";
-            let url = item.url || "#";
+            let url = item.url; // 🔥 endi default "#" emas, real url bo‘ladi
 
             const card = document.createElement("div");
             card.classList.add("result-card");
@@ -47,7 +47,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 ${owner ? `<small>${owner}</small>` : ""}
               </div>
               <a href="${url}" class="view-btn"><i class="fas fa-eye"></i> Ko‘rish</a>
-
             `;
 
             results.appendChild(card);
@@ -60,17 +59,13 @@ document.addEventListener("DOMContentLoaded", () => {
       });
   }
 
-  // Tugma bosilganda ham ishlasin
   btn.addEventListener("click", search);
-
-  // Enter bosilganda ham ishlasin
   input.addEventListener("keypress", e => {
     if (e.key === "Enter") search();
   });
-
-  // Real-time qidiruv (debounce bilan)
   input.addEventListener("input", () => {
     clearTimeout(debounceTimer);
-    debounceTimer = setTimeout(search, 500); // 0.5s kechikish
+    debounceTimer = setTimeout(search, 500);
   });
 });
+

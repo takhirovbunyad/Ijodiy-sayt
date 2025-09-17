@@ -217,3 +217,26 @@ body.light-mode .search-container input {
 @keyframes l3 {
   to { rotate: 1turn; }
 }
+
+
+/* Orange labeldan keyin joy */
+.card-section {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  background: #ff9800;
+  color: #fff;
+  font-size: 0.75rem;
+  font-weight: bold;
+  padding: 2px 6px;
+  border-radius: 6px;
+  text-transform: uppercase;
+}
+
+.card-content {
+  padding: 15px;
+  flex: 1;
+  margin-top: 25px; /* 🔥 label va text orasida joy */
+}
+
+

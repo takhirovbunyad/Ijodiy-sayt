@@ -114,6 +114,7 @@ from .models import Dash, Sher, Book, Philosophy
 
 def search_api(request):
     q = request.GET.get('q', '')
+
     dash = Dash.objects.filter(title__icontains=q)
     sher = Sher.objects.filter(sarlavha__icontains=q)
     books = Book.objects.filter(title__icontains=q)
@@ -127,14 +128,16 @@ def search_api(request):
                 "description": d.description,
                 "preview": d.preview.url if d.preview else "",
                 "source": d.source,
-                "url": f"/dash/{d.id}/"   # 🔥 to‘liq url yasadik
+                "url": f"/dash/{d.id}/"   # 🔥 mavjud URL
             } for d in dash
         ],
         "sher": [
             {
+                "id": s.id,
                 "sarlavha": s.sarlavha,
                 "qisqa_qator": s.qisqa_qator(),
                 "muallif": s.muallif,
+                "url": f"/sher/{s.id}/"   # 🔥 qo‘shildi
             } for s in sher
         ],
         "books": [
@@ -144,7 +147,7 @@ def search_api(request):
                 "description": b.description,
                 "img": b.img.url if b.img else "",
                 "owner": b.owner,
-                "url": f"/books/{b.id}/"  # kitob detail link
+                "url": f"/books/{b.id}/"  # 🔥 qo‘shildi
             } for b in books
         ],
         "philosophy": [
@@ -153,7 +156,7 @@ def search_api(request):
                 "title": p.title,
                 "desc": p.desc[:100] + "...",
                 "img": p.img.url if p.img else "",
-                "url": f"/philosophy/{p.id}/"  # falsafa detail link
+                "url": f"/philosophy/{p.id}/"  # 🔥 qo‘shildi
             } for p in philosophy
         ]
     })
@@ -165,7 +168,7 @@ from .models import Dash
 
 def dash_detail_page(request, pk):
     dash = get_object_or_404(Dash, pk=pk)
-    return render(request, "main.html", {   # senga mos nomni yoz
+    return render(request, "main.html", {
         "open_dash_id": dash.id
     })
 
@@ -178,4 +181,23 @@ def dash_detail_json(request, pk):
         "source": dash.source,
         "url": dash.url,
         "preview": dash.preview.url if dash.preview else None
+    })
+
+def sher_detail_page(request , pk):
+    sher = get_object_or_404(Sher, pk=pk)
+    return render(request, "sherlar.html", {
+        "open_sher_id": sher.id
+    })
+def sher_detail_json(request, pk):
+    sher = get_object_or_404(Sher, pk=pk)
+    return JsonResponse({
+        "id": sher.id,
+        "sarlavha": sher.sarlavha,
+        "muallif": sher.muallif,
+        "matn": sher.matn,
+        "sana": sher.sana,
+        "janr": sher.janr,
+        "til": sher.til,
+        "manba": sher.manba,
+        "haqida": sher.haqida,
     })

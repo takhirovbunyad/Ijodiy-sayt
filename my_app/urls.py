@@ -6,7 +6,6 @@ urlpatterns = [
     path('load_more_cards/', views.load_more_cards, name='load_more_cards'),
     path('repairing/' , views.rep , name = 'repairing') ,
     path('sher/', views.sherlar_royxati, name='sherlar_royxati'),
-    path('sher/<int:pk>/', views.sher_detail, name='sher_detail'),
     path('books/', views.books_page, name='books_page'),
     path('api/books/<int:pk>/', views.book_detail_api, name='book_detail_api'),
     path('philosophy/', views.philosophy_view, name='philosophy_list'),
@@ -15,5 +14,6 @@ urlpatterns = [
     path('search-api/', views.search_api, name='search_api'),
     path("dash/<int:pk>/", views.dash_detail_page, name="dash_detail_page"),
     path("dash/<int:pk>/json/", views.dash_detail_json, name="dash_detail_json"),
-
+    path("sher/<int:pk>/", views.sher_detail_page, name="sher_detail_page"),
+    path("sher/<int:pk>/json/", views.sher_detail_json, name="sher_detail_json"),
 ]
