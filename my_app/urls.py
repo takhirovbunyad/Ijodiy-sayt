@@ -16,4 +16,6 @@ urlpatterns = [
     path("dash/<int:pk>/json/", views.dash_detail_json, name="dash_detail_json"),
     path("sher/<int:pk>/", views.sher_detail_page, name="sher_detail_page"),
     path("sher/<int:pk>/json/", views.sher_detail_json, name="sher_detail_json"),
+    path("philosophy/<int:pk>/", views.philosophy_detail_page, name="philosophy_detail_page"),
+    path("philosophy/<int:pk>/json/", views.philosophy_detail_json, name="philosophy_detail_json"),
 ]

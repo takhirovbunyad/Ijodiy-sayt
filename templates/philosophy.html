@@ -34,6 +34,11 @@
     </div>
   </div>
 
+{% if open_philosophy_id %}
+  <script>
+    window.openPhilosophyId = {{ open_philosophy_id }};
+  </script>
+{% endif %}
 
   <script id="philosophy-data" type="application/json">
     [

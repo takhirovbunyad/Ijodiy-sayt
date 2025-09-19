@@ -1,3 +1,4 @@
+// sher.js
 document.addEventListener("DOMContentLoaded", () => {
   const cards = document.querySelectorAll(".poem-card");
   const poemModal = document.getElementById("poem-modal");
@@ -7,6 +8,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const expandBtn = document.getElementById("modal-expand-btn");
   const copyBtn = document.getElementById("copy-poem-btn");
   const infoBtn = document.getElementById("info-btn");
+  const loader = document.getElementById("loader-overlay");
 
   const modalTitle = document.getElementById("modal-title");
   const modalBody = document.getElementById("modal-body");
@@ -27,6 +29,15 @@ document.addEventListener("DOMContentLoaded", () => {
     );
   }
 
+  // 🔄 Loader wrapper
+  function openWithLoader(action) {
+    if (loader) loader.classList.add("active");
+
+    return Promise.resolve(action())
+      .finally(() => {
+        if (loader) loader.classList.remove("active");
+      });
+  }
 
   function openPoemModal(data) {
     modalTitle.textContent = data.sarlavha;
@@ -42,7 +53,7 @@ document.addEventListener("DOMContentLoaded", () => {
     step = 0;
 
     expandBtn.style.display = "block";
-    copyBtn.classList.remove("hidden"); // ✅ tugma ochilganda chiqadi!
+    copyBtn.classList.remove("hidden");
 
     infoBtn.onclick = () => {
       infoList.innerHTML = `
@@ -60,53 +71,46 @@ document.addEventListener("DOMContentLoaded", () => {
     poemModal.classList.remove("hidden");
   }
 
-
-  // Card bosilganda modal ochish
+  // 📌 Card bosilganda modal ochish
   cards.forEach(card => {
     card.addEventListener("click", () => {
       const sherId = card.dataset.id;
 
-      openPoemModal({
-        sarlavha: card.dataset.title,
-        muallif: card.dataset.author,
-        matn: card.dataset.full,
-        janr: card.dataset.janr,
-        sana: card.dataset.sana,
-        til: card.dataset.til,
-        manba: card.dataset.manba,
-        haqida: card.dataset.haqida
+      openWithLoader(() => {
+        return fetch(`/sher/${sherId}/json/`, {
+          headers: { "X-Requested-With": "XMLHttpRequest" }
+        })
+          .then(res => res.json())
+          .then(data => {
+            openPoemModal(data);
+            const newUrl = `/sher/${sherId}/`;
+            history.pushState({ id: sherId }, "", newUrl);
+          });
       });
-
-      const newUrl = `/sher/${sherId}/`;
-      history.pushState({ id: sherId }, "", newUrl);
     });
   });
 
   // ❌ tugmasi
   closeBtn.onclick = () => {
-    showLoader();
-    setTimeout(() => {
-      history.pushState({}, "", "/sher/");
-      location.reload();
-    }, 500);
+    poemModal.classList.add("hidden");
+    poemModal.classList.remove("show");
+    history.pushState({}, "", "/sher/");
   };
 
   infoCloseBtn.onclick = () => infoModal.classList.add("hidden");
 
   window.onclick = (e) => {
     if (e.target === poemModal) {
-      showLoader();
-      setTimeout(() => {
-        history.pushState({}, "", "/sher/");
-        location.reload();
-      }, 500);
+      poemModal.classList.add("hidden");
+      poemModal.classList.remove("show");
+      history.pushState({}, "", "/sher/");
     }
     if (e.target === infoModal) {
       infoModal.classList.add("hidden");
     }
   };
 
-  // Kattalashtirish
+  // 🔎 Kattalashtirish
   expandBtn.addEventListener("click", () => {
     step = (step + 1) % sizes.length;
     const size = sizes[step];
@@ -117,7 +121,7 @@ document.addEventListener("DOMContentLoaded", () => {
     modalContent.style.fontSize = size.fontSize + "px";
   });
 
-  // Nusxa olish
+  // 📋 Nusxa olish
   copyBtn.addEventListener("click", () => {
     const title = modalTitle.textContent.trim();
     const text = modalBody.innerText.trim();
@@ -139,23 +143,18 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  // URL orqali modalni auto-ochish
+  // 🌐 URL orqali auto modal
   if (window.openSherId) {
     const sherId = window.openSherId;
 
-    fetch(`/sher/${sherId}/json/`, {
-      headers: { "X-Requested-With": "XMLHttpRequest" }
-    })
-      .then(res => res.json())
-      .then(data => {
-        openPoemModal(data);
-      });
-  }
-
-  // Loader
-  function showLoader() {
-    document.getElementById("loader-overlay").classList.add("active");
+    openWithLoader(() =>
+      fetch(`/sher/${sherId}/json/`, {
+        headers: { "X-Requested-With": "XMLHttpRequest" }
+      })
+        .then(res => res.json())
+        .then(data => {
+          openPoemModal(data);
+        })
+    );
   }
 });
-
-

@@ -44,10 +44,12 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   // Modalni yopish
-  function closeModal() {
-
-     window.location.href = "/";
+// Modalni yopish
+    function closeModal() {
+     modal.style.display = "none";
+     history.pushState(null, "", "/dash/");
 }
+
 
 
   closeBtn.addEventListener("click", closeModal);

@@ -167,10 +167,13 @@ from django.http import JsonResponse
 from .models import Dash
 
 def dash_detail_page(request, pk):
-    dash = get_object_or_404(Dash, pk=pk)
+    dashes = Dash.objects.all()  # barcha cardlarni ko‘rsatish uchun
+    open_item = get_object_or_404(Dash, pk=pk)  # modal ochilishi uchun
     return render(request, "main.html", {
-        "open_dash_id": dash.id
+        "dashes": dashes,
+        "open_dash_id": open_item.id
     })
+
 
 def dash_detail_json(request, pk):
     dash = get_object_or_404(Dash, pk=pk)
@@ -183,11 +186,14 @@ def dash_detail_json(request, pk):
         "preview": dash.preview.url if dash.preview else None
     })
 
-def sher_detail_page(request , pk):
-    sher = get_object_or_404(Sher, pk=pk)
+def sher_detail_page(request, pk):
+    sherlars = Sher.objects.all()   # barcha cardlar chiqishi uchun
+    open_item = get_object_or_404(Sher, pk=pk)  # modal ochilishi uchun
     return render(request, "sherlar.html", {
-        "open_sher_id": sher.id
+        "sherlar": sherlars,
+        "open_sher_id": open_item.id
     })
+
 def sher_detail_json(request, pk):
     sher = get_object_or_404(Sher, pk=pk)
     return JsonResponse({
@@ -200,4 +206,26 @@ def sher_detail_json(request, pk):
         "til": sher.til,
         "manba": sher.manba,
         "haqida": sher.haqida,
+    })
+
+
+
+
+def philosophy_detail_page(request, pk):
+    philosophy = Philosophy.objects.all()
+    open_item = get_object_or_404(Philosophy, pk=pk)
+    return render(request, "philosophy.html", {
+        "philosophy": philosophy,
+        "open_philosophy_id": open_item.id
+    })
+
+
+def philosophy_detail_json(request, pk):
+    philosophy = get_object_or_404(Philosophy, pk=pk)
+    return JsonResponse({
+        "id": philosophy.id,
+        "title": philosophy.title,
+        "desc": philosophy.desc,
+        "text": philosophy.text,
+        "img": philosophy.img.url if philosophy.img else None
     })

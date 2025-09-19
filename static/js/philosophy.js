@@ -4,39 +4,74 @@ document.addEventListener('DOMContentLoaded', () => {
   const modalText = document.getElementById('modal-text');
   const modalClose = document.getElementById('modal-close');
 
-  // HTML ichidagi JSON ma'lumotni o'qiymiz
-  const philosophyDataScript = document.getElementById('philosophy-data');
-  const philosophyList = JSON.parse(philosophyDataScript.textContent);
+  // Modalni ochish funksiyasi (API orqali ma’lumot olish)
+  function openModal(id) {
+    fetch(`/philosophy/${id}/json/`)
+      .then(res => {
+        if (!res.ok) throw new Error("Ma'lumot topilmadi");
+        return res.json();
+      })
+      .then(data => {
+        modalTitle.textContent = data.title;
+        modalText.innerHTML = data.text;
 
+        modal.style.display = 'flex';
+        modal.setAttribute('aria-hidden', 'false');
+
+        history.pushState(null, "", `/philosophy/${data.id}/`);
+      })
+      .catch(err => console.error(err));
+  }
+
+  // Modalni yopish funksiyasi
+  function closeModal() {
+    modal.style.display = 'none';
+    modal.setAttribute('aria-hidden', 'true');
+    history.pushState(null, "", "/philosophy/");
+  }
+
+  // Tugma orqali ochish
   document.querySelectorAll('.btn-detail').forEach(btn => {
     btn.addEventListener('click', () => {
       const id = parseInt(btn.dataset.id, 10);
-      const item = philosophyList.find(i => i.id === id);
-      if (item) {
-        modalTitle.textContent = item.title;
-        modalText.innerHTML = item.text;
-        modal.style.display = 'flex';
-        modal.setAttribute('aria-hidden', 'false');
-      }
+      if (id) openModal(id);
     });
   });
 
-  modalClose.addEventListener('click', () => {
-    modal.style.display = 'none';
-    modal.setAttribute('aria-hidden', 'true');
-  });
+  // X tugmasi
+  modalClose.addEventListener('click', closeModal);
 
+  // Fon bosilganda yopish
   window.addEventListener('click', (e) => {
-    if (e.target === modal) {
-      modal.style.display = 'none';
-      modal.setAttribute('aria-hidden', 'true');
-    }
+    if (e.target === modal) closeModal();
   });
 
+  // Escape bosilganda yopish
   window.addEventListener('keydown', (e) => {
     if (e.key === 'Escape' && modal.style.display === 'flex') {
-      modal.style.display = 'none';
-      modal.setAttribute('aria-hidden', 'true');
+      closeModal();
     }
   });
+
+  // Back/forward tugmalari
+  window.addEventListener('popstate', () => {
+    const idFromUrl = getPhilosophyIdFromUrl();
+    if (idFromUrl) {
+      openModal(idFromUrl);
+    } else {
+      closeModal();
+    }
+  });
+
+  // URL path ichidan /philosophy/<id>/ ni ajratib olish
+  function getPhilosophyIdFromUrl() {
+    const match = window.location.pathname.match(/^\/philosophy\/(\d+)\/$/);
+    return match ? parseInt(match[1], 10) : null;
+  }
+
+  // Avtomatik modal ochish agar URL’da id bo‘lsa
+  const idFromUrl = getPhilosophyIdFromUrl();
+  if (idFromUrl) {
+    openModal(idFromUrl);
+  }
 });
