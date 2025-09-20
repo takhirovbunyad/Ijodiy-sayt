@@ -1,55 +1,65 @@
-/* RESET */
+/* ========== RESET ========== */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
-/* BODY */
+/* ========== BODY ========== */
 body {
   font-family: 'Merriweather', serif;
   background: #f0f0f0;
-  margin: 0;
-  padding: 2rem 1rem; /* mobilga mos */
+  color: #222;
   min-height: 100vh;
+  padding: 2rem 1rem;
+  transition: background 0.3s ease, color 0.3s ease;
 }
 
-/* CONTAINER */
+body.dark-mode {
+  background: #121212;
+  color: #f0f0f0;
+}
+
+/* ========== CONTAINER (GRID) ========== */
 .poem-container {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 20px;
   max-width: 1200px;
-  width: 100%;
-  margin: 0 auto; /* ✅ bu markazlaydi */
-  box-sizing: border-box;
+  margin: 0 auto;
 }
 
-
-/* CARD */
+/* ========== CARD ========== */
 .poem-card {
   background: #fff;
-  padding: 1rem;
+  padding: 1.2rem;
   border-radius: 12px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
   cursor: pointer;
-  transition: transform 0.2s ease;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
   display: flex;
   flex-direction: column;
-  height: 100%;
-  max-height: 280px;
   overflow: hidden;
 }
 
 .poem-card:hover {
   transform: translateY(-5px);
+  box-shadow: 0 6px 18px rgba(0,0,0,0.15);
+}
+
+body.dark-mode .poem-card {
+  background: #1e1e1e;
+  color: #f0f0f0;
 }
 
 .poem-card h3 {
-  margin: 0 0 0.5rem;
   font-size: 1.3rem;
-  flex-shrink: 0;
+  margin-bottom: 0.6rem;
   color: #2f1d0f;
+}
+
+body.dark-mode .poem-card h3 {
+  color: #ffdd99;
 }
 
 .poem-card p {
@@ -60,202 +70,25 @@ body {
   display: -webkit-box;
   -webkit-line-clamp: 6;
   -webkit-box-orient: vertical;
-  margin-bottom: 0.5rem;
-}
-
-.author {
-  display: block;
-  margin-top: auto;
-  text-align: right;
-  font-style: italic;
-  color: #777;
-  flex-shrink: 0;
-}
-
-/* MODAL */
-#poem-modal {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0,0,0,0.6);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 999;
-}
-
-#poem-modal.hidden {
-  display: none;
-}
-
-#poem-modal .modal-content {
-  background: white;
-  padding: 2rem;
-  border-radius: 10px;
-  width: 90%;
-  max-width: 600px;
-  height: 60vh;
-  font-size: 16px;
-  transition: all 0.3s ease;
-  overflow-y: auto;
-  position: relative;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.25);
-  box-sizing: border-box;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  text-align: center;
+  margin-bottom: 0.6rem;
   line-height: 1.6;
 }
 
-@media (max-width: 480px) {
-  #poem-modal .modal-content {
-    height: 70vh;
-    font-size: 15px;
-  }
+body.dark-mode .poem-card p {
+  color: #ddd;
 }
 
-#modal-body {
-  white-space: pre-wrap;
+.author {
+  text-align: right;
+  font-style: italic;
+  color: #777;
 }
 
-.close-btn {
-  position: absolute;
-  top: 10px;
-  right: 15px;
-  font-size: 2.3rem; /* biroz kattaroq qilish */
-  cursor: pointer;
-  background: none;
-  border: none;
-  color: red; /* har doim qizil rang */
-  transition: transform 0.3s ease;
-}
-
-.close-btn:hover {
-  transform: scale(1.2); /* hover bo‘lganda biroz kattalashadi */
-}
-
-.modal-expand-btn {
-  position: fixed;
-  right: 20px;
-  background-color: #f7f5f5;
-  color: white;
-  border: none;
-  border-radius: 50%;
-  cursor: pointer;
-  z-index: 9999;
-  display: none;
-  transition: all 0.3s ease;
-}
-
-@media (min-width: 768px) {
-  .modal-expand-btn {
-    bottom: 850px;
-    width: 55px;
-    height: 55px;
-  }
-}
-
-@media (max-width: 767px) {
-  .modal-expand-btn {
-    bottom: 1.5rem;
-    width: 55px;
-    height: 55px;
-  }
-}
-
-#modal-expand-btn:hover {
-  background-color: #02afe3;
-}
-
-#poem-modal:not(.hidden) ~ #modal-expand-btn {
-  display: block;
-}
-
-.modal-content.size-0 { width: 90%; max-width: 600px; height: 60vh; font-size: 16px; }
-.modal-content.size-1 { width: 90%; max-width: 800px; height: 75vh; font-size: 20px; }
-.modal-content.size-2 { width: 90%; max-width: 1000px; height: 85vh; font-size: 23px; }
-.modal-content.size-3 { width: 95%; max-width: 1200px; height: 90vh; font-size: 26px; }
-
-.copy-btn {
-  position: fixed;
-  bottom: 53rem;
-  right: 5.7rem;
-  background-color: #f7f5f5;
-  color: white;
-  border: none;
-  border-radius: 50%;
-  font-size: 1.5rem;
-  width: 55px;
-  height: 55px;
-  cursor: pointer;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-  z-index: 9999;
-  transition: transform 0.2s ease;
-}
-
-.copy-btn:hover {
-  transform: scale(1.1);
-}
-
-.copy-btn.hidden {
-  display: none;
-}
-
-@media (max-width: 767px) {
-  .copy-btn {
-    bottom: 1.5rem;
-    width: 55px;
-    height: 55px;
-  }
-}
-
-
-.book-container {
-  display: flex;
-  align-items: flex-start;
-}
-
-.book-page {
-  flex-grow: 1;
-  padding: 2rem;
-  max-width: 1200px;
-  margin: 0 auto;
-}
-
-
-@media (min-width: 1024px) {
-  .poem-container {
-    margin-right: 250px; /* Sidebar eni bilan mos */
-  }
-}
-/* Modalning asosiy fonini shaffof qora rangdan kulrangga o‘zgartirish dark mode uchun */
-body.dark-mode #poem-modal {
-  background-color: rgba(50, 50, 50, 0.8); /* kulrang, biroz shaffof */
-}
-
-/* Modal ichidagi kontent ham mos bo‘lishi uchun misol */
-body.dark-mode #poem-modal .modal-content {
-  background-color: #2a2a2a; /* qorong‘i kulrang */
-  color: #eee; /* matn oq rangda */
-  border-radius: 8px;
-  padding: 20px;
-  box-shadow: 0 0 15px rgba(0,0,0,0.9);
-  transition: background-color 0.3s ease, color 0.3s ease;
-}
-
-body.dark-mode .hamburger-icon {
-  filter: invert(1) brightness(2);
-  transition: filter 0.3s ease;
-}
-
-/* MODAL umumiy */
+/* ========== MODAL ========== */
 .modal {
   position: fixed;
   top: 0; left: 0; right: 0; bottom: 0;
-  background: rgba(0,0,0,0.7);
+  background: rgba(0,0,0,0.6);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -268,110 +101,179 @@ body.dark-mode .hamburger-icon {
 
 .modal-content {
   background: #fff;
-  padding: 20px;
-  max-width: 600px;
-  max-height: 60vh;
-  border-radius: 10px;
-  position: relative;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+  padding: 2rem;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 700px;
+  max-height: 80vh;
   overflow-y: auto;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  text-align: center;
-  line-height: 1.6;
-  font-size: 16px;
+  position: relative;
+  line-height: 1.8;
+  text-align: left;
+  font-size: 18px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.25);
   transition: all 0.3s ease;
 }
 
-@media (max-width: 480px) {
-  .modal-content {
-    max-height: 70vh;
-    font-size: 15px;
-  }
+body.dark-mode .modal-content {
+  background: #1c1c1c;
+  color: #eee;
+  box-shadow: 0 0 20px rgba(255,255,255,0.15);
 }
 
+/* Sher matni */
+#modal-body {
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+/* ========== MODAL BUTTONS ========== */
 .close-btn {
   position: absolute;
   top: 10px;
   right: 15px;
-  font-size: 2.3rem;
+  font-size: 2rem;
   cursor: pointer;
   background: none;
   border: none;
-  color: red;
-  transition: transform 0.3s ease;
+  color: #e63946;
+  transition: transform 0.2s ease;
 }
 
 .close-btn:hover {
   transform: scale(1.2);
 }
 
-/* Tun rejimi uchun modal */
-body.dark-mode #poem-modal,
-body.dark-mode #info-modal {
-  background-color: rgba(0, 0, 0, 0.85);
-}
-
-body.dark-mode .modal-content {
-  background-color: #121212; /* To‘liq qora */
-  color: #f0f0f0;           /* Matn oq */
-  font-size: 1.5rem;        /* 1.5 barobar kattaroq matn */
-  max-width: 900px;         /* 1.5 barobar keng */
-  max-height: 90vh;         /* Biroz balandroq */
-  box-shadow: 0 0 20px rgba(255,255,255,0.1);
-  border-radius: 10px;
-}
-
-/* Info modal uchun o‘ziga xos fon */
-.info-content {
-  background: #f9f9f9;
-}
-
-/* Info tugma */
-.info-btn {
-  position: absolute;
-  top: 10px;
-  right: 15px;
-  padding: 5px 10px;
-  font-size: 12px;
-  background-color: #3498db;
-  color: white;
+/* Resize button */
+.modal-expand-btn {
+  position: fixed;
+  bottom: 1.5rem;
+  right: 1.5rem;
+  width: 55px;
+  height: 55px;
+  border-radius: 50%;
   border: none;
-  border-radius: 4px;
+  background: #0077b6;
+  color: white;
+  font-size: 1.5rem;
   cursor: pointer;
-  transition: background-color 0.3s ease;
-  margin-right: 2rem;
+  display: none;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+  transition: transform 0.2s ease;
+  z-index: 1100;
 }
 
-.info-btn:hover {
-  background-color: #2980b9;
+.modal-expand-btn:hover {
+  transform: scale(1.1);
+  background: #0096c7;
 }
 
-/* Info ro‘yxat */
-#info-list {
-  list-style: none;
-  padding: 0;
+.modal:not(.hidden) ~ .modal-expand-btn {
+  display: block;
 }
 
-#info-list li {
-  margin-bottom: 10px;
-  font-size: 16px;
-}
-
-
-
-/* faqat ma'lumotlar modalida text chapga va kattaroq */
-#info-modal .modal-content {
-  text-align: left;
+/* Copy button */
+.copy-btn {
+  position: fixed;
+  bottom: 1.5rem;
+  right: 5.5rem;
+  width: 55px;
+  height: 55px;
+  border-radius: 50%;
+  border: none;
+  background: #6a994e;
+  color: white;
   font-size: 1.5rem;
-  line-height: 1.6;
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+  transition: transform 0.2s ease;
+  z-index: 1100;
 }
 
-/* ma'lumotlar modalining body uchun */
-#info-modal #info-list {
-  font-size: 1.5rem;
-  text-align: left;
-  line-height: 1.6;
+.copy-btn:hover {
+  transform: scale(1.1);
+  background: #90be6d;
 }
 
+.modal:not(.hidden) ~ .copy-btn {
+  display: block;
+}
+
+/* ========== RESPONSIVE ========== */
+@media (max-width: 768px) {
+  .modal-content {
+    max-height: 70vh;
+    font-size: 16px;
+    padding: 1.5rem;
+  }
+}
+
+@media (max-width: 500px) {
+  .modal-expand-btn {
+    bottom: 1rem;
+    right: 1rem;
+  }
+  .copy-btn {
+    bottom: 1rem;
+    right: 4.5rem;
+  }
+}
+
+body.reloading {
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+@media (max-width: 500px) {
+  .copy-btn {
+    bottom: 5rem;
+    right: 1rem;
+  }
+  .modal-expand-btn {
+    bottom: 1rem;
+    right: 1rem;
+  }
+}
+
+
+.hidden {
+  display: none !important;
+}
+
+.modal.show {
+  animation: fadeIn 0.2s ease forwards;
+}
+
+@keyframes fadeIn {
+  from {opacity: 0; transform: scale(0.95);}
+  to {opacity: 1; transform: scale(1);}
+}
+
+
+.loader {
+  width: 50px;
+  aspect-ratio: 1;
+  display: grid;
+  color: #854f1d;
+  background: radial-gradient(farthest-side, currentColor calc(100% - 6px),#0000 calc(100% - 5px) 0);
+  -webkit-mask: radial-gradient(farthest-side,#0000 calc(100% - 13px),#000 calc(100% - 12px));
+  border-radius: 50%;
+  animation: l19 2s infinite linear;
+}
+.loader::before,
+.loader::after {
+  content: "";
+  grid-area: 1/1;
+  background:
+    linear-gradient(currentColor 0 0) center,
+    linear-gradient(currentColor 0 0) center;
+  background-size: 100% 10px,10px 100%;
+  background-repeat: no-repeat;
+}
+.loader::after {
+   transform: rotate(45deg);
+}
+
+@keyframes l19 {
+  100%{transform: rotate(1turn)}
+}

@@ -52,6 +52,7 @@ document.addEventListener("DOMContentLoaded", () => {
     modalContent.style.fontSize = "16px";
     step = 0;
 
+    // faqat modal ochilganda tugmalarni chiqaramiz
     expandBtn.style.display = "block";
     copyBtn.classList.remove("hidden");
 
@@ -95,6 +96,10 @@ document.addEventListener("DOMContentLoaded", () => {
     poemModal.classList.add("hidden");
     poemModal.classList.remove("show");
     history.pushState({}, "", "/sher/");
+
+    // modal yopilganda tugmalarni yashirish
+    expandBtn.style.display = "none";
+    copyBtn.classList.add("hidden");
   };
 
   infoCloseBtn.onclick = () => infoModal.classList.add("hidden");
@@ -104,6 +109,10 @@ document.addEventListener("DOMContentLoaded", () => {
       poemModal.classList.add("hidden");
       poemModal.classList.remove("show");
       history.pushState({}, "", "/sher/");
+
+      // modal yopilganda tugmalarni yashirish
+      expandBtn.style.display = "none";
+      copyBtn.classList.add("hidden");
     }
     if (e.target === infoModal) {
       infoModal.classList.add("hidden");
@@ -157,4 +166,8 @@ document.addEventListener("DOMContentLoaded", () => {
         })
     );
   }
+
+  // sahifa yuklanganda tugmalar default yashirin bo‘lsin
+  expandBtn.style.display = "none";
+  copyBtn.classList.add("hidden");
 });

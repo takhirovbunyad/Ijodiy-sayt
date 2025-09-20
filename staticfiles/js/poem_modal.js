@@ -1,13 +1,14 @@
+// sher.js
 document.addEventListener("DOMContentLoaded", () => {
   const cards = document.querySelectorAll(".poem-card");
   const poemModal = document.getElementById("poem-modal");
-  const infoModal = document.getElementById("info-modal");
-
   const closeBtn = document.getElementById("modal-close");
+  const infoModal = document.getElementById("info-modal");
   const infoCloseBtn = document.getElementById("info-close");
   const expandBtn = document.getElementById("modal-expand-btn");
   const copyBtn = document.getElementById("copy-poem-btn");
   const infoBtn = document.getElementById("info-btn");
+  const loader = document.getElementById("loader-overlay");
 
   const modalTitle = document.getElementById("modal-title");
   const modalBody = document.getElementById("modal-body");
@@ -28,51 +29,75 @@ document.addEventListener("DOMContentLoaded", () => {
     );
   }
 
-  function openPoemModal(card) {
-    modalTitle.textContent = card.dataset.title;
-    let rawText = card.dataset.full || "";
+  // 🔄 Loader wrapper
+  function openWithLoader(action) {
+    if (loader) loader.classList.add("active");
+
+    return Promise.resolve(action())
+      .finally(() => {
+        if (loader) loader.classList.remove("active");
+      });
+  }
+
+  function openPoemModal(data) {
+    modalTitle.textContent = data.sarlavha;
+    let rawText = data.matn || "";
     let decodedText = decodeUnicode(rawText);
     modalBody.innerHTML = decodedText.replace(/\r?\n/g, "<br>");
-    modalAuthor.textContent = `— ${card.dataset.author || "Nomaʼlum"}`;
+    modalAuthor.textContent = `— ${data.muallif || "Nomaʼlum"}`;
 
-    // Modal o‘lcham va shriftni boshlang‘ich holatga qaytarish
     const modalContent = poemModal.querySelector(".modal-content");
     modalContent.style.width = "600px";
     modalContent.style.height = window.innerHeight * 0.6 + "px";
     modalContent.style.fontSize = "16px";
     step = 0;
 
+    // faqat modal ochilganda tugmalarni chiqaramiz
     expandBtn.style.display = "block";
     copyBtn.classList.remove("hidden");
 
-    // Qo‘shimcha ma'lumotlarni data dan olamiz
     infoBtn.onclick = () => {
-      const janr = card.dataset.janr || "Nomaʼlum";
-      const sana = card.dataset.sana || "Nomaʼlum";
-      const til = card.dataset.til || "Nomaʼlum";
-      const manba = card.dataset.manba || "Ko‘rsatilmagan";
-      const haqida = card.dataset.haqida || "Yo‘q";
-
       infoList.innerHTML = `
-        <li><strong>Janr:</strong> ${janr}</li>
-        <li><strong>Muallif:</strong> ${card.dataset.author || "Nomaʼlum"}</li>
-        <li><strong>Sana:</strong> ${sana}</li>
-        <li><strong>Til:</strong> ${til}</li>
-        <li><strong>Manba:</strong> ${manba}</li>
-        <li><strong>Haqida:</strong> ${haqida}</li>
+        <li><strong>Janr:</strong> ${data.janr || "Nomaʼlum"}</li>
+        <li><strong>Muallif:</strong> ${data.muallif || "Nomaʼlum"}</li>
+        <li><strong>Sana:</strong> ${data.sana || "Nomaʼlum"}</li>
+        <li><strong>Til:</strong> ${data.til || "Nomaʼlum"}</li>
+        <li><strong>Manba:</strong> ${data.manba || "Ko‘rsatilmagan"}</li>
+        <li><strong>Haqida:</strong> ${data.haqida || "Yo‘q"}</li>
       `;
       infoModal.classList.remove("hidden");
     };
 
+    poemModal.classList.add("show");
     poemModal.classList.remove("hidden");
   }
 
+  // 📌 Card bosilganda modal ochish
   cards.forEach(card => {
-    card.addEventListener("click", () => openPoemModal(card));
+    card.addEventListener("click", () => {
+      const sherId = card.dataset.id;
+
+      openWithLoader(() => {
+        return fetch(`/sher/${sherId}/json/`, {
+          headers: { "X-Requested-With": "XMLHttpRequest" }
+        })
+          .then(res => res.json())
+          .then(data => {
+            openPoemModal(data);
+            const newUrl = `/sher/${sherId}/`;
+            history.pushState({ id: sherId }, "", newUrl);
+          });
+      });
+    });
   });
 
+  // ❌ tugmasi
   closeBtn.onclick = () => {
     poemModal.classList.add("hidden");
+    poemModal.classList.remove("show");
+    history.pushState({}, "", "/sher/");
+
+    // modal yopilganda tugmalarni yashirish
     expandBtn.style.display = "none";
     copyBtn.classList.add("hidden");
   };
@@ -82,6 +107,10 @@ document.addEventListener("DOMContentLoaded", () => {
   window.onclick = (e) => {
     if (e.target === poemModal) {
       poemModal.classList.add("hidden");
+      poemModal.classList.remove("show");
+      history.pushState({}, "", "/sher/");
+
+      // modal yopilganda tugmalarni yashirish
       expandBtn.style.display = "none";
       copyBtn.classList.add("hidden");
     }
@@ -90,6 +119,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   };
 
+  // 🔎 Kattalashtirish
   expandBtn.addEventListener("click", () => {
     step = (step + 1) % sizes.length;
     const size = sizes[step];
@@ -100,6 +130,7 @@ document.addEventListener("DOMContentLoaded", () => {
     modalContent.style.fontSize = size.fontSize + "px";
   });
 
+  // 📋 Nusxa olish
   copyBtn.addEventListener("click", () => {
     const title = modalTitle.textContent.trim();
     const text = modalBody.innerText.trim();
@@ -121,9 +152,22 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  // Modal dastlab yashirilgan bo‘lsa, tugmalarni yashiramiz
-  if (poemModal.classList.contains("hidden")) {
-    expandBtn.style.display = "none";
-    copyBtn.classList.add("hidden");
+  // 🌐 URL orqali auto modal
+  if (window.openSherId) {
+    const sherId = window.openSherId;
+
+    openWithLoader(() =>
+      fetch(`/sher/${sherId}/json/`, {
+        headers: { "X-Requested-With": "XMLHttpRequest" }
+      })
+        .then(res => res.json())
+        .then(data => {
+          openPoemModal(data);
+        })
+    );
   }
+
+  // sahifa yuklanganda tugmalar default yashirin bo‘lsin
+  expandBtn.style.display = "none";
+  copyBtn.classList.add("hidden");
 });
