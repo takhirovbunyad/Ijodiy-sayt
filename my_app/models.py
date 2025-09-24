@@ -58,7 +58,7 @@ class Book(models.Model):
     title = models.CharField(max_length=50)
     owner = models.CharField('Yozuvchi ismi va familyasi', max_length=50)
     img = models.ImageField('Eskiz', upload_to='images/')
-    description = models.TextField("Izoh", max_length=200)
+    description = models.TextField("Izoh", max_length=400)
     file = models.FileField('Kitob fayli', upload_to='book_files/', blank=True, null=True)
     url = models.URLField('Havola', blank=True, null=True)
 

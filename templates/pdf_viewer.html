@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+  <meta charset="UTF-8">
+  <title>PDF Reader</title>
+  <style>
+    #bookModal {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      left: 0; top: 0;
+      width: 100%; height: 100%;
+      background: rgba(0,0,0,0.6);
+    }
+    .modal-content {
+      position: relative;
+      margin: 5% auto;
+      background: #fff;
+      padding: 20px;
+      width: 80%;
+      height: 80%;
+      border-radius: 10px;
+    }
+    .close {
+      position: absolute;
+      right: 15px;
+      top: 10px;
+      font-size: 22px;
+      cursor: pointer;
+    }
+    #pdfViewer {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Kitob card -->
+  <div class="book-card"
+       data-title="1984 George Orwell"
+       data-description="Mashhur roman"
+       data-url="https://lib.jdpu.uz/storage/uploads/files/1984%20%D0%96%D0%BE%D1%80%D0%B6%20%D0%9E%D1%80%D1%83%D1%8D%D0%BB%D0%BB.pdf">
+    📖 1984 - George Orwell
+  </div>
+
+  <!-- Modal -->
+  <div id="bookModal">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <h2 id="modalTitle"></h2>
+      <p id="modalDescription"></p>
+      <iframe id="pdfViewer"></iframe>
+      <br>
+      <button id="openInNewWindow">Yangi oynada ochish</button>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const modal = document.getElementById('bookModal');
+      const closeBtn = modal.querySelector('.close');
+      const modalTitle = document.getElementById('modalTitle');
+      const modalDescription = document.getElementById('modalDescription');
+      const pdfViewer = document.getElementById('pdfViewer');
+      const openInNewWindowBtn = document.getElementById('openInNewWindow');
+
+      document.querySelectorAll('.book-card').forEach(card => {
+        card.addEventListener('click', () => {
+          const title = card.dataset.title || '';
+          const description = card.dataset.description || '';
+          const url = card.dataset.url || '';
+
+          modalTitle.textContent = title;
+          modalDescription.textContent = description;
+
+          if (url) {
+            // PDF.js online viewer ishlatamiz
+            pdfViewer.src = `https://mozilla.github.io/pdf.js/web/viewer.html?file=${encodeURIComponent(url)}`;
+            openInNewWindowBtn.dataset.url = url;
+            openInNewWindowBtn.style.display = 'inline-block';
+          } else {
+            pdfViewer.src = '';
+            openInNewWindowBtn.style.display = 'none';
+          }
+
+          modal.style.display = 'block';
+        });
+      });
+
+      closeBtn.addEventListener('click', () => {
+        modal.style.display = 'none';
+        pdfViewer.src = '';
+      });
+
+      window.addEventListener('click', e => {
+        if (e.target === modal) {
+          modal.style.display = 'none';
+          pdfViewer.src = '';
+        }
+      });
+
+      openInNewWindowBtn.addEventListener('click', () => {
+        const url = openInNewWindowBtn.dataset.url;
+        if (url) {
+          window.open(`https://mozilla.github.io/pdf.js/web/viewer.html?file=${encodeURIComponent(url)}`,
+                      '_blank',
+                      'width=900,height=700,resizable=yes,scrollbars=yes');
+        }
+      });
+    });
+  </script>
+</body>
+</html>

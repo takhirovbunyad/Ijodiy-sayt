@@ -29,7 +29,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
       }
 
-      // Modal elementlarini to‘ldirish
+
       document.getElementById("modal-title").innerText = title;
       document.getElementById("modal-desc").innerText = desc;
       document.getElementById("modal-source").innerText = source;

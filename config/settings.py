@@ -79,12 +79,75 @@ WSGI_APPLICATION = 'config.wsgi.application'
 #         'NAME': BASE_DIR / 'db.sqlite3',
 #     }
 # }
-DATABASES = {
-    'default': dj_database_url.config(
-        default='postgresql://bitnet:WazBSbpG8f64QFLcUjfhhK1TZiTFIEvb@dpg-d2lbkl75r7bs73dh6tjg-a.oregon-postgres.render.com/ijodiy_db_icwd',
-        conn_max_age=600
-    )
+import os
+import psycopg2
+
+def check_connection(db_settings):
+    try:
+        conn = psycopg2.connect(
+            dbname=db_settings['NAME'],
+            user=db_settings['USER'],
+            password=db_settings['PASSWORD'],
+            host=db_settings['HOST'],
+            port=db_settings['PORT'],
+            sslmode=db_settings.get("OPTIONS", {}).get("sslmode", "require"),
+        )
+        conn.close()
+        return True
+    except Exception:
+        return False
+
+
+DATABASES = {}
+
+# DB1
+db1_settings = {
+    'ENGINE': 'django.db.backends.postgresql',
+    'NAME': 'ijodiysayt',
+    'USER': 'bitnet',
+    'PASSWORD': 'oTFfPBJuIN1JvnvcNRRUHoG1pVkz2iYM',
+    'HOST': 'dpg-d39r2ct6ubrc73ebtrsg-a.oregon-postgres.render.com',
+    'PORT': '5432',
+    'OPTIONS': {'sslmode': 'require'},
 }
+if check_connection(db1_settings):
+    DATABASES['default'] = db1_settings
+else:
+    DATABASES['default'] = {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    }
+
+# DB2
+db2_settings = {
+    'ENGINE': 'django.db.backends.postgresql',
+    'NAME': 'ijodiysaytdb2',
+    'USER': 'bitnet',
+    'PASSWORD': 'iCOh3UCkK4up2JcVC4n0zNP6XorqlbbN',
+    'HOST': 'dpg-d39rchs9c44c73forbeg-a.oregon-postgres.render.com',
+    'PORT': '5432',
+    'OPTIONS': {'sslmode': 'require'},
+}
+DATABASES['db2'] = db2_settings if check_connection(db2_settings) else {
+    'ENGINE': 'django.db.backends.sqlite3',
+    'NAME': os.path.join(BASE_DIR, 'db2.sqlite3'),
+}
+
+# DB3
+db3_settings = {
+    'ENGINE': 'django.db.backends.postgresql',
+    'NAME': 'ijodiydb3',
+    'USER': 'bitnet',
+    'PASSWORD': 'iDeQ8ftPG6knxnRagVbAQV0gEwpUMgyW',
+    'HOST': 'dpg-d39refgdl3ps73afkvog-a.oregon-postgres.render.com',
+    'PORT': '5432',
+    'OPTIONS': {'sslmode': 'require'},
+}
+DATABASES['db3'] = db3_settings if check_connection(db3_settings) else {
+    'ENGINE': 'django.db.backends.sqlite3',
+    'NAME': os.path.join(BASE_DIR, 'db3.sqlite3'),
+}
+
 
 # Password validation
 # https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators
@@ -137,3 +200,5 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
+DATABASE_ROUTERS = ['my_app.routers.MultiDbRouter']
