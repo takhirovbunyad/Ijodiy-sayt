@@ -18,4 +18,7 @@ urlpatterns = [
     path("sher/<int:pk>/json/", views.sher_detail_json, name="sher_detail_json"),
     path("philosophy/<int:pk>/", views.philosophy_detail_page, name="philosophy_detail_page"),
     path("philosophy/<int:pk>/json/", views.philosophy_detail_json, name="philosophy_detail_json"),
+    path("books/<int:pk>/", views.book_detail_page, name="book_detail_page"),
+    path("books/<int:pk>/json/", views.book_detail_json, name="book_detail_json"),
+    path("books/file/<int:pk>/", views.book_file_view, name="book_file"),
 ]

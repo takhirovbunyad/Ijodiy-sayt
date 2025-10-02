@@ -229,3 +229,41 @@ def philosophy_detail_json(request, pk):
         "text": philosophy.text,
         "img": philosophy.img.url if philosophy.img else None
     })
+
+
+def book_detail_page(request, pk):
+    books = Book.objects.all()
+    open_book = get_object_or_404(Book, pk=pk)
+    return render(request, "books.html", {
+        "books": books,
+        "open_book_id": open_book.id
+    })
+
+def book_detail_json(request, pk):
+    book = get_object_or_404(Book, pk=pk)
+    return JsonResponse({
+        "id": book.id,
+        "title": book.title,
+        "description": book.description,
+        "img": book.img.url if book.img else None,
+        "file": book.file.url if book.file else None,
+        "url": book.url if book.url else None,
+        "audio": book.audio.url if book.audio else None,
+        "audio_duration": book.audio_duration,
+        "file_type": book.file_type,
+        "owner": str(book.owner),
+    })
+
+from django.http import FileResponse, Http404
+from django.views.decorators.clickjacking import xframe_options_exempt
+from django.shortcuts import get_object_or_404
+
+@xframe_options_exempt
+def book_file_view(request, pk):
+    book = get_object_or_404(Book, pk=pk)
+    if not book.file:
+        raise Http404("Fayl topilmadi")
+    # FileResponse bilan inline ko'rsatish
+    response = FileResponse(book.file.open('rb'), content_type='application/pdf')
+    response['Content-Disposition'] = f'inline; filename="{book.file.name}"'
+    return response

@@ -4,16 +4,20 @@ document.addEventListener("DOMContentLoaded", () => {
   const results = document.getElementById("results");
   let debounceTimer;
 
+  function showLoader() {
+    results.innerHTML = "";
+    const loader = document.createElement("div");
+    loader.classList.add("loader");
+    results.appendChild(loader);
+  }
+
   function search() {
     const query = input.value.trim();
     results.innerHTML = "";
 
     if (!query) return;
 
-    // Loader
-    const loader = document.createElement("div");
-    loader.classList.add("loader");
-    results.appendChild(loader);
+    showLoader();
 
     fetch(`/search-api/?q=${encodeURIComponent(query)}`)
       .then(res => res.json())
@@ -27,31 +31,47 @@ document.addEventListener("DOMContentLoaded", () => {
           {items: data.philosophy, section: "FILOSOFIYA"},
         ];
 
+        let found = false;
+
         allData.forEach(group => {
-          group.items.forEach(item => {
-            let img = item.preview || item.img || "";
-            let desc = item.description || item.desc || item.qisqa_qator || "";
-            let title = item.title || item.sarlavha || "";
-            let owner = item.owner || item.muallif || "";
-            let url = item.url; // 🔥 endi default "#" emas, real url bo‘ladi
+          if (group.items && group.items.length > 0) {
+            found = true;
+            group.items.forEach(item => {
+              let img = item.preview || item.img || "";
+              let desc = item.description || item.desc || item.qisqa_qator || "";
+              let title = item.title || item.sarlavha || "";
+              let owner = item.owner || item.muallif || "";
+              let url = item.url;
 
-            const card = document.createElement("div");
-            card.classList.add("result-card");
+              const card = document.createElement("div");
+              card.classList.add("result-card");
 
-            card.innerHTML = `
-              ${img ? `<img src="${img}" alt="${title}">` : ""}
-              <span class="card-section">${group.section}</span>
-              <div class="card-content">
-                <h3>${title}</h3>
-                <p>${desc}</p>
-                ${owner ? `<small>${owner}</small>` : ""}
-              </div>
-              <a href="${url}" class="view-btn"><i class="fas fa-eye"></i> Ko‘rish</a>
-            `;
+              card.innerHTML = `
+                ${img ? `<img src="${img}" alt="${title}">` : ""}
+                <span class="card-section">${group.section}</span>
+                <div class="card-content">
+                  <h3>${title}</h3>
+                  <p>${desc}</p>
+                  ${owner ? `<small>${owner}</small>` : ""}
+                </div>
+                <a href="${url}" class="view-btn"><i class="fas fa-eye"></i> Ko‘rish</a>
+              `;
 
-            results.appendChild(card);
-          });
+              results.appendChild(card);
+            });
+          }
         });
+
+        if (!found) {
+          results.innerHTML = `
+            <div class="no-results">
+              <img src="https://cdn-icons-png.flaticon.com/512/1178/1178479.png"
+                alt="Hech nima topilmadi" />
+             <p>Hech nima topilmadi</p>
+            </div>
+
+          `;
+        }
       })
       .catch(err => {
         results.innerHTML = "<p style='text-align:center; color:#f00'>Natija yuklashda xatolik yuz berdi</p>";
@@ -68,4 +88,3 @@ document.addEventListener("DOMContentLoaded", () => {
     debounceTimer = setTimeout(search, 500);
   });
 });
-
