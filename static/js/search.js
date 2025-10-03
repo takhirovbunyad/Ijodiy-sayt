@@ -2,33 +2,41 @@ document.addEventListener("DOMContentLoaded", () => {
   const input = document.getElementById("search-input");
   const btn = document.getElementById("search-btn");
   const results = document.getElementById("results");
+  const loader = document.getElementById("loader"); // fullscreen loader
   let debounceTimer;
 
+  // Loader ko‘rsatish
   function showLoader() {
-    results.innerHTML = "";
-    const loader = document.createElement("div");
-    loader.classList.add("loader");
-    results.appendChild(loader);
+    loader.style.display = "flex";
   }
 
+  // Loaderni yashirish
+  function hideLoader() {
+    loader.style.display = "none";
+  }
+
+  // Qidiruv
   function search() {
     const query = input.value.trim();
-    results.innerHTML = "";
 
-    if (!query) return;
+    if (!query) {
+      results.innerHTML = "";
+      return;
+    }
 
     showLoader();
 
     fetch(`/search-api/?q=${encodeURIComponent(query)}`)
       .then(res => res.json())
       .then(data => {
-        results.innerHTML = "";
+        hideLoader();
+        results.innerHTML = ""; // eski natijani tozalash
 
         const allData = [
-          {items: data.dash, section: "BOSH SAHIFA"},
-          {items: data.sher, section: "SHERLAR"},
-          {items: data.books, section: "KITOBLAR"},
-          {items: data.philosophy, section: "FILOSOFIYA"},
+          { items: data.dash, section: "BOSH SAHIFA" },
+          { items: data.sher, section: "SHERLAR" },
+          { items: data.books, section: "KITOBLAR" },
+          { items: data.philosophy, section: "FILOSOFIYA" },
         ];
 
         let found = false;
@@ -67,18 +75,19 @@ document.addEventListener("DOMContentLoaded", () => {
             <div class="no-results">
               <img src="https://cdn-icons-png.flaticon.com/512/1178/1178479.png"
                 alt="Hech nima topilmadi" />
-             <p>Hech nima topilmadi</p>
+              <p>Hech nima topilmadi</p>
             </div>
-
           `;
         }
       })
       .catch(err => {
+        hideLoader();
         results.innerHTML = "<p style='text-align:center; color:#f00'>Natija yuklashda xatolik yuz berdi</p>";
         console.error(err);
       });
   }
 
+  // Eventlar
   btn.addEventListener("click", search);
   input.addEventListener("keypress", e => {
     if (e.key === "Enter") search();
