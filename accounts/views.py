@@ -7,6 +7,7 @@ from django.core.mail import send_mail
 from django.conf import settings
 from django.shortcuts import render, redirect
 
+
 def register(request):
     if request.method == "POST":
         first_name = request.POST.get("first_name")
@@ -87,3 +88,60 @@ def verify_email(request):
             return render(request, "verify_email.html", {"error": "Kod noto‘g‘ri!"})
 
     return render(request, "verify_email.html")
+
+
+
+from django.shortcuts import render, redirect
+from django.contrib.auth.decorators import login_required
+from django.contrib import messages
+from .models import Profile
+from .forms import ProfileForm
+
+@login_required
+def hisobim_view(request):
+    # Foydalanuvchining profilini olish yoki yaratish
+    profile, created = Profile.objects.get_or_create(user=request.user)
+
+    if request.method == 'POST':
+        form = ProfileForm(request.POST, request.FILES, instance=profile, user=request.user)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Profil ma'lumotlaringiz muvaffaqiyatli saqlandi ✅")
+            return redirect('hisobim')  # URL nomi hisobim.html sahifasiga olib boradi
+        else:
+            messages.error(request, "Xatolik yuz berdi! Iltimos, maydonlarni to‘g‘ri to‘ldiring.")
+    else:
+        form = ProfileForm(instance=profile, user=request.user)
+
+    context = {
+        'form': form,
+        'profile': profile,
+    }
+    return render(request, 'hisobim.html', context)
+
+
+
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth import update_session_auth_hash
+from django.contrib import messages
+from django.shortcuts import render, redirect
+
+@login_required
+def change_password_view(request):
+    if request.method == 'POST':
+        current = request.POST.get('current_password')
+        new = request.POST.get('new_password')
+        confirm = request.POST.get('confirm_password')
+
+        if not request.user.check_password(current):
+            messages.error(request, 'Joriy parol noto‘g‘ri.')
+        elif new != confirm:
+            messages.error(request, 'Yangi parol tasdiqlanmadi.')
+        else:
+            request.user.set_password(new)
+            request.user.save()
+            update_session_auth_hash(request, request.user)  # logout bo‘lmasligi uchun
+            messages.success(request, 'Parolingiz muvaffaqiyatli o‘zgartirildi!')
+            return redirect('hisobim')
+
+    return render(request, 'change_password_modal.html')

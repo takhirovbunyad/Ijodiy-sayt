@@ -1,13 +1,15 @@
 from django.shortcuts import render
 from django.http import JsonResponse
 from django.core.paginator import Paginator
+from django.contrib.auth.decorators import login_required
+
 from . import services
 
 
 def first(request):
     return render(request, 'dashboard.html')
 
-
+@login_required
 def main(request):
     all_dash = services.fetch_all_dash(order='DESC')
     paginator = Paginator(all_dash, 8)
@@ -15,7 +17,7 @@ def main(request):
     page_obj = paginator.get_page(page_number)
     return render(request, 'main.html', {'page_obj': page_obj})
 
-
+@login_required
 def load_more_cards(request):
     page = int(request.GET.get("page", 1))
     limit = 8
@@ -39,26 +41,26 @@ def load_more_cards(request):
     }
     return JsonResponse(data)
 
-
+@login_required
 def rep(request):
     return render(request, 'rep.html')
 
-
+@login_required
 def sherlar_royxati(request):
     sherlar = services.fetch_sherlar()
     return render(request, 'sherlar.html', {'sherlar': sherlar})
 
-
+@login_required
 def sher_detail(request, pk):
     sher = services.fetch_sher_detail(pk)
     return render(request, 'sher_detail.html', {'sher': sher})
 
-
+@login_required
 def books_page(request):
     books = services.fetch_books()
     return render(request, 'books.html', {'books': books})
 
-
+@login_required
 def book_detail_api(request, pk):
     book = services.fetch_book_detail(pk)
     if not book:
@@ -76,7 +78,7 @@ def book_detail_api(request, pk):
     }
     return JsonResponse(data)
 
-
+@login_required
 def philosophy_view(request):
     philosophy = services.fetch_philosophy()
     return render(request, 'philosophy.html', {'philosophy': philosophy})
@@ -89,9 +91,11 @@ from django.http import JsonResponse
 from .models import Dash, Sher, Book, Philosophy
 from django.db.models import Q
 
+@login_required
 def search_page(request):
     return render(request, "search.html")
 
+@login_required
 def search_results(request):
     query = request.GET.get("q", "")
     dash_results = Dash.objects.filter(Q(title__icontains=query) | Q(description__icontains=query))[:5]
@@ -112,6 +116,7 @@ def search_results(request):
 from django.http import JsonResponse
 from .models import Dash, Sher, Book, Philosophy
 
+@login_required
 def search_api(request):
     q = request.GET.get('q', '')
 
@@ -166,6 +171,7 @@ from django.shortcuts import render, get_object_or_404
 from django.http import JsonResponse
 from .models import Dash
 
+@login_required
 def dash_detail_page(request, pk):
     dashes = Dash.objects.all()  # barcha cardlarni ko‘rsatish uchun
     open_item = get_object_or_404(Dash, pk=pk)  # modal ochilishi uchun
@@ -174,7 +180,7 @@ def dash_detail_page(request, pk):
         "open_dash_id": open_item.id
     })
 
-
+@login_required
 def dash_detail_json(request, pk):
     dash = get_object_or_404(Dash, pk=pk)
     return JsonResponse({
@@ -267,3 +273,15 @@ def book_file_view(request, pk):
     response = FileResponse(book.file.open('rb'), content_type='application/pdf')
     response['Content-Disposition'] = f'inline; filename="{book.file.name}"'
     return response
+
+
+from django.contrib.auth import logout
+from django.shortcuts import redirect
+from django.contrib import messages
+
+
+def logout_view(request):
+    """Foydalanuvchini tizimdan chiqarish"""
+    logout(request)
+    messages.success(request, "Siz tizimdan muvaffaqiyatli chiqdingiz 🖐️")
+    return redirect('login')

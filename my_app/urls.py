@@ -21,4 +21,5 @@ urlpatterns = [
     path("books/<int:pk>/", views.book_detail_page, name="book_detail_page"),
     path("books/<int:pk>/json/", views.book_detail_json, name="book_detail_json"),
     path("books/file/<int:pk>/", views.book_file_view, name="book_file"),
+    path('logout/', views.logout_view , name='logout'),
 ]

@@ -17,7 +17,13 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'my_app',
     'accounts',
+    'crispy_forms',
+    'crispy_bootstrap5',
 ]
+
+
+CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
+CRISPY_TEMPLATE_PACK = "bootstrap5"
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -95,3 +101,6 @@ EMAIL_HOST_USER = 'kimdurhechkim@gmail.com'
 EMAIL_HOST_PASSWORD = 'u r g b x p n a z i d s v m o q'
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
+LOGIN_URL = '/accounts/login/'
+LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/'
