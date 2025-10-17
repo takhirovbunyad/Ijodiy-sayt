@@ -1,0 +1,100 @@
+<div id="loader">
+  <div class="loader"></div>
+</div>
+
+<style>
+
+  #loader {
+    position: fixed;
+    inset: 0;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    background: rgba(0, 0, 0, 0.45);
+    backdrop-filter: blur(3px);
+    z-index: 99999;
+  }
+
+  /* Asosiy loader */
+  .loader {
+    position: relative;
+    transform: rotateZ(45deg);
+    perspective: 1000px;
+    border-radius: 50%;
+    width: 66px;
+    height: 66px;
+    color: #fff; /* oq rang – birinchi halqa */
+  }
+
+  .loader::before,
+  .loader::after {
+    content: '';
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: inherit;
+    height: inherit;
+    border-radius: 50%;
+    transform: rotateX(70deg);
+    animation: spin 1s linear infinite;
+  }
+
+  /* Ikkinchi halqa doira – qizil */
+  .loader::after {
+    color: #ff3d00; /* qizil rang */
+    transform: rotateY(70deg);
+    animation-delay: 0.4s;
+  }
+
+  /* Animatsiya */
+  @keyframes spin {
+    0%, 100% { box-shadow: .2em 0 0 0 currentcolor; }
+    12% { box-shadow: .2em .2em 0 0 currentcolor; }
+    25% { box-shadow: 0 .2em 0 0 currentcolor; }
+    37% { box-shadow: -.2em .2em 0 0 currentcolor; }
+    50% { box-shadow: -.2em 0 0 0 currentcolor; }
+    62% { box-shadow: -.2em -.2em 0 0 currentcolor; }
+    75% { box-shadow: 0 -.2em 0 0 currentcolor; }
+    87% { box-shadow: .2em -.2em 0 0 currentcolor; }
+  }
+
+  /* Responsiv (mobil da ham ishlaydi ) */
+  @media (max-width: 600px) {
+    .loader {
+      width: 48px;
+      height: 48px;
+    }
+  }
+</style>
+
+<script>
+  const loader = document.getElementById('loader');
+
+  function showLoader() {
+    loader.style.display = 'flex';
+  }
+
+  function hideLoader() {
+    loader.style.display = 'none';
+  }
+
+  // yangi sahifaga otgandayam loader chiqadi
+  window.addEventListener('beforeunload', showLoader);
+
+  // loader ishini qilib bolgandan song yoqotish
+  window.addEventListener('load', hideLoader);
+
+  // lyuboy birorta linkga otganda loader chiqadi
+  document.addEventListener('click', function (e) {
+    const link = e.target.closest('a');
+    if (
+      link &&
+      link.getAttribute('href') &&
+      !link.getAttribute('href').startsWith('#') &&
+      !link.target
+    ) {
+      showLoader();
+    }
+  });
+</script>
