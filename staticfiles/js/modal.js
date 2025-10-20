@@ -29,7 +29,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
       }
 
-      // Modal elementlarini to‘ldirish
+
       document.getElementById("modal-title").innerText = title;
       document.getElementById("modal-desc").innerText = desc;
       document.getElementById("modal-source").innerText = source;
@@ -39,7 +39,7 @@ document.addEventListener("DOMContentLoaded", () => {
       // Modalni ochish
       modal.style.display = "block";
       // URL update (modalga mos)
-      history.pushState(null, "", `/dash/${card.dataset.id}/`);
+      history.pushState(null, "", `/${card.dataset.id}/`);
     });
   });
 
@@ -47,7 +47,7 @@ document.addEventListener("DOMContentLoaded", () => {
 // Modalni yopish
     function closeModal() {
      modal.style.display = "none";
-     history.pushState(null, "", "/dash/");
+     history.pushState(null, "", "/");
 }
 
 

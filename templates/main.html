@@ -24,20 +24,19 @@
 
       <div id="card-container" class="card-grid">
         {% for card in page_obj %}
-<div class="card"
-     data-id="{{ card.id }}"
-     data-url="{{ card.url }}"
-     data-title="{{ card.title }}"
-     data-desc="{{ card.description }}"
-     data-source="{{ card.source }}">
-  <img src="{{ card.preview.url }}" alt="{{ card.title }}">
-  <div class="card-body">
-    <h3>{{ card.title }}</h3>
-    <p>{{ card.description }}</p>
-    <small>Manba: {{ card.source }}</small>
-  </div>
-</div>
-
+          <div class="card"
+              data-id="{{ card.id }}"
+              data-url="{{ card.url }}"
+              data-title="{{ card.title }}"
+              data-desc="{{ card.description }}"
+              data-source="{{ card.source }}">
+            <img src="{{ card.preview.url }}" alt="{{ card.title }}">
+            <div class="card-body">
+              <h3>{{ card.title }}</h3>
+              <p>{{ card.description }}</p>
+              <small>Manba: {{ card.source }}</small>
+            </div>
+          </div>
         {% endfor %}
       </div>
 
@@ -47,31 +46,32 @@
     </main>
   </div>
 
+  <!-- MODAL -->
+  <div id="modal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button class="btn-share" id="shareLinkBtn">🔗 Ulashish</button>
+        <span class="close">&times;</span>
+      </div>
 
-<!-- MODAL -->
-<div id="modal" class="modal">
-  <div class="modal-content">
-   <span class="close">&times;</span>
-   <h2 id="modal-title"></h2>
-   <div id="modal-video"></div>
-   <p id="modal-desc"></p>
-   <small id="modal-source"></small>
-   <a id="modal-link" href="" target="_blank" class="modal-link">Havolani ochish</a>
+      <h2 id="modal-title"></h2>
+      <div id="modal-video"></div>
+      <p id="modal-desc"></p>
+      <small id="modal-source"></small>
+      <a id="modal-link" href="" target="_blank" class="modal-link">Havolani ochish</a>
+    </div>
   </div>
 
-</div>
-
-{% if open_dash_id %}
-  <script>
-    window.openDashId = {{ open_dash_id }};
-  </script>
-{% endif %}
+  {% if open_dash_id %}
+    <script>
+      window.openDashId = {{ open_dash_id }};
+    </script>
+  {% endif %}
 
   <!-- Scripts -->
   <script src="{% static 'js/load_more.js' %}"></script>
   <script src="{% static 'js/modal.js' %}"></script>
   <script src="{% static 'js/modal_auto_open.js' %}"></script>
-
-
+  <script src="{% static 'js/share.js' %}"></script>
 </body>
 </html>

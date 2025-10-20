@@ -1,4 +1,3 @@
-// loader.js
 document.addEventListener("DOMContentLoaded", () => {
   const loader = document.querySelector(".loader");
 
@@ -20,9 +19,19 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  // --- Sahifa yuklanishi tugaganda loaderni yo'qotish ---
-  window.addEventListener("pageshow", () => {
-    hideLoader();
+  // --- Sahifa yuklanishi tugaganda ---
+  window.addEventListener("load", () => {
+    // Agar URL da modal ochilishi kerak bo‘lsa (masalan /dash/1/)
+    const modalSlugMatch = window.location.pathname.match(/\/dash\/\d+\//);
+    if (modalSlugMatch) {
+      // modal_auto_open.js modalni ochgandan so‘ng yashiradi
+      document.addEventListener("modalOpened", () => {
+        hideLoader();
+      });
+    } else {
+      // Odatdagi holatda darhol yashirish
+      hideLoader();
+    }
   });
 
   // --- Global fetch wrapper ---
@@ -40,11 +49,15 @@ document.addEventListener("DOMContentLoaded", () => {
       });
   };
 
-  // --- Modal ochilganda loader (agar data yuklansa) ---
+  // --- Modal ochilganda loader qo‘llab-quvvatlashi ---
   window.openWithLoader = function (callback) {
     showLoader();
     Promise.resolve(callback())
-      .then(() => hideLoader())
+      .then(() => {
+        hideLoader();
+        // modal ochilganda event trigger qilamiz
+        document.dispatchEvent(new CustomEvent("modalOpened"));
+      })
       .catch(() => hideLoader());
   };
 });

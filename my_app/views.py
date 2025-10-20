@@ -167,18 +167,28 @@ def search_api(request):
     })
 
 
+
+
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, get_object_or_404
 from django.http import JsonResponse
+from django.core.paginator import Paginator
 from .models import Dash
 
 @login_required
 def dash_detail_page(request, pk):
-    dashes = Dash.objects.all()  # barcha cardlarni ko‘rsatish uchun
-    open_item = get_object_or_404(Dash, pk=pk)  # modal ochilishi uchun
+    open_item = get_object_or_404(Dash, pk=pk)
+    dashes = Dash.objects.all().order_by('-id')
+
+    paginator = Paginator(dashes, 8)
+    page_number = request.GET.get('page', 1)
+    page_obj = paginator.get_page(page_number)
+
     return render(request, "main.html", {
-        "dashes": dashes,
-        "open_dash_id": open_item.id
+        "page_obj": page_obj,
+        "open_dash_id": open_item.id,
     })
+
 
 @login_required
 def dash_detail_json(request, pk):
@@ -191,6 +201,7 @@ def dash_detail_json(request, pk):
         "url": dash.url,
         "preview": dash.preview.url if dash.preview else None
     })
+
 
 def sher_detail_page(request, pk):
     sherlars = Sher.objects.all()   # barcha cardlar chiqishi uchun
@@ -285,3 +296,77 @@ def logout_view(request):
     logout(request)
     messages.success(request, "Siz tizimdan muvaffaqiyatli chiqdingiz 🖐️")
     return redirect('login')
+
+
+
+
+
+from django.core.mail import send_mail
+from django.contrib import messages
+from django.conf import settings
+from django.shortcuts import render
+
+def contact_view(request):
+    if request.method == "POST":
+        name = request.POST.get("sender_name") or request.user.get_full_name() or request.user.username
+        email = request.POST.get("sender_email") or request.user.email
+        phone = request.POST.get("sender_phone") or (getattr(request.user.profile, 'phone_number', None) or "Ko‘rsatilmagan")
+        message = request.POST.get("message")
+
+        # Profil ma'lumotlari agar mavjud bo‘lsa
+        profile = getattr(request.user, 'profile', None)
+
+        gender = getattr(profile, 'get_gender_display', lambda: "Ko‘rsatilmagan")()
+        address = getattr(profile, 'address', "Ko‘rsatilmagan")
+        job_title = getattr(profile, 'job_title', "Ko‘rsatilmagan")
+        workplace = getattr(profile, 'workplace', "Ko‘rsatilmagan")
+        website = getattr(profile, 'website', "Ko‘rsatilmagan")
+        bio = getattr(profile, 'bio', "Ko‘rsatilmagan")
+        interested_genres = getattr(profile, 'interested_genres', "Ko‘rsatilmagan")
+        books_read = getattr(profile, 'books_read', "Ko‘rsatilmagan")
+        telegram = getattr(profile, 'telegram', "Belgilanmagan")
+        instagram = getattr(profile, 'instagram', "Belgilanmagan")
+        linkedin = getattr(profile, 'linkedin', "Belgilanmagan")
+        github = getattr(profile, 'github', "Belgilanmagan")
+        created_at = getattr(profile, 'created_at', None)
+        last_active = getattr(profile, 'last_active', None)
+
+        subject = f"Yangi xabar: {name} ({email})"
+        body = (
+            f"📨 Yangi xabar yuborildi!\n\n"
+            f"👤 Ism: {name}\n"
+            f"📧 Email: {email}\n"
+            f"📞 Telefon: {phone}\n"
+            f"🏠 Manzil: {address}\n"
+            f"💼 Kasb: {job_title}\n"
+            f"🏢 Ish joyi: {workplace}\n"
+            f"🌐 Sayt: {website}\n"
+            f"🚻 Jinsi: {gender}\n"
+            f"📅 Profil yaratilgan: {created_at}\n"
+            f"🕒 So‘nggi faollik: {last_active}\n\n"
+            f"🎯 Qiziqqan janrlar: {interested_genres}\n"
+            f"📚 O‘qigan kitoblar: {books_read}\n"
+            f"🧠 Bio:\n{bio}\n\n"
+            f"💬 Xabar matni:\n{message}\n\n"
+            f"🌍 Ijtimoiy tarmoqlar:\n"
+            f"   Telegram: {telegram}\n"
+            f"   Instagram: {instagram}\n"
+            f"   LinkedIn: {linkedin}\n"
+            f"   GitHub: {github}\n\n"
+            f"──────────────────────────────\n"
+            f"Ushbu xabar sayt orqali yuborilgan."
+        )
+
+        try:
+            send_mail(
+                subject,
+                body,
+                settings.DEFAULT_FROM_EMAIL,
+                [settings.DEFAULT_FROM_EMAIL],
+                fail_silently=False,
+            )
+            messages.success(request, "Xabaringiz muvaffaqiyatli yuborildi!")
+        except Exception as e:
+            messages.error(request, f"Xatolik yuz berdi: {e}")
+
+    return render(request, "contact.html")
