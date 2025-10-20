@@ -576,3 +576,11 @@ body:not(.dark-mode) .profile-info {
 body:not(.dark-mode) #id_profile_picture {
   background-color: transparent !important;
 }
+
+
+
+@media (max-width: 992px) {
+  body {
+    margin-left: 0 !important;
+  }
+}

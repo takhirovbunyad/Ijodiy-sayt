@@ -52,11 +52,13 @@ def login_view(request):
             login(request, user)
             return redirect("/")
         else:
+            # ❌ redirect emas, render ishlatamiz
             messages.error(request, "Login yoki parol noto‘g‘ri!")
-            return redirect("login")
+            return render(request, "login.html", {
+                "username": username,  # foydalanuvchiga qayta kiritmaslik uchun
+            })
 
     return render(request, "login.html")
-
 
 from django.contrib.auth import get_user_model
 User = get_user_model()
