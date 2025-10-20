@@ -320,3 +320,81 @@ body.dark-mode #openInNewWindow {
         background: #0056b3;
     }
 }
+.modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  margin-top: 1.5rem;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  padding-top: 1rem;
+}
+
+.action-buttons {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* TO‘LIQ OCHISH tugmasi */
+.btn-open-window {
+  background: #007bff;
+  color: #fff;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background 0.3s ease;
+}
+
+.btn-open-window:hover {
+  background: #0056b3;
+}
+
+/* ULASHISH tugmasi */
+.btn-share {
+  background: #0073e6;
+  color: #fff;
+  border: none;
+  padding: 8px 14px; /* biroz kichikroq */
+  border-radius: 8px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: 0.3s ease;
+  transform: translateY(-1px); /* 🔹 biroz teparoq joylashadi */
+}
+
+.btn-share:hover {
+  background: #005bb5;
+}
+
+/* Yuklab olish tugmalari */
+.btn-download {
+  text-decoration: none;
+  background: #28a745;
+  color: #fff;
+  padding: 10px 16px;
+  border-radius: 8px;
+  font-weight: 600;
+  transition: background 0.3s ease;
+}
+
+.btn-download:hover {
+  background: #1e7e34;
+}
+
+/* Responsiv */
+@media (max-width: 600px) {
+  .modal-footer {
+    justify-content: center;
+  }
+  .action-buttons {
+    flex-direction: column;
+    width: 100%;
+  }
+  .action-buttons a,
+  .action-buttons button {
+    width: 100%;
+    text-align: center;
+  }
+}

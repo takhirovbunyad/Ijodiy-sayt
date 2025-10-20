@@ -233,3 +233,54 @@ body {
     font-size: 1rem;
   }
 }
+
+
+
+/* ULASHISH tugmasi */
+.btn-share {
+  background: #0073e6;
+  color: #fff;
+  border: none;
+  padding: 8px 14px; /* biroz kichikroq */
+  border-radius: 8px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: 0.3s ease;
+  transform: translateY(-1px); /* 🔹 biroz teparoq joylashadi */
+}
+
+.btn-share:hover {
+  background: #005bb5;
+}
+
+
+
+/* ULASHISH tugmasi — sarlavha ustida chapda */
+.modal-header {
+  display: flex;
+  justify-content: flex-start;
+  margin-bottom: 10px;
+}
+
+/* Tugma dizayni */
+.btn-share {
+  background: #0073e6;
+  color: #fff;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 8px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.btn-share:hover {
+  background: #005bb5;
+}
+
+/* Responsiv holat */
+@media (max-width: 600px) {
+  .modal-header {
+    justify-content: center;
+  }
+}
