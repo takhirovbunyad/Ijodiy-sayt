@@ -1,0 +1,102 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{ object.title|default:object.sarlavha }}</title>
+  <link rel="stylesheet" href="{% static 'css/detail.css' %}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+
+  <div class="detail-container">
+    <h1>{{ object.title|default:object.sarlavha }}</h1>
+
+    {% if section == "dash" %}
+      {% if object.preview %}<img src="{{ object.preview.url }}" alt="{{ object.title }}" class="detail-img">{% endif %}
+      <p>{{ object.description }}</p>
+      {% if object.source %}<p><strong>Source:</strong> {{ object.source }}</p>{% endif %}
+      {% if object.url %}<a href="{{ object.url }}" class="view-btn" target="_blank">Ko‘rish <i class="fas fa-eye"></i></a>{% endif %}
+
+    {% elif section == "sher" %}
+      <p><strong>Muallif:</strong> {{ object.muallif }}</p>
+      <p>{{ object.matn }}</p>
+      {% if object.janr %}<p><strong>Janr:</strong> {{ object.janr }}</p>{% endif %}
+      {% if object.til %}<p><strong>Til:</strong> {{ object.til }}</p>{% endif %}
+
+    {% elif section == "books" %}
+      <!-- Book Card Modal -->
+      <div id="bookModal" class="modal">
+        <div class="modal-content">
+          <span class="close">&times;</span>
+          <h2 id="modalTitle">{{ object.title }}</h2>
+          <p id="modalDescription">{{ object.description }}</p>
+          {% if object.file %}<a id="modalFileDownload" href="{{ object.file.url }}" download>Faylni yuklab olish</a>{% endif %}
+          {% if object.audio %}<a id="modalAudioDownload" href="{{ object.audio.url }}" download>Audio yuklab olish</a>{% endif %}
+          {% if object.url %}<iframe id="modalReader" src="{{ object.url }}" style="width:100%; height:400px; display:block;"></iframe>{% endif %}
+          {% if object.url %}<button id="openInNewWindow" data-url="{{ object.url }}">Yangi oynada ochish</button>{% endif %}
+        </div>
+      </div>
+
+      <!-- JS orqali modalni avtomatik ochish -->
+      <script>
+        document.addEventListener('DOMContentLoaded', () => {
+          const modal = document.getElementById('bookModal');
+          const closeBtn = modal.querySelector('.close');
+          const openInNewWindowBtn = document.getElementById('openInNewWindow');
+          const modalReader = document.getElementById('modalReader');
+
+          // modalni ochiq holatda
+          modal.style.display = 'block';
+
+          closeBtn.addEventListener('click', () => {
+            modal.style.display = 'none';
+            modalReader.src = '';
+            history.pushState(null, '', '/books/');
+          });
+
+          window.addEventListener('click', e => {
+            if (e.target === modal) {
+              modal.style.display = 'none';
+              modalReader.src = '';
+              history.pushState(null, '', '/books/');
+            }
+          });
+
+          openInNewWindowBtn?.addEventListener('click', () => {
+            const url = openInNewWindowBtn.dataset.url;
+            if (url) window.open(url, '_blank', 'width=900,height=700,resizable=yes,scrollbars=yes');
+          });
+        });
+      </script>
+
+    {% elif section == "philosophy" %}
+      {% if object.img %}<img src="{{ object.img.url }}" alt="{{ object.title }}" class="detail-img">{% endif %}
+      <p>{{ object.desc }}</p>
+      <p>{{ object.text }}</p>
+
+    {% endif %}
+  </div>
+
+</body>
+</html>
+
+
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    {% if object %}
+    openBookModal({
+        dataset: {
+            id: '{{ object.id }}',
+            title: '{{ object.title|default:object.sarlavha }}',
+            description: '{{ object.description|default:object.matn }}',
+            url: '{{ object.url|default:"" }}',
+            file: '{{ object.file.url|default:"" }}',
+            audio: '{{ object.audio.url|default:"" }}'
+        }
+    });
+    {% endif %}
+});
+</script>

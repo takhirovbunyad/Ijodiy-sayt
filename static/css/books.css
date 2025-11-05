@@ -1,0 +1,468 @@
+.book-grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 5px;
+    padding: 20px;
+    margin-left: 15rem;
+}
+
+.book-card {
+    background: white;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+    cursor: pointer;
+    transition: transform 0.2s ease;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    max-width: 240px;
+
+}
+
+.book-card:hover {
+    transform: translateY(-5px);
+}
+
+.book-card img {
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+    border-radius: 8px 8px 0 0; /* Yuk tashqi burchaklar uchun */
+}
+
+.book-card .card-body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.book-card h3 {
+    margin: 10px;
+    font-size: 1.1em;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.book-card p {
+    margin: 0 10px 10px;
+    font-size: 1em;
+    color: #a19c9c;
+    flex-grow: 1;
+}
+
+.book-card .owner {
+    margin: 10px;
+    font-size: 0.9em;
+    color: #000;
+    text-align: left;
+}
+
+/* MODAL STYLE */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 999;
+    left: 0; top: 0;
+    width: 100%; height: 100%;
+    background: rgba(0,0,0,0.7);
+}
+
+.modal-content {
+    background: #fff;
+    margin: 2% auto;
+    padding: 20px 40px 30px 40px;
+    width: 90%;
+    max-width: 900px;
+    border-radius: 12px;
+    position: relative;
+    color: #222;
+    box-sizing: border-box;
+}
+
+.close {
+    position: absolute;
+    top: 10px; right: 15px;
+    font-size: 28px;
+    cursor: pointer;
+}
+
+#modalTitle {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 15px;
+}
+
+#modalDescription {
+    font-size: 1rem;
+    color: #555;
+    margin-bottom: 25px;
+    line-height: 1.5;
+}
+
+#modalReader {
+    width: 100%;
+    height: 600px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.15);
+    display: none; /* JS ko'rsatadi */
+}
+
+/* Tugma "Alohida oynada ochish" */
+#openInNewWindow {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    z-index: 10;
+    padding: 6px 12px;
+    cursor: pointer;
+    border-radius: 6px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    font-weight: 600;
+    transition: background-color 0.3s ease;
+    margin-right: 2rem;
+    display: inline-block;
+    width: auto;
+}
+
+#openInNewWindow:hover {
+    background-color: #0056b3;
+}
+
+/* Yuklab olish tugmalari */
+.download-buttons {
+    margin-top: 15px;
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.btn-download {
+    padding: 6px 12px;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: 600;
+    display: inline-block;
+    transition: background-color 0.3s ease;
+    font-size: 0.8rem;
+}
+
+.btn-file {
+    background-color: #28a745;
+}
+
+.btn-file:hover {
+    background-color: #1e7e34;
+}
+
+.btn-audio {
+    background-color: #17a2b8;
+}
+
+.btn-audio:hover {
+    background-color: #117a8b;
+}
+
+/* Responsive (mobil uchun) */
+@media (max-width: 768px) {
+    .book-grid {
+        margin-left: 0;
+        grid-template-columns: repeat(2, 1fr);
+        padding: 10px;
+        gap: 15px;
+    }
+
+    .book-card img {
+        height: 180px;
+        border: 2px solid #ccc;
+        border-radius: 6px;
+    }
+
+    .modal-content {
+        padding: 20px;
+        margin: 5% auto;
+    }
+
+    #modalTitle {
+        font-size: 1.6rem;
+    }
+
+    #modalDescription {
+        font-size: 0.8rem;
+        margin-bottom: 20px;
+    }
+
+    #modalReader {
+        height: 400px;
+    }
+
+
+}
+
+/* Dark mode */
+body.dark-mode {
+    background-color: #121212;
+    color: #eee;
+}
+
+body.dark-mode .modal-content {
+    background: #1e1e1e;
+    color: #eee;
+    box-shadow: 0 0 10px rgba(255,255,255,0.1);
+}
+
+body.dark-mode #modalReader {
+    box-shadow: 0 0 12px rgba(255,255,255,0.2);
+}
+
+body.dark-mode #openInNewWindow {
+    background-color: #333;
+    color: #eee;
+    border: none;
+}
+
+
+@media (max-width: 768px) {
+
+  .btn-file {
+    background-color: #28a745 !important;
+    color: white !important;
+    padding: 12px 20px !important;
+    border-radius: 8px !important;
+  }
+}
+
+
+/* Mobil uchun biroz kichikroq va ekran o‘lchamiga mos */
+@media (max-width: 768px) {
+  #openInNewWindow {
+    top: 8px;
+    right: 8px;
+    font-size: 0.7rem;
+    padding: 5px 8px;
+  }
+}
+
+
+/* Tugma "Alohida oynada ochish" (desktop uchun) */
+#openInNewWindow {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    z-index: 10000;
+    padding: 6px 12px;
+    cursor: pointer;
+    border-radius: 6px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    font-weight: 600;
+    transition: background-color 0.3s ease;
+    display: inline-block;
+}
+
+#openInNewWindow:hover {
+    background-color: #0056b3;
+}
+
+/* --- Yangi: Mobil uchun pastki panel --- */
+@media (max-width: 768px) {
+    /* Yuqoridagi tugmani yashiramiz */
+    #openInNewWindow {
+        display: none;
+    }
+
+    /* Pastki panel */
+    .mobile-action-bar {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        background: #fff;
+        padding: 10px;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        box-shadow: 0 -2px 10px rgba(0,0,0,0.2);
+        z-index: 10001;
+    }
+
+    body.dark-mode .mobile-action-bar {
+        background: #1e1e1e;
+        box-shadow: 0 -2px 10px rgba(255,255,255,0.1);
+    }
+
+    .mobile-action-bar button,
+    .mobile-action-bar a {
+        flex: 1;
+        margin: 0 5px;
+        padding: 10px;
+        border-radius: 8px;
+        text-align: center;
+        font-weight: 600;
+        font-size: 0.9rem;
+    }
+
+    .mobile-open-btn {
+        background: #007bff;
+        color: #fff;
+        border: none;
+    }
+
+    .mobile-open-btn:hover {
+        background: #0056b3;
+    }
+}
+.modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  margin-top: 1.5rem;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  padding-top: 1rem;
+}
+
+.action-buttons {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* TO‘LIQ OCHISH tugmasi */
+.btn-open-window {
+  background: #007bff;
+  color: #fff;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background 0.3s ease;
+}
+
+.btn-open-window:hover {
+  background: #0056b3;
+}
+
+/* ULASHISH tugmasi */
+.btn-share {
+  background: #0073e6;
+  color: #fff;
+  border: none;
+  padding: 8px 14px; /* biroz kichikroq */
+  border-radius: 8px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: 0.3s ease;
+  transform: translateY(-1px); /* 🔹 biroz teparoq joylashadi */
+}
+
+.btn-share:hover {
+  background: #005bb5;
+}
+
+/* Yuklab olish tugmalari */
+.btn-download {
+  text-decoration: none;
+  background: #28a745;
+  color: #fff;
+  padding: 10px 16px;
+  border-radius: 8px;
+  font-weight: 600;
+  transition: background 0.3s ease;
+}
+
+.btn-download:hover {
+  background: #1e7e34;
+}
+
+/* Responsiv */
+@media (max-width: 600px) {
+  .modal-footer {
+    justify-content: center;
+  }
+  .action-buttons {
+    flex-direction: column;
+    width: 100%;
+  }
+  .action-buttons a,
+  .action-buttons button {
+    width: 100%;
+    text-align: center;
+  }
+}
+
+
+
+.modal-content {
+    background: #fff;
+    margin: 2% auto;
+    padding: 20px 40px 30px 40px;
+    width: 90%;
+    max-width: 900px;
+    max-height: 85vh; /* 🔹 Modal balandligini chekladik */
+    overflow-y: auto; /* 🔹 Scroll paydo bo‘ladi */
+    border-radius: 12px;
+    position: relative;
+    color: #222;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+/* Pastdagi footer har doim ko‘rinsin */
+.modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  margin-top: 1.5rem;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  padding-top: 1rem;
+  background: inherit;
+  position: sticky; /* 🔹 Scroll paytida ham ko‘rinsin */
+  bottom: 0;
+  z-index: 10;
+}
+
+/* Responsiv optimizatsiya (noutbuklar uchun ham mos) */
+@media (max-height: 750px) {
+  .modal-content {
+    max-height: 75vh; /* 🔹 pastroq ekranlarda kichrayadi */
+    padding: 15px 25px;
+  }
+  #modalReader {
+    height: 400px; /* 🔹 kichikroq reader */
+  }
+}
+
+/* Mobil uchun */
+@media (max-width: 768px) {
+  .modal-content {
+    width: 95%;
+    margin: 5% auto;
+    padding: 15px 20px;
+    max-height: 80vh;
+  }
+
+  #modalReader {
+    height: 350px;
+  }
+
+  .modal-footer {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .action-buttons a,
+  .action-buttons button {
+    width: 100%;
+  }
+}

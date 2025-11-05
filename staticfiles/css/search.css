@@ -1,0 +1,264 @@
+/* ======================
+  BODY & THEME
+====================== */
+body {
+  font-family: 'Poppins', sans-serif;
+  margin: 0;
+  padding: 0;
+  background: #f5f2f2;
+  color: #eee;
+}
+
+body.light-mode {
+  background: #f5f2f2;
+  color: #f5f2f2;
+}
+
+/* ======================
+  Search Box
+====================== */
+.search-container {
+  margin: 20px auto;
+  margin-left: 45rem; /* desktop */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 90%;
+  max-width: 600px;
+  background: #1e1e1e;
+  border-radius: 50px;
+  padding: 10px 15px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  z-index: 10;
+  transition: all 0.3s ease;
+}
+
+body.light-mode .search-container {
+  background: #f5f2f2;
+}
+
+.search-container input {
+  border: none;
+  outline: none;
+  flex: 1;
+  font-size: 1rem;
+  padding: 12px 15px;
+  border-radius: 50px;
+  background: transparent;
+  color: #eee;
+}
+
+body.light-mode .search-container input {
+  color: #b3b3b3;
+}
+
+.search-container button {
+  background: #4CAF50;
+  border: none;
+  font-size: 1rem;
+  color: #fff;
+  cursor: pointer;
+  padding: 10px 18px;
+  border-radius: 50px;
+  transition: all 0.3s ease;
+}
+
+.search-container button:hover {
+  background: #43a047;
+  transform: scale(1.05);
+}
+
+/* ======================
+  Grid Layout
+====================== */
+.results-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+  margin-left: 27rem; /* desktop */
+  transition: margin 0.3s ease;
+}
+
+
+/* ======================
+  Card Style
+====================== */
+.result-card {
+  background: #e0e0e0; /* default dark */
+  border-radius: 14px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.3);
+  overflow: hidden;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.result-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+}
+
+.result-card img {
+  width: 100%;
+  height: 160px;
+  object-fit: cover;
+}
+
+.card-content {
+  padding: 15px;
+  flex: 1;
+}
+
+.card-content h3 {
+  font-size: 1.1rem;
+  margin-bottom: 8px;
+  color: #000000;
+}
+
+.card-content p {
+  font-size: 0.9rem;
+  color: #000000; /* default dark text */
+}
+
+/* Section label */
+.card-section {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  background: #ff9800;
+  color: #fff;
+  font-size: 0.75rem;
+  font-weight: bold;
+  padding: 2px 6px;
+  border-radius: 6px;
+  text-transform: uppercase;
+}
+
+
+
+/* ======================
+  View Button
+====================== */
+.view-btn {
+  position: absolute;
+  right: -10px;
+  bottom: 15px;
+  background: #007BFF;
+  color: #fff;
+  padding: 12px 18px;
+  font-weight: bold;
+  border-radius: 10px;
+  text-decoration: none;
+  font-size: 0.9rem;
+  box-shadow: 0 6px 12px rgba(0,0,0,0.3);
+  transition: background 0.3s, transform 0.2s;
+}
+
+.view-btn:hover {
+  background: #0056b3;
+  transform: scale(1.08);
+}
+
+/* ======================
+  Responsive
+====================== */
+@media (max-width: 1200px) {
+  .results-grid {
+    grid-template-columns: repeat(3, 1fr);
+    margin-left: 0;
+  }
+  .search-container {
+    margin-left: 0;
+  }
+}
+
+@media (max-width: 900px) {
+  .results-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 480px) {
+  .results-grid {
+    grid-template-columns: 1fr;
+  }
+  .search-container {
+    width: 100%;
+  }
+}
+
+
+
+/* ======================
+  Loader
+====================== */
+.loader {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  margin: 40px auto;
+  position: relative;
+  mask: conic-gradient(#000 0 0) content-box exclude, conic-gradient(#000 0 0);
+  filter: blur(12px);
+}
+
+.loader:before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: repeating-conic-gradient(#0000 0 5%, #C02942, #0000 20% 50%);
+  animation: l3 1.5s linear infinite;
+}
+
+@keyframes l3 {
+  to { rotate: 1turn; }
+}
+
+
+/* Orange labeldan keyin joy */
+.card-section {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  background: #ff9800;
+  color: #fff;
+  font-size: 0.75rem;
+  font-weight: bold;
+  padding: 2px 6px;
+  border-radius: 6px;
+  text-transform: uppercase;
+}
+
+.card-content {
+  padding: 15px;
+  flex: 1;
+  margin-top: 25px;
+}
+
+.no-results {
+  position: relative;         /*  yopishtirib qo'yamiz */
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  color: #888;
+  text-align: center;
+}
+
+.no-results img {
+  width: 160px;
+  height: auto;
+  margin-bottom: 15px;
+  opacity: 0.8;
+}
+

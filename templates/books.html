@@ -1,0 +1,147 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" href="{% static 'img/favicon.ico' %}" />
+    <title>Kitoblar</title>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="{% static 'css/books.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/sidebar.css' %}" />
+
+</head>
+<body>
+
+    <!-- Hamburger -->
+    <img id="hamburger" class="hamburger-icon" src="https://www.svgrepo.com/show/506247/menu-vertical.svg" alt="Menu" />
+
+    {% include "sidebar.html" %}
+    {% include "loader.html" %}
+
+    <!-- Kitoblar grid -->
+    <div class="book-grid">
+        {% for book in books %}
+        <div class="book-card"
+             data-id="{{ book.id }}"
+             data-title="{{ book.title }}"
+             data-owner="{{ book.owner }}"
+             data-description="{{ book.description }}"
+             data-img="{{ book.img.url }}"
+             data-file="{% url 'book_file' book.id %}"
+             data-url="{% if book.url %}{{ book.url }}{% endif %}"
+             data-audio="{% if book.audio %}{{ book.audio.url }}{% endif %}"
+             data-audio-duration="{{ book.audio_duration }}"
+             data-file-type="{{ book.file_type }}">
+
+            <img src="{{ book.img.url }}" alt="{{ book.title }}" />
+            <h3>{{ book.title }}</h3>
+            <p>{{ book.description|truncatewords:12 }}</p>
+            <span class="owner">👤 {{ book.owner }}</span>
+        </div>
+        {% endfor %}
+    </div>
+
+    <!-- Modal -->
+    <div id="bookModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+
+            <div class="modal-header-actions">
+                <button id="openInNewWindow" class="btn btn-open-window">TO'LIQ OCHISH</button>
+                <button id="shareBookBtn" class="btn btn-share">🔗 Ulashish</button>
+            </div>
+
+            <h2 id="modalTitle"></h2>
+            <p id="modalDescription"></p>
+
+            <iframe id="modalReader" src="" width="100%" height="600"></iframe>
+
+            <div id="downloadButtons" class="download-buttons">
+                <a id="modalFileDownload" href="" download class="btn-download btn-file" style="display:none;">
+                    📥 Kitobni yuklab olish
+                </a>
+                <a id="modalAudioDownload" href="" download class="btn-download btn-audio" style="display:none;">
+                    🎧 Audio yuklab olish
+                </a>
+            </div>
+
+            {% if open_book_id %}
+              <script>
+                window.openBookId = {{ open_book_id }};
+              </script>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Mobil uchun pastki panel -->
+    <div class="mobile-action-bar" style="display:none;">
+        <button class="mobile-open-btn" id="mobileOpenInNewWindow">TO'LIQ OCHISH</button>
+        <a id="mobileFileDownload" href="" download class="btn-download btn-file" style="display:none;">
+            📥 Yuklab olish
+        </a>
+        <a id="mobileAudioDownload" href="" download class="btn-download btn-audio" style="display:none;">
+            🎧 Audio
+        </a>
+    </div>
+
+    <!-- JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.worker.min.js"></script>
+
+    <script>
+         window.OPEN_BOOK_ID = "{{ open_book_id|default:'' }}";
+    </script>
+    <script src="{% static 'js/books.js' %}"></script>
+
+    <script>
+        // Grid margin fix
+        const bookGrid = document.querySelector('.book-grid');
+        if (window.innerWidth > 768) {
+          bookGrid.style.marginLeft = '15rem';
+        } else {
+          bookGrid.style.marginLeft = '';
+        }
+
+        // Mobil tugma eventlari
+        document.getElementById("mobileOpenInNewWindow").addEventListener("click", () => {
+            if (window.currentBookUrl) {
+                window.open(window.currentBookUrl, "_blank");
+            }
+        });
+
+        // Modal ochilganda mobile action barni ko‘rsatish
+        const modal = document.getElementById("bookModal");
+        const mobileBar = document.querySelector(".mobile-action-bar");
+
+        const observer = new MutationObserver(() => {
+            if (modal.style.display === "block" && window.innerWidth <= 768) {
+                mobileBar.style.display = "flex";
+            } else {
+                mobileBar.style.display = "none";
+            }
+        });
+
+        observer.observe(modal, { attributes: true, attributeFilter: ["style"] });
+
+        // 🔹 Ulashish tugmasi — URLni nusxalash
+        document.addEventListener('DOMContentLoaded', () => {
+            const shareBtn = document.getElementById('shareBookBtn');
+            shareBtn.addEventListener('click', () => {
+                const currentUrl = window.location.href;
+                navigator.clipboard.writeText(currentUrl)
+                    .then(() => {
+                        shareBtn.textContent = "✅ Nusxalandi!";
+                        setTimeout(() => {
+                            shareBtn.textContent = "🔗 Ulashish";
+                        }, 2000);
+                    })
+                    .catch(() => {
+                        alert("❌ URL nusxalanmadi. Qo‘lda urinib ko‘ring.");
+                    });
+            });
+        });
+    </script>
+</body>
+</html>

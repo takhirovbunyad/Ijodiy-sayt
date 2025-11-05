@@ -1,0 +1,123 @@
+/* --- Body (fon rasmi) --- */
+body {
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: url('https://i.pinimg.com/736x/c4/24/62/c424627ee607435586b933f89993e5c6.jpg') no-repeat center center / cover;
+  font-family: 'Playfair Display', serif;
+  color: #3e2c1c;
+  overflow: hidden;
+}
+
+/* --- Kitob sahifasi --- */
+.book-page {
+  width: 85%;
+  max-width: 1000px;
+  min-height: 70vh;
+  padding: 60px 40px;
+  background: rgba(255, 249, 240, 0.92);
+  border: 4px solid #c9b37a;
+  box-shadow:
+    inset 0 0 40px rgba(0,0,0,0.15),
+    0 10px 30px rgba(0,0,0,0.5);
+  border-radius: 12px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  animation: fadeIn 1.2s ease forwards;
+}
+
+@keyframes fadeIn {
+  0% {opacity: 0; transform: scale(0.95);}
+  100% {opacity: 1; transform: scale(1);}
+}
+
+/* --- Sarlavha va tagline --- */
+.book-page h1,
+.book-page p.tagline {
+  line-height: 1.1;
+  text-shadow: 1px 1px 2px rgba(255,255,255,0.5);
+}
+
+.book-page h1 {
+  font-size: 6rem;
+  margin-bottom: 10px;
+  color: #3b2815;
+  letter-spacing: 1px;
+  line-height: 1.05;
+}
+
+.book-page p.tagline {
+  font-size: 3rem;
+  margin-bottom: 30px;
+  font-family: 'Merriweather', serif;
+  color: #4b3220;
+  line-height: 1.3;
+}
+
+/* --- Tugma --- */
+.start-btn {
+  font-family: 'Playfair Display', serif;
+  font-size: 2rem;
+  padding: 15px 40px;
+  background: #fff8e6;
+  border: 3px solid #d1b58a;
+  border-radius: 6px;
+  box-shadow: 6px 6px 0px #b6935c, inset 0 0 12px rgba(0,0,0,0.12);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.start-btn:hover {
+  transform: translateY(-4px);
+  box-shadow: 8px 8px 0px #b6935c, inset 0 0 12px rgba(0,0,0,0.2);
+  background: #fef3d4;
+}
+
+/* --- Maxsus classlar (faqat PC uchun) --- */
+.title {
+  font-size: 4.5rem;
+}
+
+.tagline {
+  font-size: 2rem;
+}
+
+/* --- Responsiv --- */
+@media (max-width: 992px) {
+  .book-page h1 {
+    font-size: 4rem;
+  }
+  .book-page p.tagline {
+    font-size: 1.8rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .book-page {
+    width: 95%;
+    padding: 20px 15px;
+    transform: translateY(-5%); /* centerdan biroz yuqoriga */
+  }
+  .book-page h1 {
+    font-size: 2.5rem;
+  }
+  .book-page p.tagline {
+    font-size: 1.5rem;
+  }
+  .start-btn {
+    font-size: 1.3rem;
+    padding: 10px 20px;
+  }
+  /* Mobil uchun title va tagline o'zgarishi */
+  .title {
+    font-size: 2.5rem; /* faqat mobilga mos */
+  }
+  .tagline {
+    font-size: 1.4rem;
+  }
+}

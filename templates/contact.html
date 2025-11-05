@@ -1,0 +1,140 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Bog'lanish</title>
+  <link rel="stylesheet" href="{% static 'css/contact.css' %}" />
+  <meta name="description" content="Biz bilan bog'laning: telefon, email, ijtimoiy tarmoqlar va xabar yuborish formasi." />
+</head>
+
+<body>
+  <img id="hamburger" class="hamburger-icon" src="https://www.svgrepo.com/show/506247/menu-vertical.svg" alt="Menu" />
+  {% include "sidebar.html" %}
+  {% include "loader.html" %}
+  <main class="contact-page">
+    <section class="contact-main">
+      <div class="header">
+        <h1>Biz bilan bog'laning</h1>
+      </div>
+
+      <p class="lead">Savol va takliflaringizni qoldiring.</p>
+
+      <!-- Kontakt kartalari -->
+      <div class="contact-cards">
+        <div class="card phone">
+          <div class="label">Telefon</div>
+          <div class="value">
+            <a href="tel:+998994182515">+998 99 418 25 15</a>
+          </div>
+        </div>
+
+        <div class="card email">
+          <div class="label">Email</div>
+          <div class="value">
+            <a href="mailto:bitnet@example.com">sizning-email-manzilingiz@gmail.com</a>
+          </div>
+        </div>
+
+        <div class="card socials">
+          <div class="label">Ijtimoiy tarmoqlar</div>
+          <div class="social-links">
+            <a href="https://t.me/tbuny0d" class="tg" target="_blank">Telegram</a>
+            <a href="https://instagram.com/bitnet" class="ig" target="_blank">Instagram</a>
+            <a href="https://tiktok.com/@bitnet" class="tt" target="_blank">TikTok</a>
+            <a href="https://youtube.com/@bitnet" class="yt" target="_blank">YouTube</a>
+            <a href="https://linkedin.com/in/bitnet" class="in" target="_blank">LinkedIn</a>
+            <a href="https://github.com/bitnet" class="gh" target="_blank">GitHub</a>
+          </div>
+        </div>
+
+        <div class="card address">
+          <div class="label">Manzil</div>
+          <div class="value">
+            manzil kiritilmagan
+          </div>
+        </div>
+      </div>
+
+      <!-- Xabar yuborish formasi -->
+      <form id="contactForm" action="{% url 'contact' %}" method="post" novalidate>
+        {% csrf_token %}
+        <div class="field">
+          <label for="name">Ism va Familiya</label>
+          <input id="name" name="sender_name" type="text" placeholder="Ismingiz" required />
+        </div>
+
+        <div class="field">
+          <label for="email">Email</label>
+          <input id="email" name="sender_email" type="email" placeholder="you@example.com" required />
+        </div>
+
+        <div class="field">
+          <label for="phone">Telefon (ixtiyoriy)</label>
+          <input id="phone" name="sender_phone" type="tel" placeholder="+998901234567">
+        </div>
+
+        <div class="field">
+          <label for="message">Xabar</label>
+          <textarea id="message" name="message" placeholder="XABARINGIZ EMAIL ORQALI YUBORILADI!" required></textarea>
+        </div>
+
+        <div class="actions">
+          <button type="submit">Xabar yuborish</button>
+        </div>
+      </form>
+
+      <!-- Egasi haqida -->
+      <section class="owner-brief">
+        <h2>Ega haqida</h2>
+        <p>
+          salom bu yer toldirilmagan
+        </p>
+      </section>
+
+      <!-- Dasturchi bloki -->
+      <footer class="developer">
+        <div class="dev-info">
+          <strong>Dasturchi</strong>
+          <div>Telegram: <a href="https://t.me/tbuny0d" target="_blank">T.Bunyod</a></div>
+        </div>
+        <div class="copyright">© {{ now|date:"Y" }}</div>
+      </footer>
+    </section>
+
+    <aside class="contact-side">
+      <h3>Qo‘shimcha</h3>
+      <dl>
+        <dt>Ish vaqti</dt>
+        <dd>Dushanba - Juma, 09:00 - 18:00</dd>
+
+        <dt>Ofis</dt>
+        <dd>mavjud emas , kiritilmagan</dd>
+
+        <dt>Qo‘llab-quvvatlash</dt>
+        <dd><a href="https://www.google.com/">karta raqam kiritilmagan</a></dd>
+      </dl>
+    </aside>
+  </main>
+
+  <!-- SUCCESS / ERROR MODAL -->
+  {% if messages %}
+    {% for message in messages %}
+      <div id="django-message" data-message="{{ message }}" data-level="{{ message.tags }}"></div>
+    {% endfor %}
+  {% endif %}
+
+  <div class="modal-overlay" id="successModal" aria-hidden="true" role="dialog" aria-labelledby="modalTitle">
+    <div class="modal-card" role="document">
+      <button class="modal-close" id="modalClose" aria-label="Yopish">&times;</button>
+      <div class="modal-illustration">✔</div>
+      <h3 id="modalTitle">Xabaringiz yuborildi</h3>
+      <p id="modalMessage">Rahmat! Tez orada javob beramiz.</p>
+    </div>
+  </div>
+
+  <script src="{% static 'js/contact.js' %}"></script>
+</body>
+</html>

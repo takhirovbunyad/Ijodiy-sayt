@@ -1,0 +1,30 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sahifa ta'mirlanmoqda</title>
+  <link href="https://fonts.googleapis.com/css2?family=Oldenburg&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'css/first.css' %}">
+</head>
+<body>
+<img id="hamburger" class="hamburger-icon" src="https://www.svgrepo.com/show/506247/menu-vertical.svg" alt="Menu">
+
+
+  <div class="book-container">
+    {% include 'sidebar.html' %}
+    <main class="book-page">
+      🚧 SAHIFA TAMIRLANMOQDA ... 🚧
+    </main>
+  </div>
+
+  <script>
+    const hamburger = document.getElementById('hamburger');
+    const sidebar = document.querySelector('.book-spine');
+    hamburger.addEventListener('click', () => {
+      sidebar.classList.toggle('open');
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,277 @@
+/* ========== RESET ========== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* ========== BODY ========== */
+body {
+  font-family: 'Merriweather', serif;
+  background: #f0f0f0;
+  color: #222;
+  min-height: 100vh;
+  padding: 2rem 1rem;
+  transition: background 0.3s ease, color 0.3s ease;
+}
+
+body.dark-mode {
+  background: #121212;
+  color: #f0f0f0;
+}
+
+/* ========== CONTAINER (GRID) ========== */
+.poem-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+/* ========== CARD ========== */
+.poem-card {
+  background: #fff;
+  padding: 1.2rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.poem-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 18px rgba(0,0,0,0.15);
+}
+
+body.dark-mode .poem-card {
+  background: #1e1e1e;
+  color: #f0f0f0;
+}
+
+.poem-card h3 {
+  font-size: 1.3rem;
+  margin-bottom: 0.6rem;
+  color: #2f1d0f;
+}
+
+body.dark-mode .poem-card h3 {
+  color: #ffdd99;
+}
+
+.poem-card p {
+  color: #555;
+  flex-grow: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 6;
+  -webkit-box-orient: vertical;
+  margin-bottom: 0.6rem;
+  line-height: 1.6;
+}
+
+body.dark-mode .poem-card p {
+  color: #ddd;
+}
+
+.author {
+  text-align: right;
+  font-style: italic;
+  color: #777;
+}
+
+/* ========== MODAL ========== */
+.modal {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal.hidden {
+  display: none;
+}
+
+.modal-content {
+  background: #fff;
+  padding: 2rem;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 700px;
+  max-height: 80vh;
+  overflow-y: auto;
+  position: relative;
+  line-height: 1.8;
+  text-align: left;
+  font-size: 18px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+  transition: all 0.3s ease;
+}
+
+body.dark-mode .modal-content {
+  background: #1c1c1c;
+  color: #eee;
+  box-shadow: 0 0 20px rgba(255,255,255,0.15);
+}
+
+/* Sher matni */
+#modal-body {
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+/* ========== MODAL BUTTONS ========== */
+.close-btn {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  font-size: 2rem;
+  cursor: pointer;
+  background: none;
+  border: none;
+  color: #e63946;
+  transition: transform 0.2s ease;
+}
+
+.close-btn:hover {
+  transform: scale(1.2);
+}
+
+/* Resize button */
+.modal-expand-btn {
+  position: fixed;
+  bottom: 1.5rem;
+  right: 1.5rem;
+  width: 55px;
+  height: 55px;
+  border-radius: 50%;
+  border: none;
+  background: #0077b6;
+  color: white;
+  font-size: 1.5rem;
+  cursor: pointer;
+  display: none;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+  transition: transform 0.2s ease;
+  z-index: 1100;
+}
+
+.modal-expand-btn:hover {
+  transform: scale(1.1);
+  background: #0096c7;
+}
+
+.modal:not(.hidden) ~ .modal-expand-btn {
+  display: block;
+}
+
+/* Copy button */
+.copy-btn {
+  position: fixed;
+  bottom: 1.5rem;
+  right: 5.5rem;
+  width: 55px;
+  height: 55px;
+  border-radius: 50%;
+  border: none;
+  background: #6a994e;
+  color: white;
+  font-size: 1.5rem;
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+  transition: transform 0.2s ease;
+  z-index: 1100;
+}
+
+.copy-btn:hover {
+  transform: scale(1.1);
+  background: #90be6d;
+}
+
+.modal:not(.hidden) ~ .copy-btn {
+  display: block;
+}
+
+/* ========== RESPONSIVE ========== */
+@media (max-width: 768px) {
+  .modal-content {
+    max-height: 70vh;
+    font-size: 16px;
+    padding: 1.5rem;
+  }
+}
+
+@media (max-width: 500px) {
+  .modal-expand-btn {
+    bottom: 1rem;
+    right: 1rem;
+  }
+  .copy-btn {
+    bottom: 1rem;
+    right: 4.5rem;
+  }
+}
+
+body.reloading {
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+@media (max-width: 500px) {
+  .copy-btn {
+    bottom: 5rem;
+    right: 1rem;
+  }
+  .modal-expand-btn {
+    bottom: 1rem;
+    right: 1rem;
+  }
+}
+
+
+.hidden {
+  display: none !important;
+}
+
+.modal.show {
+  animation: fadeIn 0.2s ease forwards;
+}
+
+@keyframes fadeIn {
+  from {opacity: 0; transform: scale(0.95);}
+  to {opacity: 1; transform: scale(1);}
+}
+
+
+/* ========== CONTAINER (GRID) ========== */
+.poem-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px;
+  max-width: 1000px;
+  margin: 0 auto;
+  transition: margin 0.3s ease;
+}
+
+/* Desktop uchun (sidebar joyini hisobga olish) */
+@media (min-width: 992px) {
+  .poem-container {
+    margin-left: 335px; /* sidebar kengligi, xohlasang o‘zgartir */
+    margin-right: 40px;
+  }
+}
+
+/* Tablet va mobil uchun markazda chiqishi */
+@media (max-width: 991px) {
+  .poem-container {
+    margin: 0 auto;
+    padding: 0 1rem;
+  }
+}

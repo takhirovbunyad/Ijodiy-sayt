@@ -1,0 +1,87 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>She'rlar</title>
+  <link href="https://fonts.googleapis.com/css2?family=Oldenburg&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'css/sherlar.css' %}">
+</head>
+<body>
+
+<img id="hamburger" class="hamburger-icon" src="https://www.svgrepo.com/show/506247/menu-vertical.svg" alt="Menu">
+
+{% include "sidebar.html" %}
+{% include "loader.html" %}
+
+<h1 class="title"></h1>
+
+<div class="top-buttons">
+  <button id="modal-expand-btn" class="modal-expand-btn">
+    <img src="https://www.svgrepo.com/show/435632/expand.svg" alt="Expand" width="25" height="25" />
+  </button>
+  <button id="copy-poem-btn" class="copy-btn hidden">
+    <img src="https://www.svgrepo.com/show/500354/copy.svg" alt="copy" width="30" height="30" />
+  </button>
+</div>
+
+<div class="poem-container">
+  {% for sher in sherlar %}
+<div class="poem-card"
+     data-id="{{ sher.id }}"
+     data-title="{{ sher.sarlavha }}"
+     data-author="{{ sher.muallif }}"
+     data-full="{{ sher.matn|escapejs }}"
+     data-janr="{{ sher.janr }}"
+     data-sana="{{ sher.sana|date:'Y-m-d H:i' }}"
+     data-til="{{ sher.til }}"
+     data-manba="{{ sher.manba }}"
+     data-haqida="{{ sher.haqida }}">
+  <h3>{{ sher.sarlavha }}</h3>
+  <p>{{ sher.matn|linebreaksbr|truncatewords:20 }}</p>
+  <span class="author">— {{ sher.muallif }}</span>
+</div>
+
+  {% empty %}
+    <p>Hozircha hech qanday she'r yo'q.</p>
+  {% endfor %}
+</div>
+
+<!-- Asosiy Modal -->
+<div id="poem-modal" class="modal hidden">
+  <div class="modal-content">
+    <span class="close-btn" id="modal-close">&times;</span>
+    <h2 id="modal-title"></h2>
+    <p id="modal-body"></p>
+    <div class="modal-author" id="modal-author"></div>
+    <!-- Qo‘shimcha ma'lumotlar uchun tugma -->
+    <button id="info-btn" class="info-btn">Ma'lumotlarni ko‘rish</button>
+  </div>
+</div>
+
+<!-- Loader overlay -->
+<div class="loader-overlay" id="loader-overlay">
+  <div class="loader"></div>
+</div>
+
+<div id="info-modal" class="modal hidden">
+  <div class="modal-content info-content">
+    <span class="close-btn" id="info-close">&times;</span>
+    <h3>Qo‘shimcha Ma'lumotlar</h3>
+    <ul id="info-list"></ul>
+  </div>
+</div>
+
+
+{% if open_sher_id %}
+  <script>
+    window.openSherId = {{ open_sher_id }};
+  </script>
+{% endif %}
+
+
+<script src="{% static 'js/poem_modal.js' %}"></script>
+
+</body>
+</html>

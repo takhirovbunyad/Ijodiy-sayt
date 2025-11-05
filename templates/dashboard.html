@@ -1,0 +1,23 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>IJODIY UZ</title>
+  {%load static%}
+  <link rel="stylesheet" href="{% static 'css/dashboard.css' %}" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="book-container">
+    <div class="book-cover">
+      <h1 class = "title">  IJODIY UZ</h1>
+      <p class="tagline">"Beshikdan qabrgacha ilm izla"</p>
+      <button class="start-btn" onclick="window.location.href='{% url 'main_page' %}'">
+          Boshlash
+      </button>
+    </div>
+  </div>
+</body>
+</html>

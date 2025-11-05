@@ -1,0 +1,286 @@
+/* philosophy.css */
+
+/* Asosiy body uslubi */
+body {
+  font-family: 'Merriweather', serif;
+  background: #f9f9f9;
+  margin: 0;
+  padding: 20px;
+  color: #333;
+}
+
+/* Cardlar konteyneri */
+.philosophy-cards {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr); /* 4 ustun */
+  grid-template-rows: repeat(2, auto);  /* 2 qator */
+  gap: 20px;
+  max-width: calc(100% - 260px); /* 240px sidebar + 20px bo‘sh joy */
+  margin-left: 260px; /* Sidebar o'ngidan bo‘sh joy */
+  margin-right: auto;
+}
+
+/* Har bir card */
+.card {
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+}
+
+.card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 25px rgba(0,0,0,0.15);
+}
+
+.card img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+}
+
+.card h3 {
+  margin: 15px 15px 5px;
+  font-size: 1.3rem;
+  color: #222;
+  line-height: 1.2;
+  font-weight: 700;
+}
+
+.dark-mode .card h3 {
+   color: #ffffff;
+}
+
+.card p {
+  flex-grow: 1;
+  margin: 0 15px 15px;
+  color: #555;
+  font-size: 1rem;
+  line-height: 1.4;
+  max-height: 3.6em; /* taxminan 2 qatorda kesish */
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Batafsil tugma */
+.btn-detail {
+  margin: 0 15px 20px;
+  padding: 10px 15px;
+  background: #1a73e8;
+  color: #fff;
+  font-weight: 600;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.25s ease;
+  align-self: flex-start;
+  user-select: none;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-size: 1rem;
+}
+
+.btn-detail:hover {
+  background: #155ab6;
+}
+
+/* =======================
+   MODAL - TO'LIQ EKRAN
+   ======================= */
+
+/* Modal oynasi - fon, blur bilan */
+.modal {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0,0,0,0.6);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  display: none;
+  justify-content: center;
+  align-items: flex-start; /* tepada boshlansin */
+  padding: 40px 20px;
+  box-sizing: border-box;
+  overflow-y: auto;
+  scroll-behavior: smooth;
+  z-index: 10000;
+  transition: opacity 0.3s ease;
+}
+
+/* Modal ko‘rinish uchun klass */
+.modal.show {
+  display: flex;
+  opacity: 1;
+}
+
+/* Modal ichidagi konteyner */
+.modal-content {
+  background: #fff;
+  width: 90vw;
+  max-width: 960px;
+  max-height: 90vh;
+  border-radius: 16px;
+  padding: 40px 50px;
+  box-shadow: 0 25px 50px rgba(0,0,0,0.3);
+  position: relative;
+  color: #222;
+  font-family: 'Georgia', serif;
+  font-size: 1.2rem;
+  line-height: 1.7;
+  overflow-y: auto;
+  user-select: text;
+  word-wrap: break-word;
+  word-break: break-word;
+  white-space: normal;
+  transition: transform 0.3s ease;
+  transform: translateY(-20px);
+  margin-bottom: 40px;
+}
+
+.modal.show .modal-content {
+  transform: translateY(0);
+}
+
+/* Modal yopish tugmasi */
+#modal-close {
+  position: absolute;
+  top: 25px;
+  right: 30px;
+  font-size: 36px;
+  font-weight: 700;
+  color: #666;
+  cursor: pointer;
+  user-select: none;
+  transition: color 0.25s ease;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  z-index: 11000;
+}
+
+#modal-close:hover {
+  color: #000;
+}
+
+/* Modal sarlavhasi */
+#modal-title {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 800;
+  font-size: 3rem;
+  margin-bottom: 35px;
+  color: #111;
+  line-height: 1.15;
+  max-width: 900px;
+}
+
+/* Modal matni */
+#modal-text {
+  font-family: 'Georgia', serif;
+  font-weight: 400;
+  font-size: 1.3rem;
+  color: #444;
+  letter-spacing: 0.02em;
+  max-width: 900px;
+  white-space: normal;
+  word-wrap: break-word;
+  word-break: break-word;
+  margin: 0 auto;
+}
+
+/* RESPONSIVE UCHUN O‘ZGARISHLAR */
+@media (max-width: 1024px) {
+  .philosophy-cards {
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: auto;
+    max-width: calc(100% - 40px);
+    margin-left: 20px;
+  }
+  #modal-title {
+    font-size: 2.5rem;
+    max-width: 100%;
+  }
+  #modal-text {
+    font-size: 1.15rem;
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 600px) {
+  body {
+    padding: 10px;
+  }
+  .philosophy-cards {
+    grid-template-columns: 1fr;
+    max-width: 100%;
+    margin-left: 0;
+    padding: 0 10px;
+  }
+  .modal-content {
+    padding: 30px 25px;
+    max-height: 85vh;
+    border-radius: 0;
+    width: 100vw;
+  }
+  #modal-title {
+    font-size: 1.8rem;
+    margin-bottom: 20px;
+  }
+  #modal-text {
+    font-size: 1rem;
+  }
+}
+
+
+
+/* ULASHISH tugmasi */
+.btn-share {
+  background: #0073e6;
+  color: #fff;
+  border: none;
+  padding: 8px 14px; /* biroz kichikroq */
+  border-radius: 8px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: 0.3s ease;
+  transform: translateY(-1px); /* 🔹 biroz teparoq joylashadi */
+}
+
+.btn-share:hover {
+  background: #005bb5;
+}
+
+
+
+/* ULASHISH tugmasi — sarlavha ustida chapda */
+.modal-header {
+  display: flex;
+  justify-content: flex-start;
+  margin-bottom: 10px;
+}
+
+/* Tugma dizayni */
+.btn-share {
+  background: #0073e6;
+  color: #fff;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 8px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.btn-share:hover {
+  background: #005bb5;
+}
+
+/* Responsiv holat */
+@media (max-width: 600px) {
+  .modal-header {
+    justify-content: center;
+  }
+}

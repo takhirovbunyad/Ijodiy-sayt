@@ -1,0 +1,46 @@
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/sidebar.css' %}">
+
+<aside class="book-spine">
+  <h2>
+    ㅤBo‘limlar
+    <button id="mode-toggle" class="mode-toggle-btn" title="Rejimni o‘zgartirish">
+      <img src="https://www.svgrepo.com/show/433086/light-mode.svg" alt="Light mode" width="25" height="25">
+    </button>
+  </h2>
+
+  <ul>
+    <li><a href="/"><img src="https://www.svgrepo.com/show/520794/home-20.svg" width="25" height="25">Asosiy</a></li>
+    <li><a href="/sher/"><img src="https://www.svgrepo.com/show/139639/poet.svg" width="20" height="20">Sherlar</a></li>
+    <li><a href="/philosophy/"><img src="https://www.svgrepo.com/show/46927/mind-gears.svg" width="20" height="20">Filosofiya</a></li>
+    <li><a href="/books/"><img src="https://cdn.jsdelivr.net/gh/iconic/open-iconic/svg/book.svg" width="20" height="20">Kitoblar</a></li>
+    <li><a href="/search/"><img src="https://www.svgrepo.com/show/507851/search-square.svg" width="25" height="25">Izlash</a></li>
+    <li><a href="/accounts/hisobim/"><img src="https://www.svgrepo.com/show/454078/account.svg" width="20" height="20">hisobim</a></li>
+    <li><a href="/contact/"><img src="https://www.svgrepo.com/show/533283/phone-call.svg" width="20" height="20">Bog‘lanish</a></li>
+  </ul>
+
+  <div class="logout-section">
+    <form action="{% url 'logout' %}" method="post">
+      {% csrf_token %}
+      <button type="submit" class="logout-btn">
+        <img src="https://www.svgrepo.com/show/506720/logout.svg" width="22" height="22" style="vertical-align: middle; margin-right: 6px;">
+        Chiqish
+      </button>
+    </form>
+  </div>
+</aside>
+
+<script>
+  const hamburger = document.getElementById('hamburger');
+  const sidebar = document.querySelector('.book-spine');
+  hamburger?.addEventListener('click', () => {
+    sidebar.classList.toggle('open');
+  });
+</script>
+
+<div id="loader-overlay">
+  <div class="loader"></div>
+</div>
+
+<script src="{% static 'js/loader.js' %}"></script>
+<script src="{% static 'js/idk.js' %}"></script>

@@ -1,0 +1,11 @@
+kitoblar bolimi
+
+
+sidebar - kitoblar
+
+kitoblar card = rasm , sarlavha (title) , describtion , owner
+kitoblar modal = title , kitobga url (blank true) , kitob fayli (blank true) , kitob audio (blank true) , kitob audio file download , kitob audi time
++fayl turi , kitobni shu yerda oqish
+
+
+book modal = katta text maydon (kitob yozilgan) va x tugmasi , qatorlar soni , readonly ,

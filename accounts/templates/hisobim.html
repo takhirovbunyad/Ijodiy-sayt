@@ -1,0 +1,153 @@
+{% load static %}
+{% load crispy_forms_tags %}
+
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hisobim | Ijodiy Sayt</title>
+    <link rel="stylesheet" href="{% static 'css/hisobim.css' %}">
+</head>
+<body>
+<img id="hamburger" class="hamburger-icon" src="https://www.svgrepo.com/show/506247/menu-vertical.svg" alt="Menu" />
+
+{% include "sidebar.html" %}
+{% include "loader.html" %}
+<div class="profile-container">
+
+    <!-- ================= PROFIL HEADER ================= -->
+    <div class="profile-header">
+        <div class="profile-pic-wrapper">
+            <img id="profile-img-preview"
+                 src="{% if profile.profile_picture %}{{ profile.profile_picture.url }}{% else %}{% static 'images/default_user.png' %}{% endif %}"
+                 alt="Profil rasmi" class="profile-pic">
+        </div>
+
+        <h2 class="profile-name">
+            {{ user.first_name|default:"Ism" }} {{ user.last_name|default:"Familiya" }}
+        </h2>
+
+        <p class="profile-bio">
+            {% if profile.bio %}
+                {{ profile.bio }}
+            {% else %}
+                <span class="no-bio">Bio hali kiritilmagan 😶</span>
+            {% endif %}
+        </p>
+    </div>
+
+    <!-- ================= PROFIL FORMA ================= -->
+    <div class="profile-form">
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+
+            {% if messages %}
+                <div class="messages">
+                    {% for message in messages %}
+                        <div class="alert {{ message.tags }}">{{ message }}</div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+
+            <!-- Profil rasmi yuklash -->
+            <div class="profile-pic-upload">
+                <label for="id_profile_picture">Profil rasmi:</label>
+                <div class="profile-pic-input-wrapper">
+                    <input type="file" name="profile_picture" id="id_profile_picture">
+                    {% if profile.profile_picture %}
+                        <span class="current-file">Joriy: {{ profile.profile_picture.name }}</span>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Qolgan forma -->
+            <div class="form-grid">
+                {{ form.first_name.label_tag }}
+                {{ form.first_name }}
+
+                {{ form.last_name.label_tag }}
+                {{ form.last_name }}
+
+                {{ form.email.label_tag }}
+                {{ form.email }}
+
+                {{ form.phone_number.label_tag }}
+                {{ form.phone_number }}
+
+                {{ form.address.label_tag }}
+                {{ form.address }}
+
+                {{ form.gender.label_tag }}
+                {{ form.gender }}
+
+                <!-- ✅ BIO MAYDONI QO‘SHILDI -->
+                {{ form.bio.label_tag }}
+                {{ form.bio }}
+
+                {{ form.interested_genres.label_tag }}
+                {{ form.interested_genres }}
+
+                {{ form.books_read.label_tag }}
+                {{ form.books_read }}
+
+                {{ form.job_title.label_tag }}
+                {{ form.job_title }}
+
+                {{ form.workplace.label_tag }}
+                {{ form.workplace }}
+
+                {{ form.website.label_tag }}
+                {{ form.website }}
+
+                {{ form.telegram.label_tag }}
+                {{ form.telegram }}
+
+                {{ form.instagram.label_tag }}
+                {{ form.instagram }}
+
+                {{ form.linkedin.label_tag }}
+                {{ form.linkedin }}
+
+                {{ form.github.label_tag }}
+                {{ form.github }}
+            </div>
+
+            <button type="submit" class="save-btn">💾 Saqlash</button>
+        </form>
+
+        <!-- PAROL O'ZGARTIRISH TUGMASI -->
+        <button id="change-password-btn" class="change-pass-btn">🔑 Parolni o‘zgartirish</button>
+    </div>
+</div>
+
+
+<!-- ================= PAROL MODAL ================= -->
+<div id="password-modal" class="modal">
+  <div class="modal-content">
+    <span class="close-modal">&times;</span>
+    <h2>🔒 Parolni o‘zgartirish</h2>
+    <form id="password-change-form" method="POST" action="{% url 'change_password' %}">
+      {% csrf_token %}
+      <label for="current_password">Joriy parol:</label>
+      <input type="password" name="current_password" id="current_password" required>
+
+      <label for="new_password">Yangi parol:</label>
+      <input type="password" name="new_password" id="new_password" required>
+
+      <label for="confirm_password">Parolni tasdiqlang:</label>
+      <input type="password" name="confirm_password" id="confirm_password" required>
+
+      <div class="modal-actions">
+        <button type="submit" class="save-btn small">💾 Saqlash</button>
+        <button type="button" class="cancel-btn">Bekor qilish</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- ================= JS ================= -->
+<script src="{% static 'js/hisobim.js' %}"></script>
+
+</body>
+</html>

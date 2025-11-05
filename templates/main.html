@@ -1,0 +1,77 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>IJODIY UZ — Bosh sahifa</title>
+  <link href="https://fonts.googleapis.com/css2?family=Oldenburg&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'css/first.css' %}">
+  <link rel="stylesheet" href="{% static 'css/modal.css' %}">
+</head>
+<body>
+  <!-- Hamburger -->
+  <img id="hamburger" class="hamburger-icon"
+       src="https://www.svgrepo.com/show/506247/menu-vertical.svg"
+       alt="Menu">
+
+  <div class="book-container">
+    {% include 'sidebar.html' %}
+    {% include "loader.html" %}
+
+    <main class="book-page">
+      <h1 class="main-title">Ijodiy materiallar</h1>
+
+      <div id="card-container" class="card-grid">
+        {% for card in page_obj %}
+          <div class="card"
+              data-id="{{ card.id }}"
+              data-url="{{ card.url }}"
+              data-title="{{ card.title }}"
+              data-desc="{{ card.description }}"
+              data-source="{{ card.source }}">
+            <img src="{{ card.preview.url }}" alt="{{ card.title }}">
+            <div class="card-body">
+              <h3>{{ card.title }}</h3>
+              <p>{{ card.description }}</p>
+              <small>Manba: {{ card.source }}</small>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+
+      {% if page_obj.has_next %}
+        <button id="load-btn" class="load-more-btn" data-page="2">Yana yuklash</button>
+      {% endif %}
+    </main>
+  </div>
+
+  <!-- MODAL -->
+  <div id="modal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button class="btn-share" id="shareLinkBtn">🔗 Ulashish</button>
+        <span class="close">&times;</span>
+      </div>
+
+      <h2 id="modal-title"></h2>
+      <div id="modal-video"></div>
+      <p id="modal-desc"></p>
+      <small id="modal-source"></small>
+      <a id="modal-link" href="" target="_blank" class="modal-link">Havolani ochish</a>
+    </div>
+  </div>
+
+  {% if open_dash_id %}
+    <script>
+      window.openDashId = {{ open_dash_id }};
+    </script>
+  {% endif %}
+
+  <!-- Scripts -->
+  <script src="{% static 'js/load_more.js' %}"></script>
+  <script src="{% static 'js/modal.js' %}"></script>
+  <script src="{% static 'js/modal_auto_open.js' %}"></script>
+  <script src="{% static 'js/share.js' %}"></script>
+</body>
+</html>

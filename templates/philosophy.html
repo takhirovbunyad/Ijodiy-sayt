@@ -1,0 +1,63 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=Oldenburg&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'css/philosophy.css' %}">
+</head>
+
+<body>
+  <img id="hamburger" class="hamburger-icon" src="https://www.svgrepo.com/show/506247/menu-vertical.svg" alt="Menu">
+  {% include "sidebar.html" %}
+  {% include "loader.html" %}
+
+  <div class="philosophy-cards">
+    {% for item in philosophy %}
+      <div class="card" data-id="{{ item.id }}">
+        <img src="{{ item.img.url }}" alt="{{ item.title }}">
+        <h3>{{ item.title }}</h3>
+        <p>{{ item.desc }}</p>
+        <button class="btn-detail" data-id="{{ item.id }}">Batafsil</button>
+      </div>
+    {% endfor %}
+  </div>
+
+  <!-- MODAL -->
+  <div id="modal" class="modal" style="display:none;">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button class="btn-share" id="shareLinkBtn">🔗 Ulashish</button>
+      </div>
+
+      <span id="modal-close" class="close">&times;</span>
+      <h2 id="modal-title"></h2>
+      <p id="modal-text"></p>
+    </div>
+  </div>
+
+  {% if open_philosophy_id %}
+  <script>
+    window.openPhilosophyId = {{ open_philosophy_id }};
+  </script>
+  {% endif %}
+
+  <script id="philosophy-data" type="application/json">
+    [
+      {% for item in philosophy %}
+        {
+          "id": {{ item.id }},
+          "title": "{{ item.title|escapejs }}",
+          "text": "{{ item.text|linebreaksbr|striptags|escapejs }}"
+        }{% if not forloop.last %},{% endif %}
+      {% endfor %}
+    ]
+  </script>
+
+  <script src="{% static 'js/philosophy.js' %}"></script>
+  <script src="{% static 'js/share.js' %}"></script>
+
+
+</body>
+</html>
