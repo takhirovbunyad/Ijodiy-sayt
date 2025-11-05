@@ -372,3 +372,36 @@ body.dark-mode .modal-card {
   color: #eaeaea;
   box-shadow: 0 12px 40px rgba(0,0,0,0.6);
 }
+
+
+/* === Layout === */
+main.contact-page {
+  display: grid;
+  grid-template-columns: 1fr 300px;
+  gap: 2rem;
+  padding: 2rem 3rem;
+  max-width: 1200px;
+  margin: auto;
+  margin-left: 270px; /* ✅ Sidebar kengligi (masalan 250-270px) */
+  transition: margin 0.3s ease;
+}
+
+/* === Kichik ekranlar uchun === */
+@media (max-width: 991px) {
+  main.contact-page {
+    grid-template-columns: 1fr;
+    padding: 1.5rem;
+    margin-left: 0; /* ✅ Sidebar yopilganda markazlash */
+  }
+
+  aside.contact-side {
+    margin-top: 2rem;
+  }
+}
+
+/* Qo‘shimcha moslashtirish — 1300px dan kichik ekranlarda biroz markazlash */
+@media (max-width: 1300px) and (min-width: 992px) {
+  main.contact-page {
+    margin-left: 220px; /* Sidebar toraytirilgan variant */
+  }
+}

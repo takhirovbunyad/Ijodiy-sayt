@@ -398,3 +398,71 @@ body.dark-mode #openInNewWindow {
     text-align: center;
   }
 }
+
+
+
+.modal-content {
+    background: #fff;
+    margin: 2% auto;
+    padding: 20px 40px 30px 40px;
+    width: 90%;
+    max-width: 900px;
+    max-height: 85vh; /* 🔹 Modal balandligini chekladik */
+    overflow-y: auto; /* 🔹 Scroll paydo bo‘ladi */
+    border-radius: 12px;
+    position: relative;
+    color: #222;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+/* Pastdagi footer har doim ko‘rinsin */
+.modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  margin-top: 1.5rem;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  padding-top: 1rem;
+  background: inherit;
+  position: sticky; /* 🔹 Scroll paytida ham ko‘rinsin */
+  bottom: 0;
+  z-index: 10;
+}
+
+/* Responsiv optimizatsiya (noutbuklar uchun ham mos) */
+@media (max-height: 750px) {
+  .modal-content {
+    max-height: 75vh; /* 🔹 pastroq ekranlarda kichrayadi */
+    padding: 15px 25px;
+  }
+  #modalReader {
+    height: 400px; /* 🔹 kichikroq reader */
+  }
+}
+
+/* Mobil uchun */
+@media (max-width: 768px) {
+  .modal-content {
+    width: 95%;
+    margin: 5% auto;
+    padding: 15px 20px;
+    max-height: 80vh;
+  }
+
+  #modalReader {
+    height: 350px;
+  }
+
+  .modal-footer {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .action-buttons a,
+  .action-buttons button {
+    width: 100%;
+  }
+}
