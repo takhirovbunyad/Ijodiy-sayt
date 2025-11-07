@@ -50,9 +50,8 @@ def login_view(request):
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
-            return redirect("/")
+            return redirect("/home/")
         else:
-            # ❌ redirect emas, render ishlatamiz
             messages.error(request, "Login yoki parol noto‘g‘ri!")
             return render(request, "login.html", {
                 "username": username,  # foydalanuvchiga qayta kiritmaslik uchun

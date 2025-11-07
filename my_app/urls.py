@@ -2,7 +2,8 @@ from django.urls import path
 from my_app import views
 
 urlpatterns = [
-    path('' , views.main , name = "main_page") ,
+    path('', views.landing_page, name='landing_page'),
+    path('home/' , views.main , name = "main_page") ,
     path('dash/', views.first, name='dash_page'),    path('load_more_cards/', views.load_more_cards, name='load_more_cards'),
     path('repairing/' , views.rep , name = 'repairing') ,
     path('sher/', views.sherlar_royxati, name='sherlar_royxati'),

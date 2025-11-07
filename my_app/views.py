@@ -370,3 +370,8 @@ def contact_view(request):
             messages.error(request, f"Xatolik yuz berdi: {e}")
 
     return render(request, "contact.html")
+
+
+
+def landing_page(request):
+    return render(request, "landing.html")

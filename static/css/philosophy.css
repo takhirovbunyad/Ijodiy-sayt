@@ -22,7 +22,7 @@ body {
 
 /* Har bir card */
 .card {
-  background: #fff;
+  background: #3c3c3c;
   border-radius: 10px;
   box-shadow: 0 6px 15px rgba(0,0,0,0.1);
   overflow: hidden;
@@ -48,7 +48,7 @@ body {
 .card h3 {
   margin: 15px 15px 5px;
   font-size: 1.3rem;
-  color: #222;
+  color: #ffffff;
   line-height: 1.2;
   font-weight: 700;
 }
