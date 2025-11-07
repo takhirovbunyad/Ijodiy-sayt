@@ -35,7 +35,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function closeModal() {
     modal.style.display = "none";
-    history.pushState(null, "", "/");
+    history.pushState(null, "", "/home/");
   }
 
   // Card bosilganda modal ochish
