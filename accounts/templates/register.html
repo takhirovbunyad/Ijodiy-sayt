@@ -27,22 +27,22 @@
     <!-- Register Container -->
     <div class="register-wrapper">
         <div class="register-container">
+
             <!-- Logo Icon -->
             <div class="register-icon">
-                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <svg viewBox="0 0 24 24">
                     <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
                 </svg>
             </div>
 
-            <!-- Header -->
             <h2>Ro'yxatdan O'tish</h2>
             <p class="register-subtitle">Yangi akkount yaratish uchun ma'lumotlarni kiriting</p>
 
-            <!-- Error Message -->
-            {% if form.errors %}
-            <div class="error-msg">
-                Ma'lumotlarni to'g'ri kiriting! Iltimos, qaytadan urinib ko'ring.
-            </div>
+            <!-- Django messages -->
+            {% if messages %}
+                {% for msg in messages %}
+                    <div class="error-msg">{{ msg }}</div>
+                {% endfor %}
             {% endif %}
 
             <!-- Register Form -->
@@ -54,79 +54,51 @@
                     <div class="form-group half">
                         <label for="first_name">Ism</label>
                         <div class="input-wrapper">
-                            <svg class="input-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <svg class="input-icon" viewBox="0 0 24 24">
                                 <path d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
                             </svg>
-                            <input
-                                type="text"
-                                id="first_name"
-                                name="first_name"
-                                placeholder="Ismingiz"
-                                required
-                                autocomplete="given-name"
-                            >
+                            <input type="text" id="first_name" name="first_name" placeholder="Ismingiz" required autocomplete="given-name">
                         </div>
                     </div>
 
                     <div class="form-group half">
                         <label for="last_name">Familya</label>
                         <div class="input-wrapper">
-                            <svg class="input-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <svg class="input-icon" viewBox="0 0 24 24">
                                 <path d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
                             </svg>
-                            <input
-                                type="text"
-                                id="last_name"
-                                name="last_name"
-                                placeholder="Familyangiz"
-                                required
-                                autocomplete="family-name"
-                            >
+                            <input type="text" id="last_name" name="last_name" placeholder="Familyangiz" required autocomplete="family-name">
                         </div>
                     </div>
                 </div>
 
-                <!-- Username Field -->
+                <!-- Username -->
                 <div class="form-group">
                     <label for="username">Foydalanuvchi nomi</label>
                     <div class="input-wrapper">
-                        <svg class="input-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <svg class="input-icon" viewBox="0 0 24 24">
                             <path d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
                         </svg>
-                        <input
-                            type="text"
-                            id="username"
-                            name="username"
-                            placeholder="Foydalanuvchi nomini kiriting"
-                            required
-                            autocomplete="username"
-                        >
+                        <input type="text" id="username" name="username" placeholder="Foydalanuvchi nomi" required autocomplete="username">
                     </div>
                 </div>
 
-                <!-- Email Field -->
+                <!-- Email -->
                 <div class="form-group">
                     <label for="email">Gmail</label>
                     <div class="input-wrapper">
-                        <svg class="input-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <svg class="input-icon" viewBox="0 0 24 24">
                             <path d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
                         </svg>
-                        <input
-                            type="email"
-                            id="email"
-                            name="email"
-                            placeholder="example@gmail.com"
-                            required
-                            autocomplete="email"
-                        >
+                        <input type="email" id="email" name="email" placeholder="example@gmail.com" required autocomplete="email">
                     </div>
                 </div>
 
-                <!-- Password Field -->
+                <!-- Password -->
                 <div class="form-group">
                     <label for="password">Parol</label>
                     <div class="input-wrapper">
-                        <svg class="input-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <svg class="input-icon" viewBox="0 0 24 24">
                             <path d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
                         </svg>
                         <input
@@ -135,10 +107,14 @@
                             name="password"
                             placeholder="Parolni kiriting"
                             required
+                            minlength="6"
+                            maxlength="15"
+                            pattern="(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,15}"
+                            title="Parol 6–15 belgi bo'lishi, kamida 1 harf va 1 raqam bo'lishi kerak"
                             autocomplete="new-password"
                         >
-                        <button type="button" class="password-toggle" onclick="togglePassword('password')" aria-label="Parolni ko'rsatish/yashirish">
-                            <svg id="eye-icon-1" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <button type="button" class="password-toggle" onclick="togglePassword('password')">
+                            <svg id="eye-icon-1" viewBox="0 0 24 24">
                                 <path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
                                 <path d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
                             </svg>
@@ -146,11 +122,11 @@
                     </div>
                 </div>
 
-                <!-- Confirm Password Field -->
+                <!-- Confirm Password -->
                 <div class="form-group">
                     <label for="confirm_password">Parolni tasdiqlang</label>
                     <div class="input-wrapper">
-                        <svg class="input-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <svg class="input-icon" viewBox="0 0 24 24">
                             <path d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
                         </svg>
                         <input
@@ -159,10 +135,14 @@
                             name="confirm_password"
                             placeholder="Parolni qayta kiriting"
                             required
+                            minlength="6"
+                            maxlength="15"
+                            pattern="(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,15}"
+                            title="Parol 6–15 belgi, kamida 1 raqam va 1 harf bo'lishi kerak"
                             autocomplete="new-password"
                         >
-                        <button type="button" class="password-toggle" onclick="togglePassword('confirm_password')" aria-label="Parolni ko'rsatish/yashirish">
-                            <svg id="eye-icon-2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <button type="button" class="password-toggle" onclick="togglePassword('confirm_password')">
+                            <svg id="eye-icon-2" viewBox="0 0 24 24">
                                 <path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
                                 <path d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
                             </svg>
@@ -170,96 +150,93 @@
                     </div>
                 </div>
 
-                <!-- Submit Button -->
                 <button type="submit" class="btn" id="register-btn">
                     Ro'yxatdan o'tish
                 </button>
 
-                <!-- Login Link -->
-                <p class="link">
-                    Allaqachon akkauntingiz bormi? <a href="{% url 'login' %}">Kirish</a>
-                </p>
+                <p class="link">Allaqachon akkauntingiz bormi? <a href="{% url 'login' %}">Kirish</a></p>
             </form>
 
-            <!-- Footer -->
             <p class="footer-text">Yuqori darajadagi xavfsizlik bilan himoyalangan</p>
         </div>
     </div>
 
     <script>
-        // Theme Toggle Function
         function toggleTheme() {
             const html = document.documentElement;
-            const currentTheme = html.getAttribute('data-theme');
-            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-            html.setAttribute('data-theme', newTheme);
-            localStorage.setItem('theme', newTheme);
+            const current = html.getAttribute('data-theme');
+            const next = current === 'dark' ? 'light' : 'dark';
+            html.setAttribute('data-theme', next);
+            localStorage.setItem('theme', next);
 
-            // Update icon
             const icon = document.getElementById('theme-icon');
-            if (newTheme === 'dark') {
-                icon.innerHTML = '<path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/>';
-            } else {
-                icon.innerHTML = '<path d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/>';
-            }
+            icon.innerHTML =
+                next === 'dark'
+                ? '<path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/>'
+                : '<path d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/>';
         }
 
-        // Load saved theme on page load
         window.addEventListener('DOMContentLoaded', () => {
-            const savedTheme = localStorage.getItem('theme') || 'light';
-            document.documentElement.setAttribute('data-theme', savedTheme);
+            const saved = localStorage.getItem('theme') || 'light';
+            document.documentElement.setAttribute('data-theme', saved);
 
-            const icon = document.getElementById('theme-icon');
-            if (savedTheme === 'dark') {
-                icon.innerHTML = '<path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/>';
+            if (saved === 'dark') {
+                document.getElementById('theme-icon').innerHTML =
+                    '<path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/>';
             }
         });
 
-        // Password Toggle Function
-        function togglePassword(fieldId) {
-            const passwordInput = document.getElementById(fieldId);
-            const eyeIcon = document.getElementById('eye-icon-' + (fieldId === 'password' ? '1' : '2'));
+        function togglePassword(id) {
+            const input = document.getElementById(id);
+            const icon = document.getElementById('eye-icon-' + (id === 'password' ? '1' : '2'));
 
-            if (passwordInput.type === 'password') {
-                passwordInput.type = 'text';
-                eyeIcon.innerHTML = '<path d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21"/>';
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.innerHTML =
+                    '<path d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21"/>';
             } else {
-                passwordInput.type = 'password';
-                eyeIcon.innerHTML = '<path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>';
+                input.type = 'password';
+                icon.innerHTML =
+                    '<path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>';
             }
         }
 
-        // Form Submit Handler (with loading state)
+        /* ✅ Tuzatilgan JS validatsiya */
         document.addEventListener('DOMContentLoaded', () => {
             const form = document.querySelector('form');
             const btn = document.getElementById('register-btn');
 
-            if (form) {
-                form.addEventListener('submit', (e) => {
-                    const password = document.getElementById('password').value;
-                    const confirmPassword = document.getElementById('confirm_password').value;
+            // HTML pattern bilan bir xil regex
+            const regex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,15}$/;
 
-                    if (password !== confirmPassword) {
-                        e.preventDefault();
-                        alert('Parollar mos kelmaydi!');
-                        return;
-                    }
+            form.addEventListener('submit', (e) => {
+                const p1 = document.getElementById('password').value;
+                const p2 = document.getElementById('confirm_password').value;
 
-                    btn.classList.add('loading');
-                    btn.textContent = '';
-                    btn.disabled = true;
-                });
-            }
+                if (!regex.test(p1)) {
+                    e.preventDefault();
+                    alert("Parol 6-15 belgi bo'lishi, kamida 1 harf va 1 raqam bo'lishi kerak!");
+                    return;
+                }
+
+                if (p1 !== p2) {
+                    e.preventDefault();
+                    alert('Parollar mos kelmaydi!');
+                    return;
+                }
+
+                btn.classList.add('loading');
+                btn.textContent = '';
+                btn.disabled = true;
+            });
         });
 
-        // Auto-hide error message after 5 seconds
-        const errorMsg = document.querySelector('.error-msg');
-        if (errorMsg) {
+        // Auto-hide error
+        const err = document.querySelector('.error-msg');
+        if (err) {
             setTimeout(() => {
-                errorMsg.style.animation = 'fadeOut 0.5s ease-out';
-                setTimeout(() => {
-                    errorMsg.style.display = 'none';
-                }, 500);
+                err.style.animation = 'fadeOut 0.5s ease-out';
+                setTimeout(() => err.style.display = 'none', 450);
             }, 5000);
         }
     </script>
@@ -267,7 +244,7 @@
     <style>
         @keyframes fadeOut {
             from { opacity: 1; transform: translateY(0); }
-            to { opacity: 0; transform: translateY(-10px); }
+            to   { opacity: 0; transform: translateY(-10px); }
         }
     </style>
 </body>

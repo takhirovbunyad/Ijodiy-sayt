@@ -8,6 +8,37 @@ from django.conf import settings
 from django.shortcuts import render, redirect
 
 
+from django.shortcuts import render, redirect
+from django.contrib import messages
+from django.core.mail import send_mail
+from django.conf import settings
+import random
+from django.contrib.auth import get_user_model
+
+User = get_user_model()
+
+from django.shortcuts import render, redirect
+from django.contrib import messages
+from django.contrib.auth import authenticate, login
+from django.contrib.auth import get_user_model
+from django.core.mail import send_mail
+from django.conf import settings
+import random
+import re
+
+User = get_user_model()
+
+
+def validate_password(password):
+    if len(password) < 6 or len(password) > 15:
+        return False
+    if not re.search(r"[A-Za-z]", password):
+        return False
+    if not re.search(r"[0-9]", password):
+        return False
+    return True
+
+
 def register(request):
     if request.method == "POST":
         first_name = request.POST.get("first_name")
@@ -15,12 +46,31 @@ def register(request):
         username = request.POST.get("username")
         email = request.POST.get("email")
         password = request.POST.get("password")
+        confirm_password = request.POST.get("confirm_password")
 
-        # Hozircha foydalanuvchini yaratishni keyinga qoldiramiz
-        # Avval email verification qilish
-        verification_code = str(random.randint(100000, 999999))  # 6 xonali kod
+        # Parol mos emas
+        if password != confirm_password:
+            messages.error(request, "Parollar mos emas!")
+            return redirect("register")
 
-        # Session ichida saqlaymiz
+        # Parol validatsiyasi
+        if not validate_password(password):
+            messages.error(
+                request, "Parol 6-15 belgi, kamida 1 ta harf va 1 ta raqamdan iborat bo‘lishi kerak!"
+            )
+            return redirect("register")
+
+        if User.objects.filter(username=username).exists():
+            messages.error(request, "Bu username band!")
+            return redirect("register")
+
+        if User.objects.filter(email=email).exists():
+            messages.error(request, "Bu email allaqachon ishlatilgan!")
+            return redirect("register")
+
+        # Tasdiqlash kodi
+        verification_code = str(random.randint(100000, 999999))
+
         request.session["registration_data"] = {
             "first_name": first_name,
             "last_name": last_name,
@@ -30,47 +80,28 @@ def register(request):
             "code": verification_code,
         }
 
-        # Gmail orqali yuboramiz
-        send_mail(
-            subject="Email verification",
-            message=f"Sizning tasdiqlash kodingiz: {verification_code}",
-            from_email=settings.DEFAULT_FROM_EMAIL,
-            recipient_list=[email],
-        )
+        try:
+            send_mail(
+                subject="Email tasdiqlash kodi",
+                message=f"Sizning tasdiqlash kodingiz: {verification_code}",
+                from_email=settings.DEFAULT_FROM_EMAIL,
+                recipient_list=[email],
+            )
+        except Exception as e:
+            messages.error(request, f"Email yuborishda xato: {e}")
+            return redirect("register")
 
         return redirect("verify_email")
 
     return render(request, "register.html")
 
-def login_view(request):
-    if request.method == "POST":
-        username = request.POST.get("username") 
-        password = request.POST.get("password")
-
-        user = authenticate(request, username=username, password=password)
-        if user is not None:
-            login(request, user)
-            return redirect("/home/")
-        else:
-            messages.error(request, "Login yoki parol noto‘g‘ri!")
-            return render(request, "login.html", {
-                "username": username,  # foydalanuvchiga qayta kiritmaslik uchun
-            })
-
-    return render(request, "login.html")
-
-from django.contrib.auth import get_user_model
-User = get_user_model()
-
-from django.contrib.auth.models import User
-from django.contrib.auth import login
 
 def verify_email(request):
     if request.method == "POST":
         code = request.POST.get("code")
         reg_data = request.session.get("registration_data")
 
-        if reg_data and code == reg_data.get("code"):
+        if reg_data and code == reg_data["code"]:
             user = User.objects.create_user(
                 username=reg_data["username"],
                 email=reg_data["email"],
@@ -78,17 +109,32 @@ def verify_email(request):
                 first_name=reg_data["first_name"],
                 last_name=reg_data["last_name"],
             )
-            user.save()
 
             del request.session["registration_data"]
 
             login(request, user)
             return redirect("login")
 
-        else:
-            return render(request, "verify_email.html", {"error": "Kod noto‘g‘ri!"})
+        return render(request, "verify_email.html", {"error": "Kod noto‘g‘ri!"})
 
     return render(request, "verify_email.html")
+
+
+def login_view(request):
+    if request.method == "POST":
+        username = request.POST.get("username")
+        password = request.POST.get("password")
+
+        user = authenticate(request, username=username, password=password)
+
+        if user:
+            login(request, user)
+            return redirect("/home/")
+
+        messages.error(request, "Login yoki parol noto‘g‘ri!")
+        return render(request, "login.html", {"username": username})
+
+    return render(request, "login.html")
 
 
 
